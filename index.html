@@ -129,45 +129,41 @@
 
         @media (max-width: 768px) {
             .container { padding: 15px; }
-            header { padding: 25px 15px; }
-            header h1 { font-size: 2em; margin-bottom: 10px; }
-            .promo-text { font-size: 1.1em; margin-top: 20px; }
-            .sales-stat { font-size: 1em; padding: 8px 15px; margin-top: 15px; }
-            .section { padding: 40px 15px; }
-            .section h2 { font-size: 2em; }
-            .timer-box { min-width: 65px; padding: 10px; }
-            .timer-box span { font-size: 1.8em; }
-            .timer-box .timer-label { font-size: 0.8em; }
-            .cta-button { font-size: 1.1em; padding: 12px 25px; margin-top: 20px; }
-            #floating-cta-button {
-                right: 15px;
-                bottom: 90px;
+            header { padding: 20px 15px; } /* Reduced padding */
+            header h1 { font-size: 1.8em; margin-bottom: 10px; } /* Slightly smaller h1 */
+            
+            /* --- NEW SOCIAL PROOF & SALES BOX --- */
+            .social-proof-box {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 15px;
+                flex-wrap: wrap;
+                margin-top: 15px;
             }
-            .order-form { padding: 20px; }
-            .lightbox-nav { font-size: 40px; }
-            .lightbox-prev { left: 15px; }
-            .lightbox-next { right: 15px; }
-
-            /* --- THE NEW COMPACT PRICE BOX FOR MOBILE --- */
+            .social-proof-box .rating, .social-proof-box .sales-stat {
+                margin-top: 0; /* Remove individual margins */
+            }
+            .social-proof-box .rating { font-size: 1em; }
+            .social-proof-box .rating-text { font-size: 0.8em; }
+            .social-proof-box .sales-stat { font-size: 0.9em; padding: 6px 12px; }
+            /* ------------------------------------ */
+            
+            .promo-text { font-size: 1.1em; margin-top: 15px; margin-bottom: 10px; }
+            
             .price-container {
                 display: flex;
-                flex-wrap: wrap; /* Allows wrapping on very small screens */
+                flex-wrap: wrap;
                 justify-content: center;
                 align-items: baseline;
                 gap: 10px 15px;
                 border: none;
                 padding: 0;
-                margin-top: 20px;
+                margin-top: 15px;
             }
-            .price-box {
-                gap: 10px;
-            }
-            .new-price {
-                font-size: 2em;
-            }
-            .old-price {
-                font-size: 1.3em;
-            }
+            .price-box { gap: 10px; }
+            .new-price { font-size: 2.2em; }
+            .old-price { font-size: 1.4em; }
             .savings {
                 margin-top: 0;
                 font-size: 1em;
@@ -176,7 +172,21 @@
                 background-color: var(--secondary-color);
                 color: var(--white-color);
             }
-            /* ------------------------------------------- */
+
+            #countdown-timer { margin-top: 15px; }
+            .timer-box { min-width: 65px; padding: 10px; }
+            .timer-box span { font-size: 1.8em; }
+            .timer-box .timer-label { font-size: 0.8em; }
+            
+            .cta-button { font-size: 1.15em; padding: 15px 25px; margin-top: 15px; width: 90%; box-sizing: border-box; } /* Made button wider */
+
+            #floating-cta-button { right: 15px; bottom: 90px; }
+            .section { padding: 40px 15px; }
+            .section h2 { font-size: 2em; }
+            .order-form { padding: 20px; }
+            .lightbox-nav { font-size: 40px; }
+            .lightbox-prev { left: 15px; }
+            .lightbox-next { right: 15px; }
         }
     </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -188,15 +198,19 @@
     <header>
         <div class="container">
             <h1>الباب الشبكي المغناطيسي من نور ستور</h1>
-            <div class="rating">
-                تقييم 4.5 / 5 نجوم ★★★★☆
-                <span class="rating-text">(أكثر من 150 تقييم)</span>
+            
+            <!-- NEW Social Proof Box for Mobile layout -->
+            <div class="social-proof-box">
+                <div class="rating">
+                    تقييم 4.5 / 5 نجوم ★★★★☆
+                    <span class="rating-text">(أكثر من 150 تقييم)</span>
+                </div>
+                <div class="sales-stat">
+                    🔥 تم بيع أكثر من 5000 قطعة!
+                </div>
             </div>
-            <div class="sales-stat">
-                🔥 تم بيع أكثر من 5000 قطعة!
-            </div>
+
             <div class="price-container">
-                <!-- Removed the extra .price-box div for simplicity in the mobile layout -->
                 <span class="new-price">299 جنيه</span>
                 <span class="old-price">399 جنيه</span>
                 <span class="savings">وفر 100 جنيه!</span>
