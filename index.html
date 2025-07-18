@@ -44,6 +44,41 @@
             font-size: 1.2em;
         }
 
+        .price-container {
+            margin: 25px auto 0;
+            padding: 15px;
+            border-radius: 10px;
+            display: inline-block;
+            border: 2px dashed #f1c40f;
+        }
+        .price-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        .new-price {
+            font-size: 2.8em;
+            font-weight: 700;
+            color: var(--white-color);
+        }
+        .old-price {
+            font-size: 1.8em;
+            color: #ccc;
+            text-decoration: line-through;
+            opacity: 0.7;
+        }
+        .savings {
+            margin-top: 5px;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: var(--success-color);
+        }
+        #order-section .new-price { color: var(--primary-color); }
+        #order-section .old-price { color: #888; }
+        #order-section .price-container { border: none; }
+        #order-section .savings { color: var(--secondary-color); }
+
         #countdown-timer { display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 20px; direction: ltr; flex-direction: row-reverse; }
         .timer-box { background: rgba(0, 0, 0, 0.2); padding: 15px; border-radius: 8px; min-width: 80px; text-align: center; }
         .timer-box span { display: block; font-size: 2.5em; font-weight: bold; color: var(--white-color); }
@@ -98,16 +133,15 @@
             header h1 { font-size: 2em; }
             .promo-text { font-size: 1.1em; }
             .sales-stat { font-size: 1em; padding: 8px 15px; }
+            .new-price { font-size: 2.2em; }
+            .old-price { font-size: 1.5em; }
             .section { padding: 40px 15px; }
             .section h2 { font-size: 2em; }
             .timer-box { min-width: 65px; padding: 10px; }
             .timer-box span { font-size: 1.8em; }
             .timer-box .timer-label { font-size: 0.8em; }
             .cta-button { font-size: 1.1em; padding: 12px 25px; }
-            #floating-cta-button {
-                right: 15px;
-                bottom: 90px;
-            }
+            #floating-cta-button { right: 15px; bottom: 90px; }
             .order-form { padding: 20px; }
             .lightbox-nav { font-size: 40px; }
             .lightbox-prev { left: 15px; }
@@ -130,6 +164,15 @@
             <div class="sales-stat">
                 🔥 تم بيع أكثر من 5000 قطعة!
             </div>
+            <div class="price-container">
+                <div class="price-box">
+                    <span class="new-price">299 جنيه</span>
+                    <span class="old-price">399 جنيه</span>
+                </div>
+                <div class="savings">
+                    وفر 100 جنيه!
+                </div>
+            </div>
             <p class="promo-text">اطلب خلال الوقت المتبقي واحصل على توصيل مجاني تمامًا!</p>
             <div id="countdown-timer">
                 <div class="timer-box"><span id="hours">01</span><div class="timer-label">ساعة</div></div>
@@ -137,7 +180,7 @@
                 <div class="timer-box"><span id="seconds">00</span><div class="timer-label">ثانية</div></div>
             </div>
             <div id="offer-expired">انتهى عرض التوصيل المجاني!</div>
-            <a href="#order-section" id="main-cta-button" class="cta-button">اطلب الآن مع توصيل مجاني!</a>
+            <a href="#order-section" id="main-cta-button" class="cta-button">اطلبه الآن بسعر العرض 299 جنيه!</a>
         </div>
     </header>
 
@@ -171,7 +214,16 @@
         <section id="order-section" class="section-light">
              <div class="container">
                 <h2 id="form-title">اطلب الآن واستفد من التوصيل المجاني!</h2>
-                <p>املأ النموذج التالي لتأكيد طلبك قبل انتهاء الوقت.</p>
+                <div class="price-container">
+                    <div class="price-box">
+                        <span class="new-price">299 جنيه</span>
+                        <span class="old-price">399 جنيه</span>
+                    </div>
+                    <div class="savings">
+                        وفر 100 جنيه!
+                    </div>
+                </div>
+                <p style="margin-top: 25px;">املأ النموذج التالي لتأكيد طلبك قبل انتهاء الوقت.</p>
                 <form action="[هنا تضع رابط معالجة الطلب]" method="POST" class="order-form" id="order-form">
                     <div class="form-group"><label for="name">الاسم بالكامل</label><input type="text" id="name" name="name" placeholder="مثال: محمد أحمد" required></div>
                     <div class="form-group"><label for="phone">رقم الهاتف (ضروري للتوصيل)</label><input type="tel" id="phone" name="phone" placeholder="مثال: 01012345678" required style="direction: ltr; text-align: right;"><div id="phone-error"></div></div>
@@ -187,10 +239,10 @@
     <a href="#order-section" id="floating-cta-button" class="cta-button">اطلب الآن بتوصيل مجاني</a>
 
     <div class="lightbox" id="lightbox">
-        <span class="lightbox-close">&times;</span>
-        <span class="lightbox-nav lightbox-prev">&#10094;</span>
+        <span class="lightbox-close">×</span>
+        <span class="lightbox-nav lightbox-prev">❮</span>
         <img src="" class="lightbox-content" id="lightbox-img">
-        <span class="lightbox-nav lightbox-next">&#10095;</span>
+        <span class="lightbox-nav lightbox-next">❯</span>
         <div class="lightbox-zoom-controls">
             <span class="lightbox-zoom-btn" id="zoom-in">+</span>
             <span class="lightbox-zoom-btn" id="zoom-out">-</span>
@@ -198,12 +250,7 @@
     </div>
 
     <script>
-        // --- THE ONLY CHANGE IS THE SCRIPT STRUCTURE ---
-        // This structure is more robust for all browsers.
-
-        // We wrap everything in a single function that runs when the page is ready.
         function initializeApp() {
-            // Function 1: Setup the countdown timer
             function setupTimer() {
                 const duration = 60 * 60; 
                 let timer = duration; 
@@ -238,11 +285,10 @@
                 intervalId = setInterval(updateTimer, 1000);
             }
             
-            // Function 2: Setup the floating button logic
             function setupFloatingButton() {
                 const floatingButton = document.getElementById('floating-cta-button');
                 const orderSection = document.getElementById('order-section');
-                const mainCtaButton = document.getElementById('main-cta-button'); // The button in the header
+                const mainCtaButton = document.getElementById('main-cta-button');
 
                 if(!floatingButton || !orderSection || !mainCtaButton) return;
 
@@ -250,10 +296,7 @@
                     const mainButtonRect = mainCtaButton.getBoundingClientRect();
                     const orderSectionRect = orderSection.getBoundingClientRect();
                     
-                    // Condition to show: The bottom of the main button is scrolled past the top of the viewport.
                     const shouldShow = mainButtonRect.bottom < 0;
-                    
-                    // Condition to hide: The top of the order section is visible within the viewport.
                     const shouldHide = orderSectionRect.top < window.innerHeight;
 
                     if (shouldShow && !shouldHide) { 
@@ -264,7 +307,6 @@
                 });
             }
 
-            // Function 3: Setup the form validation logic
             function setupFormValidation() {
                 const orderForm = document.getElementById('order-form'), 
                       phoneInput = document.getElementById('phone'), 
@@ -295,7 +337,6 @@
                 });
             }
 
-            // Function 4: Setup the lightbox gallery logic
             function setupLightbox() {
                 const lightbox = document.getElementById('lightbox'); 
                 if (!lightbox) return;
@@ -333,19 +374,15 @@
                 });
             }
 
-            // Now, run all the functions.
             setupTimer();
             setupFloatingButton();
             setupFormValidation();
             setupLightbox();
         }
 
-        // The most reliable way to start the app, compatible with all browsers.
         if (document.readyState === 'loading') {
-            // Loading hasn't finished yet
             document.addEventListener('DOMContentLoaded', initializeApp);
         } else {
-            // `DOMContentLoaded` has already fired
             initializeApp();
         }
     </script>
