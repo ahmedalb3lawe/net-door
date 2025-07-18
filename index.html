@@ -129,23 +129,54 @@
 
         @media (max-width: 768px) {
             .container { padding: 15px; }
-            header { padding: 30px 15px; }
-            header h1 { font-size: 2em; }
-            .promo-text { font-size: 1.1em; }
-            .sales-stat { font-size: 1em; padding: 8px 15px; }
-            .new-price { font-size: 2.2em; }
-            .old-price { font-size: 1.5em; }
+            header { padding: 25px 15px; }
+            header h1 { font-size: 2em; margin-bottom: 10px; }
+            .promo-text { font-size: 1.1em; margin-top: 20px; }
+            .sales-stat { font-size: 1em; padding: 8px 15px; margin-top: 15px; }
             .section { padding: 40px 15px; }
             .section h2 { font-size: 2em; }
             .timer-box { min-width: 65px; padding: 10px; }
             .timer-box span { font-size: 1.8em; }
             .timer-box .timer-label { font-size: 0.8em; }
-            .cta-button { font-size: 1.1em; padding: 12px 25px; }
-            #floating-cta-button { right: 15px; bottom: 90px; }
+            .cta-button { font-size: 1.1em; padding: 12px 25px; margin-top: 20px; }
+            #floating-cta-button {
+                right: 15px;
+                bottom: 90px;
+            }
             .order-form { padding: 20px; }
             .lightbox-nav { font-size: 40px; }
             .lightbox-prev { left: 15px; }
             .lightbox-next { right: 15px; }
+
+            /* --- THE NEW COMPACT PRICE BOX FOR MOBILE --- */
+            .price-container {
+                display: flex;
+                flex-wrap: wrap; /* Allows wrapping on very small screens */
+                justify-content: center;
+                align-items: baseline;
+                gap: 10px 15px;
+                border: none;
+                padding: 0;
+                margin-top: 20px;
+            }
+            .price-box {
+                gap: 10px;
+            }
+            .new-price {
+                font-size: 2em;
+            }
+            .old-price {
+                font-size: 1.3em;
+            }
+            .savings {
+                margin-top: 0;
+                font-size: 1em;
+                padding: 4px 10px;
+                border-radius: 5px;
+                background-color: var(--secondary-color);
+                color: var(--white-color);
+            }
+            /* ------------------------------------------- */
         }
     </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -165,13 +196,10 @@
                 🔥 تم بيع أكثر من 5000 قطعة!
             </div>
             <div class="price-container">
-                <div class="price-box">
-                    <span class="new-price">299 جنيه</span>
-                    <span class="old-price">399 جنيه</span>
-                </div>
-                <div class="savings">
-                    وفر 100 جنيه!
-                </div>
+                <!-- Removed the extra .price-box div for simplicity in the mobile layout -->
+                <span class="new-price">299 جنيه</span>
+                <span class="old-price">399 جنيه</span>
+                <span class="savings">وفر 100 جنيه!</span>
             </div>
             <p class="promo-text">اطلب خلال الوقت المتبقي واحصل على توصيل مجاني تمامًا!</p>
             <div id="countdown-timer">
@@ -239,10 +267,10 @@
     <a href="#order-section" id="floating-cta-button" class="cta-button">اطلب الآن بتوصيل مجاني</a>
 
     <div class="lightbox" id="lightbox">
-        <span class="lightbox-close">&times;</span>
-        <span class="lightbox-nav lightbox-prev">&#10094;</span>
+        <span class="lightbox-close">×</span>
+        <span class="lightbox-nav lightbox-prev">❮</span>
         <img src="" class="lightbox-content" id="lightbox-img">
-        <span class="lightbox-nav lightbox-next">&#10095;</span>
+        <span class="lightbox-nav lightbox-next">❯</span>
         <div class="lightbox-zoom-controls">
             <span class="lightbox-zoom-btn" id="zoom-in">+</span>
             <span class="lightbox-zoom-btn" id="zoom-out">-</span>
