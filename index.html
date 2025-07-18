@@ -129,56 +129,29 @@
 
         @media (max-width: 768px) {
             .container { padding: 15px; }
-            header { padding: 20px 15px; } /* Reduced padding */
-            header h1 { font-size: 1.8em; margin-bottom: 10px; } /* Slightly smaller h1 */
+            header { padding: 20px 15px; }
+            header h1 { font-size: 1.8em; margin-bottom: 10px; }
             
-            /* --- NEW SOCIAL PROOF & SALES BOX --- */
-            .social-proof-box {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                gap: 15px;
-                flex-wrap: wrap;
-                margin-top: 15px;
-            }
-            .social-proof-box .rating, .social-proof-box .sales-stat {
-                margin-top: 0; /* Remove individual margins */
-            }
+            .social-proof-box { display: flex; justify-content: center; align-items: center; gap: 15px; flex-wrap: wrap; margin-top: 15px; }
+            .social-proof-box .rating, .social-proof-box .sales-stat { margin-top: 0; }
             .social-proof-box .rating { font-size: 1em; }
             .social-proof-box .rating-text { font-size: 0.8em; }
             .social-proof-box .sales-stat { font-size: 0.9em; padding: 6px 12px; }
-            /* ------------------------------------ */
             
             .promo-text { font-size: 1.1em; margin-top: 15px; margin-bottom: 10px; }
             
-            .price-container {
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: center;
-                align-items: baseline;
-                gap: 10px 15px;
-                border: none;
-                padding: 0;
-                margin-top: 15px;
-            }
+            .price-container { display: flex; flex-wrap: wrap; justify-content: center; align-items: baseline; gap: 10px 15px; border: none; padding: 0; margin-top: 15px; }
             .price-box { gap: 10px; }
             .new-price { font-size: 2.2em; }
             .old-price { font-size: 1.4em; }
-            .savings {
-                margin-top: 0;
-                font-size: 1em;
-                padding: 4px 10px;
-                border-radius: 5px;
-                background-color: var(--secondary-color);
-                color: var(--white-color);
-            }
+            .savings { margin-top: 0; font-size: 1em; padding: 4px 10px; border-radius: 5px; background-color: var(--secondary-color); color: var(--white-color); }
 
             #countdown-timer { margin-top: 15px; }
             .timer-box { min-width: 65px; padding: 10px; }
             .timer-box span { font-size: 1.8em; }
             .timer-box .timer-label { font-size: 0.8em; }
             
-            .cta-button { font-size: 1.15em; padding: 15px 25px; margin-top: 15px; width: 90%; box-sizing: border-box; } /* Made button wider */
+            .cta-button { font-size: 1.15em; padding: 15px 25px; margin-top: 15px; width: 90%; box-sizing: border-box; }
 
             #floating-cta-button { right: 15px; bottom: 90px; }
             .section { padding: 40px 15px; }
@@ -198,8 +171,6 @@
     <header>
         <div class="container">
             <h1>الباب الشبكي المغناطيسي من نور ستور</h1>
-            
-            <!-- NEW Social Proof Box for Mobile layout -->
             <div class="social-proof-box">
                 <div class="rating">
                     تقييم 4.5 / 5 نجوم ★★★★☆
@@ -209,7 +180,6 @@
                     🔥 تم بيع أكثر من 5000 قطعة!
                 </div>
             </div>
-
             <div class="price-container">
                 <span class="new-price">299 جنيه</span>
                 <span class="old-price">399 جنيه</span>
@@ -222,7 +192,8 @@
                 <div class="timer-box"><span id="seconds">00</span><div class="timer-label">ثانية</div></div>
             </div>
             <div id="offer-expired">انتهى عرض التوصيل المجاني!</div>
-            <a href="#order-section" id="main-cta-button" class="cta-button">اطلبه الآن بسعر العرض 299 جنيه!</a>
+            <!-- CHANGED href to #order-form -->
+            <a href="#order-form" id="main-cta-button" class="cta-button">اطلبه الآن بسعر العرض 299 جنيه!</a>
         </div>
     </header>
 
@@ -266,6 +237,7 @@
                     </div>
                 </div>
                 <p style="margin-top: 25px;">املأ النموذج التالي لتأكيد طلبك قبل انتهاء الوقت.</p>
+                <!-- ADDED id="order-form" -->
                 <form action="[هنا تضع رابط معالجة الطلب]" method="POST" class="order-form" id="order-form">
                     <div class="form-group"><label for="name">الاسم بالكامل</label><input type="text" id="name" name="name" placeholder="مثال: محمد أحمد" required></div>
                     <div class="form-group"><label for="phone">رقم الهاتف (ضروري للتوصيل)</label><input type="tel" id="phone" name="phone" placeholder="مثال: 01012345678" required style="direction: ltr; text-align: right;"><div id="phone-error"></div></div>
@@ -278,7 +250,8 @@
         </section>
     </main>
     
-    <a href="#order-section" id="floating-cta-button" class="cta-button">اطلب الآن بتوصيل مجاني</a>
+    <!-- CHANGED href to #order-form -->
+    <a href="#order-form" id="floating-cta-button" class="cta-button">اطلب الآن بتوصيل مجاني</a>
 
     <div class="lightbox" id="lightbox">
         <span class="lightbox-close">×</span>
@@ -329,17 +302,17 @@
             
             function setupFloatingButton() {
                 const floatingButton = document.getElementById('floating-cta-button');
-                const orderSection = document.getElementById('order-section');
+                const orderForm = document.getElementById('order-form'); // WATCH THE FORM
                 const mainCtaButton = document.getElementById('main-cta-button');
 
-                if(!floatingButton || !orderSection || !mainCtaButton) return;
+                if(!floatingButton || !orderForm || !mainCtaButton) return;
 
                 window.addEventListener('scroll', function() {
                     const mainButtonRect = mainCtaButton.getBoundingClientRect();
-                    const orderSectionRect = orderSection.getBoundingClientRect();
+                    const orderFormRect = orderForm.getBoundingClientRect(); // GET FORM'S POSITION
                     
                     const shouldShow = mainButtonRect.bottom < 0;
-                    const shouldHide = orderSectionRect.top < window.innerHeight;
+                    const shouldHide = orderFormRect.top < window.innerHeight; // CHECK FORM'S POSITION
 
                     if (shouldShow && !shouldHide) { 
                         floatingButton.classList.add('visible'); 
