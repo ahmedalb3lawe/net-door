@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>عرض خاص من نور ستور: توصيل مجاني للباب الشبكي المغناطيسي!</title>
+    
     <style>
         :root {
             --primary-color: #2c3e50;
@@ -87,14 +88,15 @@
 
         .cta-button { display: inline-block; background-color: var(--success-color); color: var(--white-color); padding: 15px 35px; text-decoration: none; font-size: 1.3em; font-weight: bold; border-radius: 8px; margin-top: 25px; transition: background-color 0.3s ease, transform 0.2s ease; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: none; cursor: pointer; font-family: 'Cairo', sans-serif; }
         .cta-button:hover { background-color: #27ae60; transform: scale(1.05); }
-        
+        .cta-button:disabled { background-color: #aaa; cursor: not-allowed; }
+
         #floating-cta-button { position: fixed; bottom: 20px; right: 20px; z-index: 1000; margin-top: 0; box-shadow: 0 5px 15px rgba(0,0,0,0.3); opacity: 0; transform: translateY(100px); transition: opacity 0.4s ease, transform 0.4s ease; pointer-events: none; }
         #floating-cta-button.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
 
         .section { padding: 60px 20px; text-align: center; }
         .section-light { background-color: var(--white-color); }
         .section h2 { font-size: 2.5em; margin-bottom: 40px; color: var(--primary-color); }
-        
+
         .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; text-align: right; }
         .feature { background: var(--white-color); padding: 25px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.08); }
         .feature h3 { font-size: 1.4em; margin-bottom: 10px; }
@@ -117,7 +119,7 @@
         .lightbox-next { right: 30px; }
         .lightbox-zoom-controls { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); background-color: rgba(0,0,0,0.5); border-radius: 20px; padding: 5px; display: flex; gap: 10px; z-index: 10002; }
         .lightbox-zoom-btn { font-size: 24px; color: white; cursor: pointer; width: 30px; height: 30px; display: flex; justify-content: center; align-items: center; }
-        
+
         #order-section { padding-bottom: 100px; }
         .order-form { max-width: 600px; margin: 40px auto 0; background: #f9f9f9; padding: 30px 40px; border-radius: 8px; border: 1px solid #ddd; text-align: right; }
         .form-group { margin-bottom: 20px; }
@@ -126,6 +128,11 @@
         .form-group textarea { resize: vertical; min-height: 100px; }
         .order-form .cta-button { width: 100%; margin-top: 10px; }
         #phone-error { color: var(--error-color); font-weight: bold; font-size: 0.9em; min-height: 1em; margin-top: 5px; }
+
+        #form-response { margin-top: 15px; font-size: 1.2em; font-weight: bold; display: none; padding: 15px; border-radius: 8px; margin-bottom: 15px; }
+        #form-response.success { background-color: #d4edda; color: #155724; }
+        #form-response.error { background-color: #f8d7da; color: #721c24; }
+
 
         @media (max-width: 768px) {
             .container { padding: 15px; }
@@ -141,7 +148,6 @@
             .promo-text { font-size: 1.1em; margin-top: 15px; margin-bottom: 10px; }
             
             .price-container { display: flex; flex-wrap: wrap; justify-content: center; align-items: baseline; gap: 10px 15px; border: none; padding: 0; margin-top: 15px; }
-            .price-box { gap: 10px; }
             .new-price { font-size: 2.2em; }
             .old-price { font-size: 1.4em; }
             .savings { margin-top: 0; font-size: 1em; padding: 4px 10px; border-radius: 5px; background-color: var(--secondary-color); color: var(--white-color); }
@@ -162,6 +168,7 @@
             .lightbox-next { right: 15px; }
         }
     </style>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
@@ -192,7 +199,6 @@
                 <div class="timer-box"><span id="seconds">00</span><div class="timer-label">ثانية</div></div>
             </div>
             <div id="offer-expired">انتهى عرض التوصيل المجاني!</div>
-            <!-- CHANGED href to #order-form -->
             <a href="#order-form" id="main-cta-button" class="cta-button">اطلبه الآن بسعر العرض 299 جنيه!</a>
         </div>
     </header>
@@ -232,25 +238,21 @@
                         <span class="new-price">299 جنيه</span>
                         <span class="old-price">399 جنيه</span>
                     </div>
-                    <div class="savings">
-                        وفر 100 جنيه!
-                    </div>
                 </div>
-                <p style="margin-top: 25px;">املأ النموذج التالي لتأكيد طلبك قبل انتهاء الوقت.</p>
-                <!-- ADDED id="order-form" -->
-                <form action="[هنا تضع رابط معالجة الطلب]" method="POST" class="order-form" id="order-form">
+                <p style="margin-top: 25px;">املأ النموذج التالي لتأكيد طلبك</p>
+                <form class="order-form" id="order-form">
+                    <div id="form-response"></div>
                     <div class="form-group"><label for="name">الاسم بالكامل</label><input type="text" id="name" name="name" placeholder="مثال: محمد أحمد" required></div>
                     <div class="form-group"><label for="phone">رقم الهاتف (ضروري للتوصيل)</label><input type="tel" id="phone" name="phone" placeholder="مثال: 01012345678" required style="direction: ltr; text-align: right;"><div id="phone-error"></div></div>
                     <div class="form-group"><label for="address">العنوان بالتفصيل</label><input type="text" id="address" name="address" placeholder="المحافظة - المدينة - الحي - اسم الشارع ورقم المبنى" required></div>
                     <div class="form-group"><label for="quantity">الكمية</label><input type="number" id="quantity" name="quantity" value="1" min="1" required style="direction: ltr; text-align: right;"></div>
                     <div class="form-group"><label for="notes">ملاحظات (اختياري)</label><textarea id="notes" name="notes" placeholder="هل لديك أي تعليمات خاصة بالتوصيل؟ اكتبها هنا."></textarea></div>
-                    <button type="submit" class="cta-button">تأكيد الطلب الآن</button>
+                    <button type="submit" class="cta-button" id="submit-button">تأكيد الطلب الآن</button>
                 </form>
              </div>
         </section>
     </main>
     
-    <!-- CHANGED href to #order-form -->
     <a href="#order-form" id="floating-cta-button" class="cta-button">اطلب الآن بتوصيل مجاني</a>
 
     <div class="lightbox" id="lightbox">
@@ -302,17 +304,17 @@
             
             function setupFloatingButton() {
                 const floatingButton = document.getElementById('floating-cta-button');
-                const orderForm = document.getElementById('order-form'); // WATCH THE FORM
+                const orderForm = document.getElementById('order-form');
                 const mainCtaButton = document.getElementById('main-cta-button');
 
                 if(!floatingButton || !orderForm || !mainCtaButton) return;
 
                 window.addEventListener('scroll', function() {
                     const mainButtonRect = mainCtaButton.getBoundingClientRect();
-                    const orderFormRect = orderForm.getBoundingClientRect(); // GET FORM'S POSITION
+                    const orderFormRect = orderForm.getBoundingClientRect();
                     
                     const shouldShow = mainButtonRect.bottom < 0;
-                    const shouldHide = orderFormRect.top < window.innerHeight; // CHECK FORM'S POSITION
+                    const shouldHide = orderFormRect.top < window.innerHeight;
 
                     if (shouldShow && !shouldHide) { 
                         floatingButton.classList.add('visible'); 
@@ -323,10 +325,17 @@
             }
 
             function setupFormValidation() {
-                const orderForm = document.getElementById('order-form'), 
-                      phoneInput = document.getElementById('phone'), 
-                      phoneError = document.getElementById('phone-error');
-                if(!orderForm || !phoneInput || !phoneError) return;
+                const orderForm = document.getElementById('order-form');
+                if (!orderForm) return;
+
+                const phoneInput = document.getElementById('phone');
+                const phoneError = document.getElementById('phone-error');
+                const submitButton = document.getElementById('submit-button');
+                const formResponse = document.getElementById('form-response');
+
+                // ====> الخطوة الأهم: الصق رابط الـ Web App الخاص بك هنا <====
+                const scriptURL = 'https://script.google.com/macros/s/AKfycbxoioVMNbxMtqdgWKGEWb-EpQ885XMHeUignzh1OPbCbCyJKEya6ZibBoBZb_rWHr6C_A/exec';
+                // ==========================================================
 
                 phoneInput.addEventListener('input', function(e) { 
                     const sanitizedValue = e.target.value.replace(/[^0-9\u0660-\u0669+]/g, ''); 
@@ -336,8 +345,8 @@
                 orderForm.addEventListener('submit', function(event) {
                     event.preventDefault(); 
                     phoneError.textContent = '';
-                    let phoneNumber = phoneInput.value.replace(/[\u0660-\u0669\u06F0-\u06F9]/g, d => d.charCodeAt(0) & 0x0F).replace(/\s/g, '');
                     
+                    let phoneNumber = phoneInput.value.replace(/[\u0660-\u0669\u06F0-\u06F9]/g, d => d.charCodeAt(0) & 0x0F).replace(/\s/g, '');
                     if (phoneNumber.startsWith('+2')) phoneNumber = phoneNumber.substring(2);
                     if (phoneNumber.length !== 11) { 
                         phoneError.textContent = 'الرقم يجب أن يتكون من 11 رقمًا بالضبط.'; 
@@ -348,7 +357,31 @@
                         phoneError.textContent = 'يجب أن يبدأ الرقم بـ 010, 011, 012, أو 015.'; 
                         return; 
                     }
-                    orderForm.submit();
+
+                    submitButton.disabled = true;
+                    submitButton.textContent = 'جاري إرسال طلبك...';
+                    formResponse.style.display = 'none';
+
+                    fetch(scriptURL, { method: 'POST', body: new FormData(orderForm)})
+                        .then(response => {
+                            if (response.ok) {
+                                formResponse.textContent = '✅ تم استلام طلبك بنجاح! سنتصل بك للتأكيد.';
+                                formResponse.className = 'success';
+                                formResponse.style.display = 'block';
+                                orderForm.reset();
+                            } else {
+                                throw new Error('Network response was not ok.');
+                            }
+                        })
+                        .catch(error => {
+                            formResponse.textContent = 'حدث خطأ ما، يرجى المحاولة مرة أخرى أو التواصل معنا مباشرة.';
+                            formResponse.className = 'error';
+                            formResponse.style.display = 'block';
+                        })
+                        .finally(() => {
+                            submitButton.disabled = false;
+                            submitButton.textContent = 'تأكيد الطلب الآن';
+                        });
                 });
             }
 
@@ -389,6 +422,7 @@
                 });
             }
 
+            // Now, run all the functions.
             setupTimer();
             setupFloatingButton();
             setupFormValidation();
