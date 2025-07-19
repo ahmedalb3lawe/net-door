@@ -368,30 +368,35 @@
                         return; 
                     }
 
-                    submitButton.disabled = true;
-                    submitButton.textContent = 'جاري إرسال طلبك...';
-                    formResponse.style.display = 'none';
+                    // ---------- START: الكود المعدل لتحسين تجربة المستخدم ----------
 
-                    fetch(scriptURL, { method: 'POST', body: new FormData(orderForm)})
-                        .then(response => {
-                            if (response.ok) {
-                                formResponse.textContent = '✅ تم استلام طلبك بنجاح! سنتصل بك للتأكيد.';
-                                formResponse.className = 'success';
-                                formResponse.style.display = 'block';
-                                orderForm.reset();
-                            } else {
-                                throw new Error('Network response was not ok.');
-                            }
-                        })
+                    // 1. تجهيز بيانات النموذج للإرسال لاحقاً
+                    const formData = new FormData(orderForm);
+
+                    // 2. إظهار رسالة النجاح وإعادة تعيين النموذج على الفور
+                    formResponse.textContent = '✅ تم استلام طلبك بنجاح! سنتصل بك للتأكيد.';
+                    formResponse.className = 'success';
+                    formResponse.style.display = 'block';
+                    submitButton.disabled = true;
+                    submitButton.textContent = 'تم الإرسال بنجاح!';
+                    orderForm.reset(); // إفراغ حقول النموذج
+                    phoneError.textContent = ''; // إفراغ رسالة الخطأ إن وجدت
+                    formResponse.scrollIntoView({ behavior: 'smooth', block: 'center' }); // تمرير الشاشة لرسالة النجاح
+
+                    // 3. إرسال البيانات في الخلفية. المستخدم ليس بحاجة لانتظار هذه الخطوة
+                    fetch(scriptURL, { method: 'POST', body: formData})
                         .catch(error => {
-                            formResponse.textContent = 'حدث خطأ ما، يرجى المحاولة مرة أخرى أو التواصل معنا مباشرة.';
-                            formResponse.className = 'error';
-                            formResponse.style.display = 'block';
-                        })
-                        .finally(() => {
-                            submitButton.disabled = false;
-                            submitButton.textContent = 'تأكيد الطلب الآن';
+                            // هذه الرسالة ستظهر في الكونسول فقط للمطورين في حال حدوث خطأ
+                            console.error('!فشل إرسال النموذج إلى جوجل شيت', error.message);
                         });
+
+                    // 4. إعادة تفعيل الزر بعد فترة قصيرة للسماح بالإرسال مرة أخرى إذا لزم الأمر
+                    setTimeout(() => {
+                        submitButton.disabled = false;
+                        submitButton.textContent = 'تأكيد الطلب الآن';
+                    }, 4000); // إعادة تفعيل الزر بعد 4 ثواني
+
+                    // ---------- END: نهاية الكود المعدل ----------
                 });
             }
 
