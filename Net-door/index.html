@@ -1,16 +1,14 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <!-- Event snippet for شراء (1) conversion page -->
-<script>
+    <script>
   gtag('event', 'conversion', {
       'send_to': 'AW-17064012339/7IZfCOjSm_UaELPU4Mg_',
       'transaction_id': ''
   });
 </script>
 
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-SGGXP5M8PZ"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGGXP5M8PZ"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -263,7 +261,7 @@
                     <div class="form-group"><label for="name">الاسم بالكامل</label><input type="text" id="name" name="name" placeholder="مثال: محمد أحمد" required></div>
                     <div class="form-group"><label for="phone">رقم الهاتف (ضروري للتوصيل)</label><input type="tel" id="phone" name="phone" placeholder="مثال: 01012345678" required style="direction: ltr; text-align: right;"><div id="phone-error"></div></div>
                     <div class="form-group"><label for="address">العنوان بالتفصيل</label><input type="text" id="address" name="address" placeholder="المحافظة - المدينة - الحي - اسم الشارع ورقم المبنى" required></div>
-                    <div class="form-group"><label for="quantity">الكمية</label><input type="number" id="quantity" name="quantity" value="1" min="1" required style="direction: ltr; text-align: right;"></div>
+                    <div class="form-group"><label for="quantity">الكمية</label><input type="text" id="quantity" name="quantity" value="1" pattern="[0-9\u0660-\u0669\u06F0-\u06F9]+" title="الرجاء إدخال أرقام فقط" required style="direction: ltr; text-align: right;"></div>
                     <div class="form-group"><label for="notes">ملاحظات (اختياري)</label><textarea id="notes" name="notes" placeholder="هل لديك أي تعليمات خاصة بالتوصيل؟ اكتبها هنا."></textarea></div>
                     <button type="submit" class="cta-button" id="submit-button">تأكيد الطلب الآن</button>
                 </form>
@@ -350,15 +348,26 @@
                 const phoneError = document.getElementById('phone-error');
                 const submitButton = document.getElementById('submit-button');
                 const formResponse = document.getElementById('form-response');
+                const quantityInput = document.getElementById('quantity'); // Get quantity input
 
                 // ====> الخطوة الأهم: الصق رابط الـ Web App الخاص بك هنا <====
                 const scriptURL = 'https://script.google.com/macros/s/AKfycbzKYGYyKm6_M0uG4pkEiqV9tUX7ZEVF6FUEQtXq3GSb7d9pe7kAHYAF1PrGrvk0T1B3MQ/exec';
                 // ==========================================================
 
+                // Updated to allow Arabic numerals for phone input validation
                 phoneInput.addEventListener('input', function(e) { 
                     const sanitizedValue = e.target.value.replace(/[^0-9\u0660-\u0669+]/g, ''); 
                     if (e.target.value !== sanitizedValue) { e.target.value = sanitizedValue; } 
                 });
+
+                // Add an event listener for quantity input to only allow numbers
+                quantityInput.addEventListener('input', function(e) {
+                    const sanitizedValue = e.target.value.replace(/[^0-9\u0660-\u0669\u06F0-\u06F9]/g, ''); // Allow Western and Eastern Arabic numerals
+                    if (e.target.value !== sanitizedValue) {
+                        e.target.value = sanitizedValue;
+                    }
+                });
+
 
                 orderForm.addEventListener('submit', function(event) {
                     event.preventDefault(); 
@@ -387,6 +396,30 @@
                     formResponse.style.display = 'block';
                     submitButton.disabled = true;
                     submitButton.textContent = 'تم الإرسال بنجاح!';
+                    
+                    // --- Google Analytics Purchase Event ---
+                    // تحويل الكمية من الأرقام العربية إلى الإنجليزية قبل التحويل إلى رقم
+                    const rawQuantity = quantityInput.value;
+                    const englishQuantityString = rawQuantity.replace(/[\u0660-\u0669]/g, d => d.charCodeAt(0) - 0x0660) // Eastern Arabic numerals
+                                                              .replace(/[\u06F0-\u06F9]/g, d => d.charCodeAt(0) - 0x06F0); // Extended Arabic numerals (Persian/Urdu)
+                    const itemQuantity = parseInt(englishQuantityString);
+
+                    const itemPrice = 299; // Fixed price per unit
+                    const transactionId = 'T_' + Date.now() + '_' + Math.floor(Math.random() * 1000000); // Unique transaction ID
+
+                    gtag('event', 'purchase', {
+                        transaction_id: transactionId,
+                        value: (itemQuantity * itemPrice),
+                        currency: 'EGP',
+                        items: [{
+                            item_id: 'magnetic_screen_door',
+                            item_name: 'الباب الشبكي المغناطيسي',
+                            price: itemPrice,
+                            quantity: itemQuantity
+                        }]
+                    });
+                    // --- End Google Analytics Purchase Event ---
+
                     orderForm.reset(); // إفراغ حقول النموذج
                     phoneError.textContent = ''; // إفراغ رسالة الخطأ إن وجدت
                     formResponse.scrollIntoView({ behavior: 'smooth', block: 'center' }); // تمرير الشاشة لرسالة النجاح
