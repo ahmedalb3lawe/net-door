@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نور ستور - منتجات عصرية لحياة أسهل</title>
+    <style>
+        body {
+            font-family: 'Cairo', 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        p {
+            font-size: 1.1em;
+            margin-bottom: 40px;
+        }
+        .product-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+        }
+        .product-card {
+            background-color: #e74c3c; /* لون مميز */
+            color: white;
+            padding: 30px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 1.4em;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            width: calc(50% - 25px); /* عشان يبقوا كارتين جنب بعض في الشاشات الكبيرة */
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 150px;
+        }
+        .product-card:hover {
+            background-color: #c0392b;
+            transform: translateY(-5px);
+        }
+
+        @media (max-width: 600px) {
+            .product-card {
+                width: 90%; /* على الموبايل كل كارت يبقى في سطر لوحده */
+            }
+            h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>مرحباً بك في نور ستور!</h1>
+        <p>اكتشف مجموعتنا من المنتجات العصرية التي تجعل حياتك أسهل وأكثر راحة.</p>
+        <div class="product-links">
+            <a href="otg-cable-kit.html" class="product-card">
+                طقم كابل ومحولات OTG
+            </a>
+            <a href="magic-connectors.html" class="product-card">
+                علبة الوصلات السحرية
+            </a>
+        </div>
+    </div>
+</body>
+</html>
