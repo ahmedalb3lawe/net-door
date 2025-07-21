@@ -6,139 +6,371 @@
     <title>نور ستور - منتجات عصرية لحياة أسهل</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=El+Messiri:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=El+Messiri:wght@700&display=swap" rel="stylesheet">
+    
     <style>
+        /* Variables for easy color changes */
         :root {
-            --primary-color: #2c3e50; /* كحلي غامق */
-            --secondary-color: #e74c3c; /* أحمر جذاب */
-            --accent-color: #f1c40f; /* أصفر (للتأكيد أو الخطوط) */
-            --background-light: #ecf0f1; /* رمادي فاتح للخلفية */
-            --text-color: #34495e; /* رمادي غامق للنصوص */
+            --primary-color: #2c3e50; /* Dark Blue/Navy */
+            --secondary-color: #e74c3c; /* Bright Red */
+            --accent-color: #f1c40f; /* Gold Yellow */
+            --background-light: #ecf0f1; /* Light Gray Background */
+            --text-color: #34495e; /* Dark Gray Text */
             --white-color: #ffffff;
+            --light-gray-border: #ddd;
             --shadow-light: rgba(0,0,0,0.1);
             --shadow-medium: rgba(0,0,0,0.2);
+            --shadow-dark: rgba(0,0,0,0.3);
         }
 
+        /* Base Styles */
         body {
             font-family: 'Cairo', sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(to bottom right, var(--background-light), #e0e6ea); /* تدرج لوني خفيف */
+            background-color: var(--background-light);
             color: var(--text-color);
             line-height: 1.6;
-            text-align: center;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh; /* عشان يخلي المحتوى في نص الشاشة عمودياً */
-            overflow-x: hidden; /* عشان مفيش سكرول أفقي يظهر */
+            direction: rtl; /* For Arabic text direction */
+            overflow-x: hidden; /* Prevent horizontal scroll */
         }
 
         .container {
-            max-width: 900px;
-            margin: 30px auto;
-            padding: 40px;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header / Hero Section */
+        .hero-section {
+            background: linear-gradient(to bottom right, var(--primary-color), #34495e); /* Gradient background */
+            color: var(--white-color);
+            padding: 80px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom-left-radius: 50px; /* Rounded corners for style */
+            border-bottom-right-radius: 50px;
+            margin-bottom: 50px;
+        }
+
+        .hero-section h1 {
+            font-family: 'El Messiri', sans-serif;
+            font-size: 4.5em; /* Larger font size */
+            margin-bottom: 15px;
+            animation: slideInFromTop 1s ease-out; /* Animation */
+        }
+
+        .hero-section p {
+            font-size: 1.4em;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            opacity: 0.9;
+            animation: fadeIn 1.5s ease-out; /* Animation */
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: var(--white-color);
+            padding: 15px 40px;
+            text-decoration: none;
+            font-size: 1.3em;
+            font-weight: 700;
+            border-radius: 50px; /* Pill shape */
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 5px 15px var(--shadow-dark);
+            animation: scaleIn 1.8s ease-out; /* Animation */
+        }
+
+        .cta-button:hover {
+            background-color: #c0392b; /* Darker red on hover */
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 8px 20px var(--shadow-dark);
+        }
+
+        /* About Section */
+        .about-section {
+            padding: 60px 20px;
+            text-align: center;
             background-color: var(--white-color);
-            box-shadow: 0 8px 25px var(--shadow-medium); /* ظل أعمق */
             border-radius: 12px;
-            animation: fadeIn 1s ease-out; /* تأثير ظهور أنيق */
+            box-shadow: 0 5px 15px var(--shadow-light);
+            margin-bottom: 50px;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        h1 {
+        .about-section h2 {
             font-family: 'El Messiri', sans-serif;
             color: var(--primary-color);
-            margin-bottom: 20px;
-            font-size: 3.2em;
+            font-size: 2.8em;
+            margin-bottom: 25px;
             position: relative;
             display: inline-block;
         }
-        h1::after { /* خط تحت العنوان */
+        .about-section h2::after { /* Underline effect */
             content: '';
             display: block;
-            width: 80px;
-            height: 4px;
+            width: 60%;
+            height: 3px;
             background-color: var(--accent-color);
-            margin: 15px auto 0;
-            border-radius: 2px;
+            margin: 10px auto 0;
+            border-radius: 1.5px;
         }
 
-        .tagline {
-            font-size: 1.2em;
-            color: #555;
-            margin-bottom: 50px;
-            font-weight: 400;
+        .about-section p {
+            font-size: 1.15em;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto;
+            color: var(--text-color);
         }
 
-        .product-links {
-            display: grid; /* استخدام Grid بدلاً من flexbox لتوزيع أفضل */
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* 2 كارت جنب بعض وكل كارت ياخد مساحة 280 بكسل على الأقل */
-            gap: 30px;
-            margin-top: 40px;
+        /* Products Section */
+        .products-section {
+            padding: 60px 20px;
+            text-align: center;
         }
 
-        .product-card {
-            background: linear-gradient(to top left, var(--secondary-color) 0%, #ff6b6b 100%); /* تدرج لوني للأحمر */
-            color: var(--white-color);
-            padding: 35px 25px;
-            border-radius: 15px;
-            text-decoration: none;
-            font-size: 1.5em;
-            font-weight: 700;
-            transition: all 0.3s ease; /* transition لكل الخصائص */
-            box-shadow: 0 6px 15px var(--shadow-light);
-            display: flex;
-            align-items: center;
+        .products-section h2 {
+            font-family: 'El Messiri', sans-serif;
+            color: var(--primary-color);
+            font-size: 2.8em;
+            margin-bottom: 40px;
+            position: relative;
+            display: inline-block;
+        }
+        .products-section h2::after { /* Underline effect */
+            content: '';
+            display: block;
+            width: 60%;
+            height: 3px;
+            background-color: var(--accent-color);
+            margin: 10px auto 0;
+            border-radius: 1.5px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid */
+            gap: 40px;
             justify-content: center;
-            min-height: 180px; /* طول ثابت للكارت */
-            border: 2px solid transparent; /* إطار مخفي في البداية */
-        }
-        .product-card:hover {
-            background: linear-gradient(to bottom right, #ff6b6b 0%, var(--secondary-color) 100%); /* عكس التدرج عند الهوفر */
-            transform: translateY(-8px) scale(1.02); /* رفع الكارت وتكبير خفيف */
-            box-shadow: 0 12px 25px var(--shadow-medium);
-            border-color: var(--accent-color); /* إظهار إطار أصفر عند الهوفر */
         }
 
-        @media (max-width: 768px) {
-            .container {
-                margin: 20px;
-                padding: 30px 15px;
+        .product-card-item {
+            background-color: var(--white-color);
+            border-radius: 15px;
+            box-shadow: 0 8px 25px var(--shadow-light);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: right;
+            border: 1px solid var(--light-gray-border);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-card-item:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 35px var(--shadow-medium);
+        }
+
+        .product-card-item img {
+            width: 100%;
+            height: 220px; /* Fixed height for images */
+            object-fit: cover; /* Cover the area */
+            border-bottom: 1px solid var(--light-gray-border);
+            transition: transform 0.3s ease;
+        }
+
+        .product-card-item:hover img {
+            transform: scale(1.05); /* Zoom image on hover */
+        }
+
+        .product-info {
+            padding: 25px;
+            flex-grow: 1; /* Allows info to take available space */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-info h3 {
+            font-family: 'Cairo', sans-serif;
+            font-size: 1.8em;
+            color: var(--primary-color);
+            margin-top: 0;
+            margin-bottom: 15px;
+            text-align: center; /* Center product title */
+        }
+
+        .product-info p {
+            font-size: 1.05em;
+            color: #555;
+            margin-bottom: 25px;
+            text-align: justify; /* Justify description for better readability */
+        }
+
+        .product-button {
+            display: block;
+            background-color: var(--secondary-color);
+            color: var(--white-color);
+            padding: 12px 25px;
+            text-decoration: none;
+            font-size: 1.1em;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            text-align: center;
+            margin-top: auto; /* Push button to the bottom of the card */
+        }
+
+        .product-button:hover {
+            background-color: #c0392b;
+            transform: translateY(-3px);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary-color);
+            color: var(--white-color);
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 50px;
+            border-top-left-radius: 50px;
+            border-top-right-radius: 50px;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        /* Animations */
+        @keyframes slideInFromTop {
+            0% { transform: translateY(-50px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes scaleIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 900px) {
+            .hero-section h1 {
+                font-size: 3.5em;
             }
-            h1 {
-                font-size: 2.5em;
+            .hero-section p {
+                font-size: 1.2em;
             }
-            .tagline {
+            .about-section h2, .products-section h2 {
+                font-size: 2.2em;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .hero-section {
+                padding: 60px 15px;
+                border-bottom-left-radius: 30px;
+                border-bottom-right-radius: 30px;
+            }
+            .hero-section h1 {
+                font-size: 2.8em;
+            }
+            .hero-section p {
+                font-size: 1em;
+                margin-bottom: 30px;
+            }
+            .cta-button {
+                padding: 12px 30px;
+                font-size: 1.1em;
+            }
+            .about-section, .products-section {
+                padding: 40px 15px;
+            }
+            .about-section h2, .products-section h2 {
+                font-size: 2em;
+            }
+            .about-section p {
                 font-size: 1em;
             }
-            .product-links {
-                grid-template-columns: 1fr; /* كارت واحد في كل صف على الموبايل */
-                gap: 20px;
+            .product-grid {
+                grid-template-columns: 1fr; /* Single column on small screens */
+                gap: 25px;
             }
-            .product-card {
-                min-height: 150px;
-                font-size: 1.3em;
+            .product-card-item img {
+                height: 180px;
+            }
+            .product-info h3 {
+                font-size: 1.6em;
+            }
+            .product-info p {
+                font-size: 0.95em;
+            }
+            footer {
+                padding: 20px 15px;
+                border-top-left-radius: 30px;
+                border-top-right-radius: 30px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>مرحباً بك في نور ستور!</h1>
-        <p class="tagline">اكتشف مجموعتنا المختارة من المنتجات الذكية والعصرية التي تجعل حياتك أسهل وأكثر راحة.</p>
-        
-        <div class="product-links">
-            <a href="Net-door" class="product-card">
-                الباب الشبكي المغناطيسي
-            </a>
-            <a href="Caple-kit" class="product-card">
-                علبة الوصلات السحرية
-            </a>
+
+    <header class="hero-section">
+        <div class="container">
+            <h1>مرحباً بك في نور ستور!</h1>
+            <p>وجهتك الأولى للمنتجات الذكية والعصرية التي تجعل حياتك أسهل وأكثر إشراقًا.</p>
+            <a href="#products-section" class="cta-button">اكتشف منتجاتنا الآن</a>
         </div>
-    </div>
+    </header>
+
+    <section id="about-section" class="about-section">
+        <div class="container">
+            <h2>من نحن؟</h2>
+            <p>نور ستور هو متجرك المتكامل للمنتجات المبتكرة وعالية الجودة. نؤمن بأن التكنولوجيا يمكن أن تبسط حياتنا اليومية، ولهذا نسعى جاهدين لتقديم أفضل الحلول العصرية التي تلبي احتياجاتك وتتجاوز توقعاتك. مهمتنا هي توفير تجربة تسوق سهلة وممتعة مع ضمان جودة المنتج ورضا العميل.</p>
+        </div>
+    </section>
+
+    <section id="products-section" class="products-section">
+        <div class="container">
+            <h2>منتجاتنا المميزة</h2>
+            <div class="product-grid">
+                <a href="otg-cable-kit.html" class="product-card-item">
+                    <img src="https://assets.wuiltstore.com/cmcfdyk2a02ln01jb25cv84tz_61Ayk50i-cL._AC_SL1200_.jpg" alt="طقم كابل ومحولات OTG">
+                    <div class="product-info">
+                        <h3>طقم كابل ومحولات OTG</h3>
+                        <p>الحل الأمثل لجميع احتياجات الشحن ونقل البيانات. تصميم مدمج ومحولات متعددة لتوصيل جميع أجهزتك.</p>
+                        <span class="product-button">عرض التفاصيل</span>
+                    </div>
+                </a>
+
+                <a href="magic-connectors.html" class="product-card-item">
+                    <img src="https://assets.wuiltstore.com/cmcfh08if02ma01jbh8dc4v82_61-bt7K5aTL._AC_SL1000_.jpg" alt="علبة الوصلات السحرية">
+                    <div class="product-info">
+                        <h3>علبة الوصلات السحرية</h3>
+                        <p>وداعاً لفوضى الكابلات! علبة ذكية تحتوي على كل ما تحتاجه من وصلات ومحولات لتنظيم وشحن أجهزتك أينما كنت.</p>
+                        <span class="product-button">عرض التفاصيل</span>
+                    </div>
+                </a>
+                
+                </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 نور ستور. جميع الحقوق محفوظة.</p>
+            <p>للتواصل والاستفسار: info@nourstore.com</p>
+        </div>
+    </footer>
+
 </body>
 </html>
