@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-SGGXP5M8PZ"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGGXP5M8PZ"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -401,7 +400,8 @@
                 const phoneError = document.getElementById('phone-error');
                 const submitButton = document.getElementById('submit-button');
                 const formResponse = document.getElementById('form-response');
-
+                const quantityInput = document.getElementById('quantity'); // للحصول على الكمية المدخلة
+                
                 // ====> الخطوة الأهم: الصق رابط الـ Web App الخاص بك هنا <====
                 const scriptURL = 'https://script.google.com/macros/s/AKfycbzKYGYyKm6_M0uG4pkEiqV9tUX7ZEVF6FUEQtXq3GSb7d9pe7kAHYAF1PrGrvk0T1B3MQ/exec';
                 // ==========================================================
@@ -431,6 +431,11 @@
 
                     // 1. تجهيز بيانات النموذج للإرسال لاحقاً
                     const formData = new FormData(orderForm);
+                    
+                    // حساب القيمة الإجمالية بناءً على الكمية
+                    const quantity = parseInt(quantityInput.value); 
+                    const itemPrice = 250; 
+                    const totalPrice = itemPrice * quantity; 
 
                     // 2. إظهار رسالة النجاح وإعادة تعيين النموذج على الفور
                     formResponse.textContent = '✅ تم استلام طلبك بنجاح! سنتصل بك للتأكيد.';
@@ -438,9 +443,23 @@
                     formResponse.style.display = 'block';
                     submitButton.disabled = true;
                     submitButton.textContent = 'تم الإرسال بنجاح!';
-                    orderForm.reset(); // إفراغ حقول النموذج
-                    phoneError.textContent = ''; // إفراغ رسالة الخطأ إن وجدت
-                    formResponse.scrollIntoView({ behavior: 'smooth', block: 'center' }); // تمرير الشاشة لرسالة النجاح
+                    orderForm.reset(); 
+                    phoneError.textContent = ''; 
+                    formResponse.scrollIntoView({ behavior: 'smooth', block: 'center' }); 
+
+                    // *** هنا نضيف كود إرسال إيفنت الشراء إلى Google Analytics ***
+                    gtag('event', 'purchase', {
+                        transaction_id: 'ORDER_' + Date.now(), 
+                        value: totalPrice, 
+                        currency: 'EGP', 
+                        items: [{
+                            item_id: 'magic_connectors_box',
+                            item_name: 'علبة الوصلات السحرية',
+                            price: itemPrice, 
+                            quantity: quantity 
+                        }]
+                    });
+                    // **********************************************************
 
                     // 3. إرسال البيانات في الخلفية. المستخدم ليس بحاجة لانتظار هذه الخطوة
                     fetch(scriptURL, { method: 'POST', body: formData})
@@ -453,7 +472,7 @@
                     setTimeout(() => {
                         submitButton.disabled = false;
                         submitButton.textContent = 'تأكيد الطلب الآن';
-                    }, 4000); // إعادة تفعيل الزر بعد 4 ثواني
+                    }, 4000); 
 
                     // ---------- END: نهاية الكود المعدل ----------
                 });
