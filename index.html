@@ -14,18 +14,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
     <style>
-        /* Variables for easy color changes */
+        /* Variables for easy color changes - Updated to match Logo */
         :root {
-            --primary-color: #2c3e50; /* Dark Blue/Navy */
-            --secondary-color: #e74c3c; /* Bright Red */
-            --accent-color: #f1c40f; /* Gold Yellow */
-            --background-light: #ecf0f1; /* Light Gray Background */
-            --text-color: #34495e; /* Dark Gray Text */
+            --primary-color: #BE1E2D; /* Red from Logo */
+            --secondary-color: #333333; /* Dark Gray/Black from Logo */
+            --accent-color: #FFD700; /* Gold Yellow - Kept for highlights/success */
+            --background-light: #f8f8f8; /* Very Light Gray Background */
+            --text-color: #444444; /* Darker Gray Text */
             --white-color: #ffffff;
-            --light-gray-border: #ddd;
-            --shadow-light: rgba(0,0,0,0.1);
-            --shadow-medium: rgba(0,0,0,0.2);
-            --shadow-dark: rgba(0,0,0,0.3);
+            --light-gray-border: #eee;
+            --shadow-light: rgba(0,0,0,0.08);
+            --shadow-medium: rgba(0,0,0,0.15);
+            --shadow-dark: rgba(0,0,0,0.25);
             --success-color: #2ecc71; /* Green for success/trust */
             --info-color: #3498db; /* Blue for info/features */
         }
@@ -35,18 +35,18 @@
             font-family: 'Cairo', sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(to bottom right, var(--background-light) 0%, #e0e6ea 100%);
+            background-color: var(--background-light); /* Solid light background */
             color: var(--text-color);
-            line-height: 1.6;
+            line-height: 1.7; /* Slightly more space for readability */
             direction: rtl;
             overflow-x: hidden;
-            scroll-behavior: smooth; /* Smooth scroll for internal links */
+            scroll-behavior: smooth;
         }
 
         .container {
             max-width: 1100px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 0 20px; /* Padding for small screens */
         }
 
         /* Utility classes */
@@ -56,97 +56,191 @@
         .section-heading {
             font-family: 'El Messiri', sans-serif;
             color: var(--primary-color);
-            font-size: 2.8em;
+            font-size: 3em; /* Slightly larger for impact */
             margin-bottom: 25px;
             position: relative;
             display: inline-block;
+            padding-bottom: 10px;
         }
         .section-heading::after {
             content: '';
             display: block;
-            width: 60%;
-            height: 3px;
-            background-color: var(--accent-color);
+            width: 80px; /* Shorter, bolder underline */
+            height: 4px;
+            background-color: var(--secondary-color); /* Matches logo dark color */
             margin: 10px auto 0;
-            border-radius: 1.5px;
+            border-radius: 2px;
         }
         
         /* Top Notification Bar */
         .top-notification-bar {
             background-color: var(--accent-color);
-            color: var(--primary-color);
+            color: var(--secondary-color); /* Dark text for contrast */
             padding: 10px 20px;
             text-align: center;
             font-size: 1.1em;
             font-weight: 700;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            position: sticky; /* Sticky to top */
-            top: 0;
-            z-index: 1000;
+            z-index: 1000; /* Ensure it's above other content */
         }
         .top-notification-bar span {
             display: inline-block;
             animation: pulse 2s infinite ease-in-out;
         }
 
-        /* Header / Hero Section */
+        /* Navigation Bar */
+        .navbar {
+            background-color: var(--white-color);
+            padding: 15px 20px;
+            box-shadow: 0 4px 15px var(--shadow-light);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--light-gray-border);
+        }
+
+        .navbar .logo {
+            height: 50px; /* Standard size for nav logo */
+            width: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .navbar .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .navbar-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 30px; /* Spacing between links */
+        }
+
+        .navbar-links a {
+            text-decoration: none;
+            color: var(--secondary-color);
+            font-weight: 600;
+            font-size: 1.1em;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .navbar-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-color);
+            bottom: -5px;
+            right: 0; /* For RTL */
+            transition: width 0.3s ease;
+        }
+
+        .navbar-links a:hover::after,
+        .navbar-links a.active::after {
+            width: 100%;
+            left: 0; /* For RTL */
+        }
+
+        .navbar-links a:hover,
+        .navbar-links a.active {
+            color: var(--primary-color);
+        }
+
+        /* Hero Section */
         .hero-section {
-            background: linear-gradient(to bottom right, var(--primary-color), #34495e);
+            background: linear-gradient(to bottom, var(--primary-color), #BE1E2D); /* Solid red gradient */
             color: var(--white-color);
-            padding: 80px 20px;
+            padding: 60px 20px;
             text-align: center;
             position: relative;
             overflow: hidden;
-            border-bottom-left-radius: 50px;
-            border-bottom-right-radius: 50px;
-            margin-bottom: 50px;
-            min-height: 70vh; /* Make hero section taller for impact */
+            border-bottom-left-radius: 60px; /* More pronounced curve */
+            border-bottom-right-radius: 60px;
+            margin-bottom: 60px;
+            min-height: 80vh; /* Taller hero */
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 10px 30px var(--shadow-dark); /* Stronger shadow for depth */
+            position: relative; /* For the particle effect */
+            z-index: 1;
+        }
+
+        /* Particle effect for hero section */
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.2)"/></svg>');
+            background-size: 20px 20px;
+            opacity: 0.8;
+            animation: subtleParticles 15s infinite linear;
+            z-index: -1;
+        }
+
+        @keyframes subtleParticles {
+            from { background-position: 0 0; }
+            to { background-position: 100px 100px; }
+        }
+
+
+        .hero-logo-big {
+            margin-bottom: 30px; /* Space above title */
+            animation: fadeIn 1s ease-out;
+            max-width: 250px; /* Adjust logo size */
+            height: auto;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3)); /* Shadow for logo */
         }
 
         .hero-content {
             z-index: 1;
-            padding-top: 20px; /* Space for sticky notification bar */
+            padding-top: 0; /* No extra padding needed here */
         }
 
         .hero-section h1 {
             font-family: 'El Messiri', sans-serif;
-            font-size: 5em; /* Even larger for stronger impact */
+            font-size: 4.5em; /* Adjusted size */
             margin-bottom: 20px;
             animation: slideInFromTop 1s ease-out;
-            text-shadow: 3px 3px 10px rgba(0,0,0,0.5);
-            line-height: 1.2;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.4);
+            line-height: 1.3;
         }
 
         .hero-section p {
-            font-size: 1.6em; /* Larger, more impactful description */
-            max-width: 800px;
-            margin: 0 auto 50px;
-            opacity: 0.95;
+            font-size: 1.5em;
+            max-width: 700px; /* Slightly narrower for focus */
+            margin: 0 auto 40px;
+            opacity: 0.98;
             animation: fadeIn 1.5s ease-out;
-            font-weight: 600;
-            line-height: 1.7;
+            font-weight: 500;
+            line-height: 1.8;
         }
         
         /* Trust Counters in Hero */
         .hero-trust-counters {
             display: flex;
             justify-content: center;
-            gap: 50px;
+            gap: 40px; /* Reduced gap */
             margin-top: 30px;
             margin-bottom: 40px;
             flex-wrap: wrap;
         }
         .counter-item {
-            font-size: 1.5em;
+            font-size: 1.4em; /* Slightly smaller */
             font-weight: 700;
-            color: var(--accent-color);
+            color: var(--accent-color); /* Gold for emphasis */
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             opacity: 0;
             animation: fadeIn 2s ease-out forwards;
         }
@@ -154,30 +248,33 @@
         .counter-item:nth-child(2) { animation-delay: 0.8s; }
         .counter-item:nth-child(3) { animation-delay: 1.1s; }
         .counter-item i {
-            font-size: 2em;
+            font-size: 1.8em; /* Adjusted icon size */
             color: var(--white-color);
             text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
         }
 
         .cta-button {
             display: inline-block;
-            background-color: var(--secondary-color);
+            background-color: var(--secondary-color); /* Dark button for contrast */
             color: var(--white-color);
-            padding: 18px 50px; /* Larger button */
+            padding: 16px 45px;
             text-decoration: none;
-            font-size: 1.5em; /* Larger font */
-            font-weight: 800; /* Bolder */
+            font-size: 1.4em;
+            font-weight: 700;
             border-radius: 50px;
             transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
             box-shadow: 0 8px 20px var(--shadow-dark);
             animation: scaleIn 1.8s ease-out;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
+            border: 2px solid var(--secondary-color); /* Solid border */
         }
 
         .cta-button:hover {
-            background-color: #c0392b;
-            transform: translateY(-7px) scale(1.03); /* More pronounced hover */
+            background-color: var(--white-color); /* White on hover */
+            color: var(--secondary-color); /* Dark text on hover */
+            transform: translateY(-5px) scale(1.02);
             box-shadow: 0 12px 25px var(--shadow-dark);
+            border-color: var(--secondary-color); /* Keep border color */
         }
 
         /* Sticky CTA Button */
@@ -195,41 +292,84 @@
             text-decoration: none;
             box-shadow: 0 5px 15px var(--shadow-dark);
             z-index: 1001;
-            opacity: 0; /* Hidden by default for smooth transition */
-            visibility: hidden; /* Hidden by default, shown by JS */
-            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
-        }
-        .sticky-cta-button.show {
-            opacity: 1;
-            visibility: visible;
+            transition: all 0.3s ease;
+            display: none; /* Hidden by default, shown by JS */
+            border: 2px solid var(--secondary-color);
         }
         .sticky-cta-button:hover {
-            background-color: #c0392b;
+            background-color: var(--white-color);
+            color: var(--secondary-color);
             transform: translateX(-50%) translateY(-5px) scale(1.02);
         }
 
-
         /* General Section Styling */
         section {
-            padding: 60px 20px;
+            padding: 70px 20px;
             background-color: var(--white-color);
-            border-radius: 12px;
-            box-shadow: 0 5px 15px var(--shadow-light);
-            margin-bottom: 50px;
+            border-radius: 15px; /* Slightly more rounded */
+            box-shadow: 0 8px 20px var(--shadow-light); /* More prominent shadow */
+            margin-bottom: 60px;
+            overflow: hidden; /* For inner elements */
+            animation: fadeInOnScroll 1s ease-out forwards; /* Fade in when section is visible */
+            opacity: 0; /* Start hidden */
+            transform: translateY(20px); /* Start slightly down */
         }
-        /* Why Nour Store Section */
-        .why-nour-store-section {
-            background-color: #f8f9fa; /* Lighter background */
+
+        /* About Us Section */
+        .about-us-section {
+            background-color: var(--info-color); /* A pleasant blue */
+            color: var(--white-color);
             padding: 70px 20px;
             text-align: center;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px var(--shadow-light);
-            margin-bottom: 50px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            margin-bottom: 60px;
+        }
+
+        .about-us-section .section-heading {
+            color: var(--white-color);
+        }
+
+        .about-us-section .section-heading::after {
+            background-color: var(--accent-color);
+        }
+        .about-us-section p {
+            font-size: 1.3em;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            line-height: 1.9;
+        }
+        .about-us-section .about-link {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: var(--secondary-color);
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        .about-us-section .about-link:hover {
+            background-color: var(--white-color);
+            transform: translateY(-3px);
+            color: var(--primary-color);
+        }
+
+
+        /* Why Nour Store Section */
+        .why-nour-store-section {
+            background-color: #f0f0f0; /* Lighter background for contrast */
+            padding: 70px 20px;
+            text-align: center;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px var(--shadow-light);
+            margin-bottom: 60px;
         }
         .why-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Slightly larger min-width */
+            gap: 30px; /* Reduced gap */
             margin-top: 40px;
         }
         .why-item {
@@ -238,95 +378,115 @@
             align-items: center;
             background-color: var(--white-color);
             padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             text-align: center;
-            border-bottom: 4px solid var(--info-color); /* Highlight color */
+            border-bottom: 5px solid var(--primary-color); /* Highlight color changed to primary */
+            position: relative;
+            overflow: hidden;
+        }
+        .why-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255,255,255,0.0) 0%, rgba(255,255,255,0.0) 49%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.0) 100%);
+            transition: background 0.3s ease;
+        }
+        .why-item:hover::before {
+            background: linear-gradient(45deg, rgba(255,255,255,0.0) 0%, rgba(255,255,255,0.0) 40%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.0) 60%, rgba(255,255,255,0.0) 100%);
         }
         .why-item:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            transform: translateY(-10px); /* More pronounced hover */
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
         }
         .why-item i {
-            font-size: 3.5em;
-            color: var(--info-color);
+            font-size: 3.8em; /* Slightly larger icons */
+            color: var(--primary-color); /* Primary color for icons */
             margin-bottom: 20px;
         }
         .why-item h3 {
-            font-size: 1.6em;
-            color: var(--primary-color);
+            font-size: 1.7em; /* Slightly larger */
+            color: var(--secondary-color); /* Darker heading */
             margin-bottom: 15px;
         }
         .why-item p {
-            font-size: 1em;
-            color: #555;
+            font-size: 1.05em;
+            color: var(--text-color);
         }
 
         /* Products Section */
         .products-section {
-            padding: 60px 20px;
+            padding: 70px 20px;
             text-align: center;
+            background-color: var(--background-light); /* Different background for contrast */
+            box-shadow: none; /* No shadow for section itself */
+            border-radius: 0; /* No border radius */
         }
 
         .product-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Slightly wider cards */
+            gap: 35px; /* Adjusted gap */
             justify-content: center;
         }
 
         .product-card-item {
             background-color: var(--white-color);
-            border-radius: 15px;
-            box-shadow: 0 8px 25px var(--shadow-light);
+            border-radius: 18px; /* More rounded corners */
+            box-shadow: 0 10px 30px var(--shadow-medium); /* Stronger shadow */
             overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
             text-align: right;
-            border: 1px solid var(--light-gray-border);
+            border: none; /* Removed border */
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             text-decoration: none;
             color: inherit;
-            position: relative; /* For stock badge */
+            position: relative;
         }
 
         .product-card-item:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 15px 35px var(--shadow-medium);
+            transform: translateY(-15px) scale(1.02); /* More pronounced hover */
+            box-shadow: 0 20px 45px var(--shadow-dark);
         }
 
         .product-card-item img {
             width: 100%;
-            height: 220px;
+            height: 250px; /* Taller images */
             object-fit: cover;
             border-bottom: 1px solid var(--light-gray-border);
-            transition: transform 0.3s ease;
+            transition: transform 0.4s ease;
         }
 
         .product-card-item:hover img {
-            transform: scale(1.05);
+            transform: scale(1.08); /* More zoom on hover */
         }
 
         .product-stock-badge {
             position: absolute;
-            top: 15px;
-            right: 15px;
-            background-color: var(--secondary-color);
+            top: 18px; /* Adjusted position */
+            right: 18px;
+            background-color: var(--secondary-color); /* Dark badge */
             color: var(--white-color);
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 0.9em;
+            padding: 6px 12px;
+            border-radius: 7px;
+            font-size: 0.95em;
             font-weight: 700;
             z-index: 10;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
         .product-stock-badge.low {
-            background-color: #ff9800; /* Orange for low stock */
+            background-color: var(--accent-color); /* Gold for low stock */
+            color: var(--secondary-color); /* Dark text for gold */
             animation: pulse 1.5s infinite;
         }
         .product-stock-badge.very-low {
-            background-color: #e60000; /* Red for very low stock */
+            background-color: var(--primary-color); /* Red for very low stock */
             animation: bounce 1s infinite;
         }
 
@@ -340,7 +500,7 @@
 
         .product-info h3 {
             font-family: 'Cairo', sans-serif;
-            font-size: 1.8em;
+            font-size: 1.9em; /* Larger title */
             color: var(--primary-color);
             margin-top: 0;
             margin-bottom: 15px;
@@ -348,215 +508,239 @@
         }
 
         .product-info p {
-            font-size: 1.05em;
-            color: #555;
+            font-size: 1.1em; /* Larger description */
+            color: var(--text-color);
             margin-bottom: 25px;
             text-align: justify;
+            line-height: 1.7;
+        }
+
+        .product-price {
+            font-size: 1.8em;
+            font-weight: 800;
+            color: var(--secondary-color);
+            text-align: center;
+            margin-bottom: 15px;
+            display: block;
+        }
+        .product-price span {
+            color: var(--primary-color);
         }
 
         .product-button {
             display: block;
-            background-color: var(--secondary-color);
+            background-color: var(--primary-color); /* Primary color button */
             color: var(--white-color);
-            padding: 12px 25px;
+            padding: 14px 28px;
             text-decoration: none;
-            font-size: 1.1em;
-            font-weight: 600;
-            border-radius: 8px;
+            font-size: 1.2em;
+            font-weight: 700;
+            border-radius: 10px;
             transition: background-color 0.3s ease, transform 0.3s ease;
             text-align: center;
             margin-top: auto;
+            border: 2px solid var(--primary-color);
         }
 
         .product-button:hover {
-            background-color: #c0392b;
-            transform: translateY(-3px);
+            background-color: var(--white-color);
+            color: var(--primary-color);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
         /* Testimonials Section */
         .testimonials-section {
-            background-color: #f8f9fa;
-            padding: 60px 20px;
+            background-color: var(--background-light); /* Consistent light background */
+            padding: 70px 20px;
             text-align: center;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px var(--shadow-light);
-            margin-bottom: 50px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px var(--shadow-light);
+            margin-bottom: 60px;
         }
         .testimonial-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
             margin-top: 40px;
         }
         .testimonial-card {
             background-color: var(--white-color);
-            border-radius: 10px;
-            padding: 25px;
-            box-shadow: 0 4px 15px var(--shadow-light);
+            border-radius: 12px;
+            padding: 30px; /* More padding */
+            box-shadow: 0 5px 15px var(--shadow-light);
             text-align: right;
-            transition: transform 0.3s ease;
-            border-left: 5px solid var(--accent-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-left: 6px solid var(--accent-color); /* Thicker accent border */
         }
         .testimonial-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px);
+            box-shadow: 0 8px 20px var(--shadow-medium);
         }
         .testimonial-card p {
             font-style: italic;
-            margin-bottom: 15px;
-            color: #555;
-            line-height: 1.7;
+            margin-bottom: 20px; /* More space */
+            color: var(--text-color);
+            line-height: 1.8; /* Better readability */
+            font-size: 1.05em;
         }
         .testimonial-card .customer-info {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-top: 15px;
+            gap: 15px; /* More space */
+            margin-top: 20px;
             border-top: 1px solid #eee;
-            padding-top: 10px;
+            padding-top: 15px;
         }
         .testimonial-card .customer-avatar {
-            width: 50px;
-            height: 50px;
+            width: 60px; /* Larger avatar */
+            height: 60px;
             border-radius: 50%;
             object-fit: cover;
-            border: 2px solid var(--accent-color);
+            border: 3px solid var(--primary-color); /* Primary color border */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
         }
         .testimonial-card .customer-details {
             text-align: right;
         }
         .testimonial-card .customer-name {
             font-weight: 700;
-            color: var(--primary-color);
-            font-size: 1.1em;
-            margin-bottom: 3px;
+            color: var(--secondary-color); /* Darker name */
+            font-size: 1.2em;
+            margin-bottom: 5px;
         }
         .testimonial-card .customer-rating {
             color: var(--accent-color);
-            font-size: 0.9em;
+            font-size: 1em;
         }
 
         /* How It Works Section */
         .how-it-works-section {
-            background-color: var(--primary-color);
+            background-color: var(--secondary-color); /* Dark background from logo */
             color: var(--white-color);
             padding: 70px 20px;
             text-align: center;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px var(--shadow-dark);
-            margin-bottom: 50px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px var(--shadow-dark);
+            margin-bottom: 60px;
         }
         .how-it-works-section .section-heading {
             color: var(--white-color);
         }
         .how-it-works-section .section-heading::after {
-            background-color: var(--accent-color);
+            background-color: var(--primary-color); /* Red line */
         }
         .steps-grid {
             display: flex;
             justify-content: center;
-            gap: 30px;
+            gap: 40px; /* More gap */
             flex-wrap: wrap;
-            margin-top: 40px;
+            margin-top: 50px; /* More top margin */
         }
         .step-item {
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
-            max-width: 280px;
-            padding: 20px;
-            border-radius: 10px;
-            background-color: rgba(255,255,255,0.1); /* Semi-transparent background */
-            transition: background-color 0.3s ease;
+            max-width: 260px; /* Slightly narrower for more items */
+            padding: 25px;
+            border-radius: 12px;
+            background-color: rgba(255,255,255,0.08); /* More transparent */
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
         .step-item:hover {
-            background-color: rgba(255,255,255,0.2);
+            background-color: rgba(255,255,255,0.15);
+            transform: translateY(-8px);
         }
         .step-item .icon-circle {
-            background-color: var(--secondary-color);
-            width: 70px;
-            height: 70px;
+            background-color: var(--primary-color); /* Primary color for circle */
+            width: 80px; /* Larger circle */
+            height: 80px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 20px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
-            border: 3px solid var(--accent-color);
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            border: 4px solid var(--accent-color); /* Gold border */
             position: relative;
         }
         .step-item .icon-circle i {
-            font-size: 2.5em;
+            font-size: 2.8em; /* Larger icon */
             color: var(--white-color);
         }
         .step-item .step-number {
             position: absolute;
-            top: -10px;
-            right: -10px;
+            top: -12px; /* Adjusted position */
+            right: -12px;
             background-color: var(--accent-color);
-            color: var(--primary-color);
-            width: 30px;
-            height: 30px;
+            color: var(--secondary-color); /* Dark text for numbers */
+            width: 35px; /* Larger number badge */
+            height: 35px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 800;
-            font-size: 1.1em;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            font-size: 1.2em;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.3);
         }
         .step-item h3 {
-            font-size: 1.5em;
-            margin-bottom: 10px;
+            font-size: 1.6em; /* Larger heading */
+            margin-bottom: 12px;
             color: var(--white-color);
         }
         .step-item p {
-            font-size: 1em;
-            opacity: 0.9;
+            font-size: 1.05em;
+            opacity: 0.95;
+            line-height: 1.7;
         }
         .steps-grid .step-item + .step-item::before {
-            content: "\f053"; /* Left arrow icon */
+            content: "\f060"; /* Arrow pointing right */
             font-family: 'Font Awesome 5 Free';
             font-weight: 900;
             position: relative;
-            font-size: 2em;
+            font-size: 2.5em; /* Larger arrow */
             color: var(--accent-color);
-            margin: 0 -20px 0 -20px; /* Adjust spacing */
+            margin: 0 -25px 0 -25px; /* Adjust spacing */
             display: flex;
             align-items: center;
             justify-content: center;
             transform: translateY(20px); /* Align with icons */
-            opacity: 0.5;
-            display: none; /* Hide on mobile by default, show on larger screens with media query */
+            opacity: 0.6;
+            display: none; /* Hidden by default */
         }
         @media (min-width: 768px) {
             .steps-grid .step-item + .step-item::before {
                 display: block;
             }
         }
-
         /* FAQ Section */
         .faq-section {
             background-color: var(--white-color);
-            padding: 60px 20px;
+            padding: 70px 20px;
             text-align: center;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px var(--shadow-light);
-            margin-bottom: 50px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px var(--shadow-light);
+            margin-bottom: 60px;
         }
         .faq-list {
             margin-top: 40px;
+            max-width: 800px; /* Narrower for better readability */
+            margin-left: auto;
+            margin-right: auto;
         }
         .faq-item {
             border-bottom: 1px solid var(--light-gray-border);
-            padding: 15px 0;
+            padding: 18px 0; /* More padding */
             text-align: right;
         }
         .faq-item:last-child { border-bottom: none; }
         .faq-question {
             font-weight: 700;
-            font-size: 1.15em;
-            color: var(--primary-color);
+            font-size: 1.2em; /* Slightly larger question */
+            color: var(--secondary-color); /* Darker question color */
             cursor: pointer;
             display: flex;
             justify-content: space-between;
@@ -565,102 +749,107 @@
             transition: color 0.3s ease;
         }
         .faq-question:hover {
-            color: var(--secondary-color);
+            color: var(--primary-color); /* Red on hover */
         }
         .faq-question i {
             transition: transform 0.3s ease;
+            color: var(--primary-color); /* Red icon */
         }
         .faq-question.active i {
             transform: rotate(180deg);
+            color: var(--secondary-color); /* Dark icon when open */
         }
         .faq-answer {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+            transition: max-height 0.5s ease-out, padding 0.5s ease-out; /* Slower transition */
             padding-right: 20px;
             text-align: justify;
-            color: #555;
-            font-size: 1em;
-            margin-top: 0; /* Reset margin top */
+            color: var(--text-color);
+            font-size: 1.05em; /* Slightly larger answer */
+            margin-top: 0;
+            line-height: 1.7;
         }
         .faq-answer.open {
-            max-height: 200px; /* Adjust as needed for content */
-            padding-top: 10px;
-            padding-bottom: 10px;
+            max-height: 300px; /* Adjust as needed for content */
+            padding-top: 15px;
+            padding-bottom: 15px;
         }
         .faq-contact-text {
-            font-size: 1.1em;
-            margin-top: 30px;
+            font-size: 1.15em; /* Larger text */
+            margin-top: 40px; /* More margin */
             color: var(--text-color);
         }
         .faq-contact-text a {
-            color: var(--secondary-color);
+            color: var(--primary-color); /* Primary color for link */
             text-decoration: none;
             font-weight: 700;
             transition: color 0.3s ease;
         }
         .faq-contact-text a:hover {
-            color: var(--primary-color);
+            color: var(--secondary-color); /* Darker on hover */
             text-decoration: underline;
         }
 
         /* Footer */
         footer {
-            background-color: var(--primary-color);
+            background-color: var(--secondary-color); /* Dark background from logo */
             color: var(--white-color);
             text-align: center;
-            padding: 40px 20px;
-            margin-top: 50px;
-            border-top-left-radius: 50px;
-            border-top-right-radius: 50px;
+            padding: 50px 20px; /* More padding */
+            margin-top: 60px;
+            border-top-left-radius: 60px; /* More pronounced curve */
+            border-top-right-radius: 60px;
+            box-shadow: 0 -8px 20px var(--shadow-dark); /* Shadow pointing upwards */
         }
 
         footer p {
             margin: 0;
-            font-size: 0.95em;
-            opacity: 0.9;
+            font-size: 0.98em;
+            opacity: 0.95;
+            line-height: 1.6;
         }
         footer .contact-info {
-            margin-top: 15px;
-            font-size: 1em;
+            margin-top: 20px;
+            font-size: 1.05em;
         }
         footer .contact-info a {
             color: var(--white-color);
             text-decoration: none;
-            margin: 0 8px;
+            margin: 0 10px;
             transition: color 0.3s ease;
         }
         footer .contact-info a:hover {
             color: var(--accent-color);
         }
         .footer-nav-links {
-            margin-top: 25px;
-            margin-bottom: 20px;
+            margin-top: 30px;
+            margin-bottom: 25px;
         }
         .footer-nav-links a {
             color: var(--white-color);
             text-decoration: none;
             font-weight: 600;
-            margin: 0 15px;
-            font-size: 1.05em;
+            margin: 0 18px; /* More spacing */
+            font-size: 1.08em;
             transition: color 0.3s ease, transform 0.3s ease;
         }
         .footer-nav-links a:hover {
-            color: var(--accent-color);
-            transform: scale(1.05);
+            color: var(--primary-color); /* Red on hover */
+            transform: scale(1.08);
         }
         .social-links {
-            margin-top: 15px;
+            margin-top: 20px;
         }
         .social-links a {
             color: var(--white-color);
-            font-size: 1.7em;
-            margin: 0 12px;
+            font-size: 1.8em; /* Slightly larger social icons */
+            margin: 0 15px;
             transition: color 0.3s ease, transform 0.3s ease;
         }
         .social-links a:hover {
-            color: var(--accent-color);
-            transform: scale(1.2);
+            color: var(--primary-color); /* Red on hover */
+            transform: scale(1.25);
         }
 
         /* Animations */
@@ -692,55 +881,81 @@
         }
         @keyframes pulse {
             0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.05); opacity: 0.9; }
+            50% { transform: scale(1.03); opacity: 0.95; } /* Softer pulse */
             100% { transform: scale(1); opacity: 1; }
         }
         @keyframes bounce {
             0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
-            40% {transform: translateY(-5px);}
-            60% {transform: translateY(-2px);}
+            40% {transform: translateY(-8px);} /* More pronounced bounce */
+            60% {transform: translateY(-4px);}
+        }
+
+        @keyframes fadeInOnScroll {
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* Responsive Adjustments */
         @media (max-width: 900px) {
+            .navbar-links { gap: 20px; }
+            .hero-logo-big { max-width: 200px; }
             .hero-section h1 { font-size: 3.5em; }
             .hero-section p { font-size: 1.2em; }
             .counter-item { font-size: 1.2em; gap: 5px; }
             .counter-item i { font-size: 1.8em; }
             .cta-button { padding: 15px 40px; font-size: 1.3em; }
-            .section-heading { font-size: 2.2em; }
-            .why-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
-            .why-item i { font-size: 3em; }
-            .how-it-works-section .section-heading { font-size: 2.2em; }
+            .section-heading { font-size: 2.5em; }
+            .about-us-section p { font-size: 1.1em; }
+            .why-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+            .why-item i { font-size: 3.2em; }
+            .how-it-works-section .section-heading { font-size: 2.5em; }
             .steps-grid { flex-direction: column; align-items: center; }
             .steps-grid .step-item + .step-item::before { display: none; } /* Hide arrow on mobile */
+            .product-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+            .product-card-item img { height: 220px; }
         }
 
         @media (max-width: 600px) {
+            .container { padding: 0 15px; }
             .top-notification-bar { font-size: 0.9em; padding: 8px 10px; }
-            .hero-section { padding: 60px 15px; border-bottom-left-radius: 30px; border-bottom-right-radius: 30px; min-height: 60vh;}
-            .hero-section h1 { font-size: 2.5em; margin-bottom: 10px; }
-            .hero-section p { font-size: 1em; margin-bottom: 30px; }
-            .hero-trust-counters { flex-direction: column; gap: 20px; margin-top: 20px; }
+            
+            .navbar { flex-direction: column; padding: 10px 15px; }
+            .navbar .logo { margin-bottom: 10px; }
+            .navbar-links { flex-wrap: wrap; justify-content: center; gap: 15px 25px; }
+            .navbar-links a { font-size: 1em; }
+
+            .hero-section { padding: 50px 15px; border-bottom-left-radius: 40px; border-bottom-right-radius: 40px; min-height: 70vh; margin-bottom: 40px; }
+            .hero-logo-big { max-width: 180px; margin-bottom: 25px; }
+            .hero-section h1 { font-size: 2.8em; margin-bottom: 15px; }
+            .hero-section p { font-size: 1.1em; margin-bottom: 30px; }
+            .hero-trust-counters { flex-direction: column; gap: 15px; margin-top: 25px; }
             .counter-item { font-size: 1.1em; }
-            .counter-item i { font-size: 1.5em; }
-            .cta-button { padding: 12px 30px; font-size: 1.1em; }
-            section { padding: 40px 15px; }
-            .section-heading { font-size: 2em; }
-            .why-item { padding: 20px; }
-            .why-item i { font-size: 2.5em; }
-            .why-item h3 { font-size: 1.4em; }
-            .product-grid { grid-template-columns: 1fr; gap: 25px; }
-            .product-card-item img { height: 180px; }
-            .product-info h3 { font-size: 1.6em; }
-            .product-info p { font-size: 0.95em; }
+            .counter-item i { font-size: 1.6em; }
+            .cta-button { padding: 12px 30px; font-size: 1.2em; }
+            section { padding: 50px 15px; margin-bottom: 40px; border-radius: 12px; }
+            .section-heading { font-size: 2.2em; }
+            .section-heading::after { width: 60px; height: 3px; }
+            .about-us-section p { font-size: 1em; }
+            .why-item { padding: 25px; border-bottom-width: 4px; }
+            .why-item i { font-size: 3em; }
+            .why-item h3 { font-size: 1.5em; }
+            .product-grid { grid-template-columns: 1fr; gap: 20px; }
+            .product-card-item img { height: 200px; }
+            .product-info h3 { font-size: 1.7em; }
+            .product-info p { font-size: 1em; }
+            .product-price { font-size: 1.5em; }
+            .product-button { padding: 10px 20px; font-size: 1.1em; }
             .testimonial-grid { grid-template-columns: 1fr; }
-            .how-it-works-section { padding: 50px 15px; }
-            .step-item { max-width: 100%; }
-            .faq-question { font-size: 1em; }
-            footer { padding: 20px 15px; border-top-left-radius: 30px; border-top-right-radius: 30px; }
-            .footer-nav-links a { margin: 0 8px; font-size: 0.95em; }
-            .social-links a { font-size: 1.5em; margin: 0 8px; }
+            .how-it-works-section { padding: 50px 15px; margin-bottom: 40px; border-radius: 12px; }
+            .step-item { max-width: 100%; padding: 20px; }
+            .step-item .icon-circle { width: 70px; height: 70px; border-width: 3px; margin-bottom: 20px;}
+            .step-item .icon-circle i { font-size: 2.5em; }
+            .step-item .step-number { width: 30px; height: 30px; font-size: 1.1em; top: -10px; right: -10px; }
+            .faq-question { font-size: 1.1em; }
+            .faq-answer { font-size: 1em; }
+            .faq-contact-text { font-size: 1em; margin-top: 30px; }
+            footer { padding: 30px 15px; margin-top: 40px; border-top-left-radius: 40px; border-top-right-radius: 40px; }
+            .footer-nav-links a { margin: 0 10px; font-size: 1em; }
+            .social-links a { font-size: 1.6em; margin: 0 10px; }
             .sticky-cta-button { padding: 12px 25px; font-size: 1em; bottom: 15px; }
         }
     </style>
@@ -751,29 +966,54 @@
         <i class="fas fa-truck-fast"></i> <span>شحن مجاني وسريع جداً لجميع المحافظات! &bull; الدفع عند الاستلام.</span>
     </div>
 
-    <header class="hero-section">
+    <nav class="navbar">
+        <div class="container">
+            <a href="#hero-section">
+                <img src="http://googleusercontent.com/file_content/0" alt="نور ستور - Nour E-COMMERCE Logo" class="logo">
+            </a>
+            <ul class="navbar-links">
+                <li><a href="#hero-section" class="nav-link active">الرئيسية</a></li>
+                <li><a href="#about-section" class="nav-link">من نحن؟</a></li>
+                <li><a href="#products-section" class="nav-link">منتجاتنا</a></li>
+                <li><a href="#testimonials-section" class="nav-link">آراء العملاء</a></li>
+                <li><a href="#faq-section" class="nav-link">الأسئلة الشائعة</a></li>
+                <li><a href="#footer-contact" class="nav-link">تواصل معنا</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="hero-section" id="hero-section">
         <div class="container hero-content">
+            <img src="http://googleusercontent.com/file_content/0" alt="نور ستور - Nour E-COMMERCE Logo" class="hero-logo-big">
             <h1>أهلاً بك في نور ستور: <br> <strong>نُبسط حياتك، نجعلها أكثر إشراقاً!</strong></h1>
             <p><strong>استكشف مجموعتنا المتجددة من المنتجات الذكية والعصرية المصممة لتوفير الراحة، الكفاءة، والأمان لمنزلك وحياتك اليومية. كل ما تحتاجه في مكان واحد، وبثقة تامة.</strong></p>
             
             <div class="hero-trust-counters">
                 <div class="counter-item">
                     <i class="fas fa-box-open"></i>
-                    <span><span id="ordersCounter">5000+</span> طلب تم شحنه</span>
+                    <span><span id="ordersCounter">0+</span> طلب تم شحنه</span>
                 </div>
                 <div class="counter-item">
                     <i class="fas fa-users"></i>
-                    <span><span id="customersCounter">3000+</span> عميل سعيد</span>
+                    <span><span id="customersCounter">0+</span> عميل سعيد</span>
                 </div>
                 <div class="counter-item">
                     <i class="fas fa-star-half-alt"></i>
-                    <span>تقييم <span id="ratingCounter">4.9/5</span> نجوم</span>
+                    <span>تقييم <span id="ratingCounter">0.0</span> نجوم</span>
                 </div>
             </div>
 
             <a href="#products-section" class="cta-button">ابدأ التسوق الآن واكتشف المزيد <i class="fas fa-arrow-down"></i></a>
         </div>
     </header>
+
+    <section id="about-section" class="about-us-section">
+        <div class="container text-center">
+            <h2 class="section-heading">قصتنا: من نحن في نور ستور؟</h2>
+            <p>في نور ستور، نؤمن بأن التكنولوجيا يجب أن تجعل حياتك أسهل وأكثر إشراقاً. بدأنا رحلتنا بشغف لتقديم منتجات مبتكرة وعالية الجودة توفر حلولاً عملية للتحديات اليومية. من الأجهزة الذكية إلى الأدوات المنزلية العصرية، نختار بعناية فائقة كل منتج لنتأكد من أنه يضيف قيمة حقيقية لحياتك. نحن هنا لنقدم لك تجربة تسوق فريدة، مبنية على الثقة، الجودة، وسرعة الخدمة.</p>
+            <a href="#" class="about-link">اعرف المزيد عن نور ستور <i class="fas fa-arrow-left"></i></a>
+        </div>
+    </section>
 
     <section class="why-nour-store-section">
         <div class="container text-center">
@@ -809,20 +1049,22 @@
             <div class="product-grid">
                 <a href="otg-cable-kit.html" class="product-card-item">
                     <div class="product-stock-badge low">متبقي <span>7</span> قطع فقط!</div>
-                    <img src="https://assets.wuiltstore.com/cmcfdyk2a02ln01jb25cv84tz_61Ayk50i-cL._AC_SL1200_.jpg" alt="طقم كابل ومحولات OTG" loading="lazy">
+                    <img src="https://assets.wuiltstore.com/cmcfdyk2a02ln01jb25cv84tz_61Ayk50i-cL._AC_SL1200_.jpg" alt="طقم كابل ومحولات OTG">
                     <div class="product-info">
                         <h3>طقم كابل ومحولات OTG: الرفيق المتكامل لشحن بياناتك</h3>
                         <p>وداعاً لفوضى الكابلات المتشابكة! هذا الطقم الشامل يوفر لك شاحن وكابل بيانات متعدد الاستخدامات بـ 4 مخارج مختلفة تناسب جميع أجهزتك الذكية (آيفون، أندرويد، تايب-سي) في أي مكان.</p>
+                        <span class="product-price"><span>149</span> جنيه مصري</span>
                         <span class="product-button">اكتشف الطقم واطلبه الآن <i class="fas fa-long-arrow-alt-left"></i></span>
                     </div>
                 </a>
 
                 <a href="magic-connectors.html" class="product-card-item">
                      <div class="product-stock-badge">متاح الآن!</div>
-                    <img src="https://assets.wuiltstore.com/cmcfh08if02ma01jbh8dc4v82_61-bt7K5aTL._AC_SL1000_.jpg" alt="علبة الوصلات السحرية" loading="lazy">
+                    <img src="https://assets.wuiltstore.com/cmcfh08if02ma01jbh8dc4v82_61-bt7K5aTL._AC_SL1000_.jpg" alt="علبة الوصلات السحرية">
                     <div class="product-info">
                         <h3>علبة الوصلات السحرية: كل ما تحتاجه في جيبك!</h3>
                         <p>الرفيق المثالي لكل رحلاتك وعملك! علبة مدمجة وخفيفة الوزن تضم كل الوصلات ومخارج الشحن التي قد تحتاجها، بالإضافة إلى حامل للموبايل وفتحات لشرائح الاتصال لتنظيم مثالي. لا غنى عنها!</p>
+                        <span class="product-price"><span>99</span> جنيه مصري</span>
                         <span class="product-button">احصل على علبتك السحرية <i class="fas fa-long-arrow-alt-left"></i></span>
                     </div>
                 </a>
@@ -866,7 +1108,7 @@
                 <div class="testimonial-card">
                     <p>"لم أتوقع هذه الجودة والسرعة في التوصيل! طقم الكابلات فعال جداً وخلصني من فوضى الشواحن. تجربة تسوق ممتازة تستحق الثناء."</p>
                     <div class="customer-info">
-                        <img src="https://via.placeholder.com/50/f0f0f0/333333?text=A" alt="صورة العميل أحمد" loading="lazy" class="customer-avatar">
+                        <img src="https://via.placeholder.com/50/f0f0f0/333333?text=A" alt="صورة العميل أحمد" class="customer-avatar">
                         <div class="customer-details">
                             <div class="customer-name">أحمد المصري <span style="color:#888; font-weight:400; font-size:0.9em;">(القاهرة)</span></div>
                             <div class="customer-rating">
@@ -878,7 +1120,7 @@
                 <div class="testimonial-card">
                     <p>"العلبة السحرية دي كنز! بجد عملية جداً وموفرة للمساحة. وكمان خدمة العملاء كانت متعاونة جداً معايا. شكراً نور ستور على المصداقية."</p>
                     <div class="customer-info">
-                        <img src="https://via.placeholder.com/50/f0f0f0/333333?text=F" alt="صورة العميل فاطمة" loading="lazy" class="customer-avatar">
+                        <img src="https://via.placeholder.com/50/f0f0f0/333333?text=F" alt="صورة العميل فاطمة" class="customer-avatar">
                         <div class="customer-details">
                             <div class="customer-name">فاطمة علي <span style="color:#888; font-weight:400; font-size:0.9em;">(الإسكندرية)</span></div>
                             <div class="customer-rating">
@@ -890,7 +1132,7 @@
                  <div class="testimonial-card">
                     <p>"جودة الخامات ممتازة والمنتج أصلي 100%. التوصيل كان سريع جداً والدفع عند الاستلام أضاف لي راحة وثقة كبيرة. نور ستور من أفضل المتاجر الإلكترونية في مصر."</p>
                     <div class="customer-info">
-                        <img src="https://via.placeholder.com/50/f0f0f0/333333?text=M" alt="صورة العميل محمد" loading="lazy" class="customer-avatar">
+                        <img src="https://via.placeholder.com/50/f0f0f0/333333?text=M" alt="صورة العميل محمد" class="customer-avatar">
                         <div class="customer-details">
                             <div class="customer-name">محمد سعيد <span style="color:#888; font-weight:400; font-size:0.9em;">(المنيا)</span></div>
                             <div class="customer-rating">
@@ -980,18 +1222,23 @@
     </a>
 
     <script>
-        // JavaScript for Smooth Scrolling
+        // JavaScript for Smooth Scrolling and Navbar Active State
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const targetId = this.getAttribute('href');
-                if (targetId === '#') return; // Prevent scrolling to top if href is '#'
+                if (targetId === '#') return; 
 
                 const targetElement = document.querySelector(targetId);
                 if (targetElement) {
                     targetElement.scrollIntoView({
                         behavior: 'smooth'
                     });
+                    // Update active state in navbar
+                    document.querySelectorAll('.navbar-links .nav-link').forEach(link => {
+                        link.classList.remove('active');
+                    });
+                    this.classList.add('active');
                 }
             });
         });
@@ -1024,17 +1271,54 @@
             });
         });
 
-        // JavaScript for Sticky CTA Button with smooth show/hide
+        // JavaScript for Sticky CTA Button
         const stickyCtaButton = document.getElementById('stickyCtaButton');
-        const heroSection = document.querySelector('.hero-section');
+        const heroSection = document.getElementById('hero-section'); 
+        const navbar = document.querySelector('.navbar');
 
         window.addEventListener('scroll', () => {
             const heroBottom = heroSection.getBoundingClientRect().bottom;
+            const navbarHeight = navbar.offsetHeight;
 
+            // Show/hide sticky CTA button
             if (window.scrollY > heroBottom) {
-                stickyCtaButton.classList.add('show');
+                stickyCtaButton.style.display = 'block';
+                stickyCtaButton.style.opacity = '1';
             } else {
-                stickyCtaButton.classList.remove('show');
+                stickyCtaButton.style.opacity = '0';
+                setTimeout(() => {
+                    if (window.scrollY <= heroBottom) { // Re-check in case user scrolled back quickly
+                        stickyCtaButton.style.display = 'none';
+                    }
+                }, 300); 
+            }
+
+            // Highlight active navbar link based on scroll position
+            const sections = document.querySelectorAll('section, header.hero-section, footer');
+            let currentActive = null;
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - navbarHeight - 50; // Adjust for navbar height and some buffer
+                const sectionBottom = sectionTop + section.offsetHeight;
+
+                if (window.scrollY >= sectionTop && window.scrollY < sectionBottom) {
+                    let id = section.getAttribute('id');
+                    if (!id && section.classList.contains('hero-section')) {
+                        id = 'hero-section'; // Special case for hero section
+                    }
+                    if (id) {
+                         const correspondingLink = document.querySelector(`.navbar-links a[href="#${id}"]`);
+                         if (correspondingLink) {
+                             currentActive = correspondingLink;
+                         }
+                    }
+                }
+            });
+
+            document.querySelectorAll('.navbar-links .nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            if (currentActive) {
+                currentActive.classList.add('active');
             }
         });
         
@@ -1048,20 +1332,53 @@
             const stepTime = Math.abs(Math.floor(duration / range));
             const timer = setInterval(() => {
                 current += increment;
-                obj.textContent = current + (id === 'ordersCounter' || id === 'customersCounter' ? '+' : '');
-                if (current == end) {
+                // For rating, format to one decimal place
+                if (id === 'ratingCounter') {
+                    obj.textContent = current.toFixed(1);
+                } else {
+                    obj.textContent = Math.round(current) + '+';
+                }
+                if (current >= end && increment > 0 || current <= end && increment < 0) {
                     clearInterval(timer);
+                    // Ensure final value is exact for counters
+                    if (id === 'ratingCounter') {
+                        obj.textContent = end.toFixed(1);
+                    } else {
+                        obj.textContent = end + '+';
+                    }
                 }
             }, stepTime);
         }
+
+        // Intersection Observer for Section Animations
+        const sectionsToAnimate = document.querySelectorAll('section');
+        const observerOptions = {
+            root: null, // viewport
+            rootMargin: '0px',
+            threshold: 0.1 // Trigger when 10% of the section is visible
+        };
+
+        const sectionObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    observer.unobserve(entry.target); // Stop observing once animated
+                }
+            });
+        }, observerOptions);
+
+        sectionsToAnimate.forEach(section => {
+            sectionObserver.observe(section);
+        });
+
 
         document.addEventListener('DOMContentLoaded', () => {
             // Animate counters on page load
             animateCounter('ordersCounter', 0, 5000, 2000); // 5000+ orders
             animateCounter('customersCounter', 0, 3000, 2000); // 3000+ customers
-            animateCounter('ratingCounter', 4.0, 4.9, 2000); // 4.9 rating
+            animateCounter('ratingCounter', 0.0, 4.9, 2500); // 4.9 rating
             
-            // Adjust max-height for FAQ answers on load if open (unlikely but for robustness)
             document.querySelectorAll('.faq-answer').forEach(answer => {
                 if (answer.classList.contains('open')) {
                     answer.style.maxHeight = answer.scrollHeight + "px";
