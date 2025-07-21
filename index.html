@@ -4,83 +4,138 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>نور ستور - منتجات عصرية لحياة أسهل</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=El+Messiri:wght@700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-color: #2c3e50; /* كحلي غامق */
+            --secondary-color: #e74c3c; /* أحمر جذاب */
+            --accent-color: #f1c40f; /* أصفر (للتأكيد أو الخطوط) */
+            --background-light: #ecf0f1; /* رمادي فاتح للخلفية */
+            --text-color: #34495e; /* رمادي غامق للنصوص */
+            --white-color: #ffffff;
+            --shadow-light: rgba(0,0,0,0.1);
+            --shadow-medium: rgba(0,0,0,0.2);
+        }
+
         body {
-            font-family: 'Cairo', 'Arial', sans-serif;
+            font-family: 'Cairo', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
-            color: #333;
+            background: linear-gradient(to bottom right, var(--background-light), #e0e6ea); /* تدرج لوني خفيف */
+            color: var(--text-color);
             line-height: 1.6;
             text-align: center;
-        }
-        .container {
-            max-width: 800px;
-            margin: 50px auto;
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            border-radius: 8px;
-        }
-        h1 {
-            color: #2c3e50;
-            margin-bottom: 30px;
-            font-size: 2.5em;
-        }
-        p {
-            font-size: 1.1em;
-            margin-bottom: 40px;
-        }
-        .product-links {
             display: flex;
-            flex-wrap: wrap;
             justify-content: center;
-            gap: 25px;
+            align-items: center;
+            min-height: 100vh; /* عشان يخلي المحتوى في نص الشاشة عمودياً */
+            overflow-x: hidden; /* عشان مفيش سكرول أفقي يظهر */
         }
+
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 40px;
+            background-color: var(--white-color);
+            box-shadow: 0 8px 25px var(--shadow-medium); /* ظل أعمق */
+            border-radius: 12px;
+            animation: fadeIn 1s ease-out; /* تأثير ظهور أنيق */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-family: 'El Messiri', sans-serif;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 3.2em;
+            position: relative;
+            display: inline-block;
+        }
+        h1::after { /* خط تحت العنوان */
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background-color: var(--accent-color);
+            margin: 15px auto 0;
+            border-radius: 2px;
+        }
+
+        .tagline {
+            font-size: 1.2em;
+            color: #555;
+            margin-bottom: 50px;
+            font-weight: 400;
+        }
+
+        .product-links {
+            display: grid; /* استخدام Grid بدلاً من flexbox لتوزيع أفضل */
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* 2 كارت جنب بعض وكل كارت ياخد مساحة 280 بكسل على الأقل */
+            gap: 30px;
+            margin-top: 40px;
+        }
+
         .product-card {
-            background-color: #e74c3c; /* لون مميز */
-            color: white;
-            padding: 30px 20px;
-            border-radius: 10px;
+            background: linear-gradient(to top left, var(--secondary-color) 0%, #ff6b6b 100%); /* تدرج لوني للأحمر */
+            color: var(--white-color);
+            padding: 35px 25px;
+            border-radius: 15px;
             text-decoration: none;
-            font-size: 1.4em;
-            font-weight: bold;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            width: calc(50% - 25px); /* عشان يبقوا كارتين جنب بعض في الشاشات الكبيرة */
-            box-sizing: border-box;
+            font-size: 1.5em;
+            font-weight: 700;
+            transition: all 0.3s ease; /* transition لكل الخصائص */
+            box-shadow: 0 6px 15px var(--shadow-light);
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 150px;
+            min-height: 180px; /* طول ثابت للكارت */
+            border: 2px solid transparent; /* إطار مخفي في البداية */
         }
         .product-card:hover {
-            background-color: #c0392b;
-            transform: translateY(-5px);
+            background: linear-gradient(to bottom right, #ff6b6b 0%, var(--secondary-color) 100%); /* عكس التدرج عند الهوفر */
+            transform: translateY(-8px) scale(1.02); /* رفع الكارت وتكبير خفيف */
+            box-shadow: 0 12px 25px var(--shadow-medium);
+            border-color: var(--accent-color); /* إظهار إطار أصفر عند الهوفر */
         }
 
-        @media (max-width: 600px) {
-            .product-card {
-                width: 90%; /* على الموبايل كل كارت يبقى في سطر لوحده */
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px;
+                padding: 30px 15px;
             }
             h1 {
-                font-size: 2em;
+                font-size: 2.5em;
+            }
+            .tagline {
+                font-size: 1em;
+            }
+            .product-links {
+                grid-template-columns: 1fr; /* كارت واحد في كل صف على الموبايل */
+                gap: 20px;
+            }
+            .product-card {
+                min-height: 150px;
+                font-size: 1.3em;
             }
         }
     </style>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
         <h1>مرحباً بك في نور ستور!</h1>
-        <p>اكتشف مجموعتنا من المنتجات العصرية التي تجعل حياتك أسهل وأكثر راحة.</p>
+        <p class="tagline">اكتشف مجموعتنا المختارة من المنتجات الذكية والعصرية التي تجعل حياتك أسهل وأكثر راحة.</p>
+        
         <div class="product-links">
-            <a href="otg-cable-kit.html" class="product-card">
-                طقم كابل ومحولات OTG
+            <a href="Net-door" class="product-card">
+                الباب الشبكي المغناطيسي
             </a>
-            <a href="magic-connectors.html" class="product-card">
+            <a href="Caple-kit" class="product-card">
                 علبة الوصلات السحرية
             </a>
         </div>
