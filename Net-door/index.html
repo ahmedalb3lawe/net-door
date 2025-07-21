@@ -261,7 +261,7 @@
                     <div class="form-group"><label for="name">الاسم بالكامل</label><input type="text" id="name" name="name" placeholder="مثال: محمد أحمد" required></div>
                     <div class="form-group"><label for="phone">رقم الهاتف (ضروري للتوصيل)</label><input type="tel" id="phone" name="phone" placeholder="مثال: 01012345678" required style="direction: ltr; text-align: right;"><div id="phone-error"></div></div>
                     <div class="form-group"><label for="address">العنوان بالتفصيل</label><input type="text" id="address" name="address" placeholder="المحافظة - المدينة - الحي - اسم الشارع ورقم المبنى" required></div>
-                    <div class="form-group"><label for="quantity">الكمية</label><input type="text" id="quantity" name="quantity" value="1" pattern="[0-9\u0660-\u0669\u06F0-\u06F9]+" title="الرجاء إدخال أرقام فقط" required style="direction: ltr; text-align: right;"></div>
+                    <div class="form-group"><label for="quantity">الكمية</label><input type="number" id="quantity" name="quantity" value="1" min="1" required style="direction: ltr; text-align: right;"></div>
                     <div class="form-group"><label for="notes">ملاحظات (اختياري)</label><textarea id="notes" name="notes" placeholder="هل لديك أي تعليمات خاصة بالتوصيل؟ اكتبها هنا."></textarea></div>
                     <button type="submit" class="cta-button" id="submit-button">تأكيد الطلب الآن</button>
                 </form>
@@ -325,6 +325,20 @@
 
                 if(!floatingButton || !orderForm || !mainCtaButton) return;
 
+                // Function to send begin_checkout event only once per session
+                function sendBeginCheckoutEvent() {
+                    if (!sessionStorage.getItem('begin_checkout_sent')) {
+                        gtag('event', 'begin_checkout');
+                        sessionStorage.setItem('begin_checkout_sent', 'true');
+                    }
+                }
+
+                // Add begin_checkout event listener to main CTA button
+                mainCtaButton.addEventListener('click', sendBeginCheckoutEvent);
+
+                // Add begin_checkout event listener to floating CTA button
+                floatingButton.addEventListener('click', sendBeginCheckoutEvent);
+
                 window.addEventListener('scroll', function() {
                     const mainButtonRect = mainCtaButton.getBoundingClientRect();
                     const orderFormRect = orderForm.getBoundingClientRect();
@@ -348,26 +362,16 @@
                 const phoneError = document.getElementById('phone-error');
                 const submitButton = document.getElementById('submit-button');
                 const formResponse = document.getElementById('form-response');
-                const quantityInput = document.getElementById('quantity'); // Get quantity input
+                const quantityInput = document.getElementById('quantity'); 
 
                 // ====> الخطوة الأهم: الصق رابط الـ Web App الخاص بك هنا <====
                 const scriptURL = 'https://script.google.com/macros/s/AKfycbzKYGYyKm6_M0uG4pkEiqV9tUX7ZEVF6FUEQtXq3GSb7d9pe7kAHYAF1PrGrvk0T1B3MQ/exec';
                 // ==========================================================
 
-                // Updated to allow Arabic numerals for phone input validation
                 phoneInput.addEventListener('input', function(e) { 
                     const sanitizedValue = e.target.value.replace(/[^0-9\u0660-\u0669+]/g, ''); 
                     if (e.target.value !== sanitizedValue) { e.target.value = sanitizedValue; } 
                 });
-
-                // Add an event listener for quantity input to only allow numbers
-                quantityInput.addEventListener('input', function(e) {
-                    const sanitizedValue = e.target.value.replace(/[^0-9\u0660-\u0669\u06F0-\u06F9]/g, ''); // Allow Western and Eastern Arabic numerals
-                    if (e.target.value !== sanitizedValue) {
-                        e.target.value = sanitizedValue;
-                    }
-                });
-
 
                 orderForm.addEventListener('submit', function(event) {
                     event.preventDefault(); 
@@ -398,7 +402,6 @@
                     submitButton.textContent = 'تم الإرسال بنجاح!';
                     
                     // --- Google Analytics Purchase Event ---
-                    // تحويل الكمية من الأرقام العربية إلى الإنجليزية قبل التحويل إلى رقم
                     const rawQuantity = quantityInput.value;
                     const englishQuantityString = rawQuantity.replace(/[\u0660-\u0669]/g, d => d.charCodeAt(0) - 0x0660) // Eastern Arabic numerals
                                                               .replace(/[\u06F0-\u06F9]/g, d => d.charCodeAt(0) - 0x06F0); // Extended Arabic numerals (Persian/Urdu)
