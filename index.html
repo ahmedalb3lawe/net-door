@@ -3,374 +3,252 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نور ستور - منتجات عصرية لحياة أسهل</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=El+Messiri:wght@700&display=swap" rel="stylesheet">
-    
+    <title>متجر نور ستور - اختر منتجك المفضل</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+
     <style>
-        /* Variables for easy color changes */
+        /* تعريف متغيرات CSS لتسهيل التحكم في الألوان */
         :root {
-            --primary-color: #2c3e50; /* Dark Blue/Navy */
-            --secondary-color: #e74c3c; /* Bright Red */
-            --accent-color: #f1c40f; /* Gold Yellow */
-            --background-light: #ecf0f1; /* Light Gray Background */
-            --text-color: #34495e; /* Dark Gray Text */
+            --primary-brand-color: #2c3e50; /* أزرق داكن للعناوين الرئيسية */
+            --secondary-accent-color: #e74c3c; /* أحمر/برتقالي لأزرار CTA */
+            --background-light-gray: #f5f7fa; /* خلفية فاتحة جداً */
+            --text-dark-gray: #34495e; /* لون نص أساسي */
             --white-color: #ffffff;
-            --light-gray-border: #ddd;
-            --shadow-light: rgba(0,0,0,0.1);
-            --shadow-medium: rgba(0,0,0,0.2);
-            --shadow-dark: rgba(0,0,0,0.3);
+            --button-hover-color: #c0392b; /* لون الأزرار عند التحويم */
+            --shadow-light: rgba(0, 0, 0, 0.08);
+            --shadow-medium: rgba(0, 0, 0, 0.15);
         }
 
-        /* Base Styles */
         body {
-            font-family: 'Cairo', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: var(--background-light);
-            color: var(--text-color);
-            line-height: 1.6;
-            direction: rtl; /* For Arabic text direction */
-            overflow-x: hidden; /* Prevent horizontal scroll */
-        }
-
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        /* Header / Hero Section */
-        .hero-section {
-            background: linear-gradient(to bottom right, var(--primary-color), #34495e); /* Gradient background */
-            color: var(--white-color);
-            padding: 80px 20px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            border-bottom-left-radius: 50px; /* Rounded corners for style */
-            border-bottom-right-radius: 50px;
-            margin-bottom: 50px;
-        }
-
-        .hero-section h1 {
-            font-family: 'El Messiri', sans-serif;
-            font-size: 4.5em; /* Larger font size */
-            margin-bottom: 15px;
-            animation: slideInFromTop 1s ease-out; /* Animation */
-        }
-
-        .hero-section p {
-            font-size: 1.4em;
-            max-width: 700px;
-            margin: 0 auto 40px;
-            opacity: 0.9;
-            animation: fadeIn 1.5s ease-out; /* Animation */
-        }
-
-        .cta-button {
-            display: inline-block;
-            background-color: var(--secondary-color);
-            color: var(--white-color);
-            padding: 15px 40px;
-            text-decoration: none;
-            font-size: 1.3em;
-            font-weight: 700;
-            border-radius: 50px; /* Pill shape */
-            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 5px 15px var(--shadow-dark);
-            animation: scaleIn 1.8s ease-out; /* Animation */
-        }
-
-        .cta-button:hover {
-            background-color: #c0392b; /* Darker red on hover */
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 8px 20px var(--shadow-dark);
-        }
-
-        /* About Section */
-        .about-section {
-            padding: 60px 20px;
-            text-align: center;
-            background-color: var(--white-color);
-            border-radius: 12px;
-            box-shadow: 0 5px 15px var(--shadow-light);
-            margin-bottom: 50px;
-        }
-
-        .about-section h2 {
-            font-family: 'El Messiri', sans-serif;
-            color: var(--primary-color);
-            font-size: 2.8em;
-            margin-bottom: 25px;
-            position: relative;
-            display: inline-block;
-        }
-        .about-section h2::after { /* Underline effect */
-            content: '';
-            display: block;
-            width: 60%;
-            height: 3px;
-            background-color: var(--accent-color);
-            margin: 10px auto 0;
-            border-radius: 1.5px;
-        }
-
-        .about-section p {
-            font-size: 1.15em;
-            line-height: 1.8;
-            max-width: 800px;
-            margin: 0 auto;
-            color: var(--text-color);
-        }
-
-        /* Products Section */
-        .products-section {
-            padding: 60px 20px;
-            text-align: center;
-        }
-
-        .products-section h2 {
-            font-family: 'El Messiri', sans-serif;
-            color: var(--primary-color);
-            font-size: 2.8em;
-            margin-bottom: 40px;
-            position: relative;
-            display: inline-block;
-        }
-        .products-section h2::after { /* Underline effect */
-            content: '';
-            display: block;
-            width: 60%;
-            height: 3px;
-            background-color: var(--accent-color);
-            margin: 10px auto 0;
-            border-radius: 1.5px;
-        }
-
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid */
-            gap: 40px;
+            font-family: 'Cairo', sans-serif; /* خط أساسي للغة العربية */
+            display: flex;
+            flex-direction: column;
             justify-content: center;
-        }
-
-        .product-card-item {
-            background-color: var(--white-color);
-            border-radius: 15px;
-            box-shadow: 0 8px 25px var(--shadow-light);
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            text-align: right;
-            border: 1px solid var(--light-gray-border);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .product-card-item:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 15px 35px var(--shadow-medium);
-        }
-
-        .product-card-item img {
-            width: 100%;
-            height: 220px; /* Fixed height for images */
-            object-fit: cover; /* Cover the area */
-            border-bottom: 1px solid var(--light-gray-border);
-            transition: transform 0.3s ease;
-        }
-
-        .product-card-item:hover img {
-            transform: scale(1.05); /* Zoom image on hover */
-        }
-
-        .product-info {
-            padding: 25px;
-            flex-grow: 1; /* Allows info to take available space */
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .product-info h3 {
-            font-family: 'Cairo', sans-serif;
-            font-size: 1.8em;
-            color: var(--primary-color);
-            margin-top: 0;
-            margin-bottom: 15px;
-            text-align: center; /* Center product title */
-        }
-
-        .product-info p {
-            font-size: 1.05em;
-            color: #555;
-            margin-bottom: 25px;
-            text-align: justify; /* Justify description for better readability */
-        }
-
-        .product-button {
-            display: block;
-            background-color: var(--secondary-color);
-            color: var(--white-color);
-            padding: 12px 25px;
-            text-decoration: none;
-            font-size: 1.1em;
-            font-weight: 600;
-            border-radius: 8px;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-            text-align: center;
-            margin-top: auto; /* Push button to the bottom of the card */
-        }
-
-        .product-button:hover {
-            background-color: #c0392b;
-            transform: translateY(-3px);
-        }
-
-        /* Footer */
-        footer {
-            background-color: var(--primary-color);
-            color: var(--white-color);
-            text-align: center;
-            padding: 30px 20px;
-            margin-top: 50px;
-            border-top-left-radius: 50px;
-            border-top-right-radius: 50px;
-        }
-
-        footer p {
+            align-items: center;
+            min-height: 100vh;
             margin: 0;
-            font-size: 0.9em;
-            opacity: 0.8;
+            background: linear-gradient(135deg, var(--background-light-gray) 0%, #ebf0f5 100%); /* خلفية متدرجة ناعمة */
+            color: var(--text-dark-gray);
+            text-align: center;
+            line-height: 1.6;
+            overflow-x: hidden; /* لمنع ظهور شريط التمرير الأفقي غير المرغوب فيه */
         }
 
-        /* Animations */
-        @keyframes slideInFromTop {
-            0% { transform: translateY(-50px); opacity: 0; }
-            100% { transform: translateY(0); opacity: 1; }
+        .header-section {
+            padding: 40px 20px 30px;
+        }
+
+        .header-section h1 {
+            font-family: 'Montserrat', sans-serif; /* خط مختلف للعنوان الرئيسي */
+            color: var(--primary-brand-color);
+            margin-bottom: 15px;
+            font-size: 3.5em; /* حجم أكبر للعنوان */
+            font-weight: 800; /* أكثر سمكاً */
+            letter-spacing: 1px;
+            animation: slideInTop 0.8s ease-out forwards;
+            opacity: 0;
+            max-width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .header-section p {
+            font-size: 1.3em; /* حجم أكبر للنص التوضيحي */
+            color: var(--text-dark-gray);
+            max-width: 700px;
+            margin: 0 auto 50px;
+            animation: fadeIn 1s ease-out forwards;
+            opacity: 0;
+            animation-delay: 0.3s;
+        }
+
+        @keyframes slideInTop {
+            from { transform: translateY(-30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
 
         @keyframes fadeIn {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* تخطيط شبكي مرن */
+            gap: 40px; /* مسافة أكبر بين البطاقات */
+            max-width: 1000px; /* أقصى عرض للشبكة */
+            width: 90%;
+            padding-bottom: 50px;
+        }
+
+        .product-card {
+            background-color: var(--white-color);
+            padding: 30px;
+            border-radius: 15px; /* حواف ناعمة جداً */
+            box-shadow: 0 10px 30px var(--shadow-light); /* ظل لطيف */
+            text-decoration: none;
+            color: var(--text-dark-gray);
+            transition: transform 0.3s ease, box-shadow 0.3s ease; /* تأثيرات انتقالية */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 250px; /* حد أدنى لارتفاع البطاقة */
+            animation: scaleIn 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        .product-card:nth-child(1) { animation-delay: 0.6s; }
+        .product-card:nth-child(2) { animation-delay: 0.8s; }
+        /* أضف delay إذا كان لديك المزيد من البطاقات */
 
         @keyframes scaleIn {
-            0% { transform: scale(0.8); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
         }
 
-        /* Responsive Adjustments */
-        @media (max-width: 900px) {
-            .hero-section h1 {
-                font-size: 3.5em;
+        .product-card:hover {
+            transform: translateY(-10px) scale(1.02); /* رفع وتكبير بسيط عند التحويم */
+            box-shadow: 0 15px 40px var(--shadow-medium); /* ظل أكبر وأوضح */
+        }
+
+        .product-icon {
+            width: 120px; /* حجم أكبر للأيقونة/الصورة المصغرة */
+            height: 120px;
+            margin-bottom: 20px;
+            border-radius: 50%; /* لجعل الصورة دائرية إذا كانت مربعة */
+            overflow: hidden; /* لإخفاء أي أجزاء زائدة إذا كانت الصورة مستطيلة */
+            border: 4px solid var(--background-light-gray); /* إطار حول الصورة */
+            box-shadow: 0 4px 10px var(--shadow-light);
+            display: flex; /* لضمان توسيط الصورة داخل الدائرة */
+            justify-content: center;
+            align-items: center;
+        }
+
+        .product-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* لملء المساحة المحددة مع الحفاظ على الأبعاد */
+        }
+
+        .product-card h2 {
+            font-family: 'Cairo', sans-serif;
+            font-size: 1.8em; /* حجم عنوان المنتج داخل البطاقة */
+            color: var(--primary-brand-color);
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .product-card .btn-choose {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 12px 30px;
+            background-color: var(--secondary-accent-color);
+            color: var(--white-color);
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .product-card .btn-choose:hover {
+            background-color: var(--button-hover-color);
+            transform: translateY(-2px);
+        }
+
+        /* الاستجابة لتناسب الشاشات المختلفة */
+        @media (max-width: 1024px) {
+            .header-section h1 {
+                font-size: 3em;
             }
-            .hero-section p {
-                font-size: 1.2em;
+            .header-section p {
+                font-size: 1.1em;
             }
-            .about-section h2, .products-section h2 {
-                font-size: 2.2em;
+            .products-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 30px;
+            }
+            .product-icon {
+                width: 100px;
+                height: 100px;
+            }
+            .product-card h2 {
+                font-size: 1.6em;
             }
         }
 
-        @media (max-width: 600px) {
-            .hero-section {
-                padding: 60px 15px;
-                border-bottom-left-radius: 30px;
-                border-bottom-right-radius: 30px;
+        @media (max-width: 768px) {
+            .header-section h1 {
+                font-size: 2.5em;
             }
-            .hero-section h1 {
-                font-size: 2.8em;
-            }
-            .hero-section p {
+            .header-section p {
                 font-size: 1em;
                 margin-bottom: 30px;
             }
-            .cta-button {
-                padding: 12px 30px;
-                font-size: 1.1em;
+            .products-grid {
+                grid-template-columns: 1fr; /* عمود واحد على الشاشات الصغيرة جداً */
+                padding: 0 20px 40px;
             }
-            .about-section, .products-section {
-                padding: 40px 15px;
+            .product-card {
+                padding: 25px;
             }
-            .about-section h2, .products-section h2 {
-                font-size: 2em;
+            .product-icon {
+                width: 90px;
+                height: 90px;
             }
-            .about-section p {
+            .product-card h2 {
+                font-size: 1.4em;
+            }
+            .product-card .btn-choose {
+                padding: 10px 25px;
                 font-size: 1em;
             }
-            .product-grid {
-                grid-template-columns: 1fr; /* Single column on small screens */
-                gap: 25px;
+        }
+
+        @media (max-width: 480px) {
+            .header-section h1 {
+                font-size: 2em;
             }
-            .product-card-item img {
-                height: 180px;
+            .header-section p {
+                font-size: 0.9em;
             }
-            .product-info h3 {
-                font-size: 1.6em;
+            .product-card {
+                padding: 20px;
             }
-            .product-info p {
-                font-size: 0.95em;
+            .product-icon {
+                width: 80px;
+                height: 80px;
             }
-            footer {
-                padding: 20px 15px;
-                border-top-left-radius: 30px;
-                border-top-right-radius: 30px;
+            .product-card h2 {
+                font-size: 1.3em;
             }
         }
     </style>
 </head>
 <body>
+    <div class="header-section">
+        <h1>مرحباً بك في متجر <span style="color: var(--secondary-accent-color);">نور ستور</span>!</h1>
+        <p>اكتشف مجموعتنا المميزة من المنتجات التي تسهل حياتك اليومية وتوفر لك الراحة والجودة.</p>
+    </div>
 
-    <header class="hero-section">
-        <div class="container">
-            <h1>مرحباً بك في نور ستور!</h1>
-            <p>وجهتك الأولى للمنتجات الذكية والعصرية التي تجعل حياتك أسهل وأكثر إشراقًا.</p>
-            <a href="#products-section" class="cta-button">اكتشف منتجاتنا الآن</a>
+    <div class="products-grid">
+        <a href="https://alb3lawe.com/Caple-kit" class="product-card">
+            <div class="product-icon">
+                <img src="https://assets.wuiltstore.com/cmcfdyk2a02ln01jb25cv84tz_61Ayk50i-cL._AC_SL1200_.jpg" alt="علبة الوصلات السحرية">
+            </div>
+            <h2>علبة الوصلات السحرية</h2>
+            <span class="btn-choose">شاهد التفاصيل واطلب الآن</span>
+        </a>
+
+        <a href="https://alb3lawe.com/Net-door" class="product-card">
+            <div class="product-icon">
+                <img src="https://m.media-amazon.com/images/I/81eZo36AGUS._AC_SL1500_.jpg" alt="الباب الشبكي المغناطيسي">
+            </div>
+            <h2>الباب الشبكي المغناطيسي</h2>
+            <span class="btn-choose">شاهد التفاصيل واطلب الآن</span>
+        </a>
+
         </div>
-    </header>
-
-    <section id="about-section" class="about-section">
-        <div class="container">
-            <h2>من نحن؟</h2>
-            <p>نور ستور هو متجرك المتكامل للمنتجات المبتكرة وعالية الجودة. نؤمن بأن التكنولوجيا يمكن أن تبسط حياتنا اليومية، ولهذا نسعى جاهدين لتقديم أفضل الحلول العصرية التي تلبي احتياجاتك وتتجاوز توقعاتك. مهمتنا هي توفير تجربة تسوق سهلة وممتعة مع ضمان جودة المنتج ورضا العميل.</p>
-        </div>
-    </section>
-
-    <section id="products-section" class="products-section">
-        <div class="container">
-            <h2>منتجاتنا المميزة</h2>
-            <div class="product-grid">
-                <a href="otg-cable-kit.html" class="product-card-item">
-                    <img src="https://assets.wuiltstore.com/cmcfdyk2a02ln01jb25cv84tz_61Ayk50i-cL._AC_SL1200_.jpg" alt="طقم كابل ومحولات OTG">
-                    <div class="product-info">
-                        <h3>طقم كابل ومحولات OTG</h3>
-                        <p>الحل الأمثل لجميع احتياجات الشحن ونقل البيانات. تصميم مدمج ومحولات متعددة لتوصيل جميع أجهزتك.</p>
-                        <span class="product-button">عرض التفاصيل</span>
-                    </div>
-                </a>
-
-                <a href="magic-connectors.html" class="product-card-item">
-                    <img src="https://assets.wuiltstore.com/cmcfh08if02ma01jbh8dc4v82_61-bt7K5aTL._AC_SL1000_.jpg" alt="علبة الوصلات السحرية">
-                    <div class="product-info">
-                        <h3>علبة الوصلات السحرية</h3>
-                        <p>وداعاً لفوضى الكابلات! علبة ذكية تحتوي على كل ما تحتاجه من وصلات ومحولات لتنظيم وشحن أجهزتك أينما كنت.</p>
-                        <span class="product-button">عرض التفاصيل</span>
-                    </div>
-                </a>
-                
-                </div>
-        </div>
-    </section>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 نور ستور. جميع الحقوق محفوظة.</p>
-            <p>للتواصل والاستفسار: info@nourstore.com</p>
-        </div>
-    </footer>
-
 </body>
 </html>
