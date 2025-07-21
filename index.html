@@ -195,8 +195,13 @@
             text-decoration: none;
             box-shadow: 0 5px 15px var(--shadow-dark);
             z-index: 1001;
-            transition: all 0.3s ease;
-            display: none; /* Hidden by default, shown by JS */
+            opacity: 0; /* Hidden by default for smooth transition */
+            visibility: hidden; /* Hidden by default, shown by JS */
+            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+        }
+        .sticky-cta-button.show {
+            opacity: 1;
+            visibility: visible;
         }
         .sticky-cta-button:hover {
             background-color: #c0392b;
@@ -804,7 +809,7 @@
             <div class="product-grid">
                 <a href="otg-cable-kit.html" class="product-card-item">
                     <div class="product-stock-badge low">متبقي <span>7</span> قطع فقط!</div>
-                    <img src="https://assets.wuiltstore.com/cmcfdyk2a02ln01jb25cv84tz_61Ayk50i-cL._AC_SL1200_.jpg" alt="طقم كابل ومحولات OTG">
+                    <img src="https://assets.wuiltstore.com/cmcfdyk2a02ln01jb25cv84tz_61Ayk50i-cL._AC_SL1200_.jpg" alt="طقم كابل ومحولات OTG" loading="lazy">
                     <div class="product-info">
                         <h3>طقم كابل ومحولات OTG: الرفيق المتكامل لشحن بياناتك</h3>
                         <p>وداعاً لفوضى الكابلات المتشابكة! هذا الطقم الشامل يوفر لك شاحن وكابل بيانات متعدد الاستخدامات بـ 4 مخارج مختلفة تناسب جميع أجهزتك الذكية (آيفون، أندرويد، تايب-سي) في أي مكان.</p>
@@ -814,7 +819,7 @@
 
                 <a href="magic-connectors.html" class="product-card-item">
                      <div class="product-stock-badge">متاح الآن!</div>
-                    <img src="https://assets.wuiltstore.com/cmcfh08if02ma01jbh8dc4v82_61-bt7K5aTL._AC_SL1000_.jpg" alt="علبة الوصلات السحرية">
+                    <img src="https://assets.wuiltstore.com/cmcfh08if02ma01jbh8dc4v82_61-bt7K5aTL._AC_SL1000_.jpg" alt="علبة الوصلات السحرية" loading="lazy">
                     <div class="product-info">
                         <h3>علبة الوصلات السحرية: كل ما تحتاجه في جيبك!</h3>
                         <p>الرفيق المثالي لكل رحلاتك وعملك! علبة مدمجة وخفيفة الوزن تضم كل الوصلات ومخارج الشحن التي قد تحتاجها، بالإضافة إلى حامل للموبايل وفتحات لشرائح الاتصال لتنظيم مثالي. لا غنى عنها!</p>
@@ -861,7 +866,7 @@
                 <div class="testimonial-card">
                     <p>"لم أتوقع هذه الجودة والسرعة في التوصيل! طقم الكابلات فعال جداً وخلصني من فوضى الشواحن. تجربة تسوق ممتازة تستحق الثناء."</p>
                     <div class="customer-info">
-                        <img src="https://via.placeholder.com/50/f0f0f0/333333?text=A" alt="صورة العميل أحمد" class="customer-avatar">
+                        <img src="https://via.placeholder.com/50/f0f0f0/333333?text=A" alt="صورة العميل أحمد" loading="lazy" class="customer-avatar">
                         <div class="customer-details">
                             <div class="customer-name">أحمد المصري <span style="color:#888; font-weight:400; font-size:0.9em;">(القاهرة)</span></div>
                             <div class="customer-rating">
@@ -873,7 +878,7 @@
                 <div class="testimonial-card">
                     <p>"العلبة السحرية دي كنز! بجد عملية جداً وموفرة للمساحة. وكمان خدمة العملاء كانت متعاونة جداً معايا. شكراً نور ستور على المصداقية."</p>
                     <div class="customer-info">
-                        <img src="https://via.placeholder.com/50/f0f0f0/333333?text=F" alt="صورة العميل فاطمة" class="customer-avatar">
+                        <img src="https://via.placeholder.com/50/f0f0f0/333333?text=F" alt="صورة العميل فاطمة" loading="lazy" class="customer-avatar">
                         <div class="customer-details">
                             <div class="customer-name">فاطمة علي <span style="color:#888; font-weight:400; font-size:0.9em;">(الإسكندرية)</span></div>
                             <div class="customer-rating">
@@ -885,7 +890,7 @@
                  <div class="testimonial-card">
                     <p>"جودة الخامات ممتازة والمنتج أصلي 100%. التوصيل كان سريع جداً والدفع عند الاستلام أضاف لي راحة وثقة كبيرة. نور ستور من أفضل المتاجر الإلكترونية في مصر."</p>
                     <div class="customer-info">
-                        <img src="https://via.placeholder.com/50/f0f0f0/333333?text=M" alt="صورة العميل محمد" class="customer-avatar">
+                        <img src="https://via.placeholder.com/50/f0f0f0/333333?text=M" alt="صورة العميل محمد" loading="lazy" class="customer-avatar">
                         <div class="customer-details">
                             <div class="customer-name">محمد سعيد <span style="color:#888; font-weight:400; font-size:0.9em;">(المنيا)</span></div>
                             <div class="customer-rating">
@@ -1019,26 +1024,17 @@
             });
         });
 
-        // JavaScript for Sticky CTA Button
+        // JavaScript for Sticky CTA Button with smooth show/hide
         const stickyCtaButton = document.getElementById('stickyCtaButton');
-        const heroSection = document.querySelector('.hero-section'); // Get the hero section
+        const heroSection = document.querySelector('.hero-section');
 
         window.addEventListener('scroll', () => {
-            // Get the bottom position of the hero section
             const heroBottom = heroSection.getBoundingClientRect().bottom;
 
-            // Show sticky button if scrolled past hero section, hide otherwise
             if (window.scrollY > heroBottom) {
-                stickyCtaButton.style.display = 'block';
-                stickyCtaButton.style.opacity = '1';
+                stickyCtaButton.classList.add('show');
             } else {
-                stickyCtaButton.style.opacity = '0';
-                // Delay display: none to allow fade out animation to complete
-                setTimeout(() => {
-                    if (window.scrollY <= heroBottom) { // Re-check in case user scrolled back quickly
-                        stickyCtaButton.style.display = 'none';
-                    }
-                }, 300); 
+                stickyCtaButton.classList.remove('show');
             }
         });
         
