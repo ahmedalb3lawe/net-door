@@ -3,124 +3,361 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نور ستور: حياتك أسهل، تسوق بثقة، توصيل سريع - منتجات عصرية</title>
-    <meta name="description" content="اكتشف في نور ستور منتجات ذكية وعصرية تجعل حياتك أسهل وأكثر راحة. جودة مضمونة، شحن سريع، ودعم عملاء ممتاز. تسوق الآن!">
-    <meta name="keywords" content="نور ستور, منتجات ذكية, توصيل سريع, ضمان, تسوق أونلاين, مصر, كابلات OTG, وصلات سحرية, أدوات منزلية ذكية">
-    <meta name="author" content="نور ستور">
-
+    <title>نور ستور - منتجات عصرية لحياة أسهل</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=El+Messiri:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=El+Messiri:wght@700&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Variables for easy color changes */
+        :root {
+            --primary-color: #2c3e50; /* Dark Blue/Navy */
+            --secondary-color: #e74c3c; /* Bright Red */
+            --accent-color: #f1c40f; /* Gold Yellow */
+            --background-light: #ecf0f1; /* Light Gray Background */
+            --text-color: #34495e; /* Dark Gray Text */
+            --white-color: #ffffff;
+            --light-gray-border: #ddd;
+            --shadow-light: rgba(0,0,0,0.1);
+            --shadow-medium: rgba(0,0,0,0.2);
+            --shadow-dark: rgba(0,0,0,0.3);
+        }
+
+        /* Base Styles */
+        body {
+            font-family: 'Cairo', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-light);
+            color: var(--text-color);
+            line-height: 1.6;
+            direction: rtl; /* For Arabic text direction */
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header / Hero Section */
+        .hero-section {
+            background: linear-gradient(to bottom right, var(--primary-color), #34495e); /* Gradient background */
+            color: var(--white-color);
+            padding: 80px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom-left-radius: 50px; /* Rounded corners for style */
+            border-bottom-right-radius: 50px;
+            margin-bottom: 50px;
+        }
+
+        .hero-section h1 {
+            font-family: 'El Messiri', sans-serif;
+            font-size: 4.5em; /* Larger font size */
+            margin-bottom: 15px;
+            animation: slideInFromTop 1s ease-out; /* Animation */
+        }
+
+        .hero-section p {
+            font-size: 1.4em;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            opacity: 0.9;
+            animation: fadeIn 1.5s ease-out; /* Animation */
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: var(--white-color);
+            padding: 15px 40px;
+            text-decoration: none;
+            font-size: 1.3em;
+            font-weight: 700;
+            border-radius: 50px; /* Pill shape */
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 5px 15px var(--shadow-dark);
+            animation: scaleIn 1.8s ease-out; /* Animation */
+        }
+
+        .cta-button:hover {
+            background-color: #c0392b; /* Darker red on hover */
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 8px 20px var(--shadow-dark);
+        }
+
+        /* About Section */
+        .about-section {
+            padding: 60px 20px;
+            text-align: center;
+            background-color: var(--white-color);
+            border-radius: 12px;
+            box-shadow: 0 5px 15px var(--shadow-light);
+            margin-bottom: 50px;
+        }
+
+        .about-section h2 {
+            font-family: 'El Messiri', sans-serif;
+            color: var(--primary-color);
+            font-size: 2.8em;
+            margin-bottom: 25px;
+            position: relative;
+            display: inline-block;
+        }
+        .about-section h2::after { /* Underline effect */
+            content: '';
+            display: block;
+            width: 60%;
+            height: 3px;
+            background-color: var(--accent-color);
+            margin: 10px auto 0;
+            border-radius: 1.5px;
+        }
+
+        .about-section p {
+            font-size: 1.15em;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto;
+            color: var(--text-color);
+        }
+
+        /* Products Section */
+        .products-section {
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .products-section h2 {
+            font-family: 'El Messiri', sans-serif;
+            color: var(--primary-color);
+            font-size: 2.8em;
+            margin-bottom: 40px;
+            position: relative;
+            display: inline-block;
+        }
+        .products-section h2::after { /* Underline effect */
+            content: '';
+            display: block;
+            width: 60%;
+            height: 3px;
+            background-color: var(--accent-color);
+            margin: 10px auto 0;
+            border-radius: 1.5px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid */
+            gap: 40px;
+            justify-content: center;
+        }
+
+        .product-card-item {
+            background-color: var(--white-color);
+            border-radius: 15px;
+            box-shadow: 0 8px 25px var(--shadow-light);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: right;
+            border: 1px solid var(--light-gray-border);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-card-item:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 35px var(--shadow-medium);
+        }
+
+        .product-card-item img {
+            width: 100%;
+            height: 220px; /* Fixed height for images */
+            object-fit: cover; /* Cover the area */
+            border-bottom: 1px solid var(--light-gray-border);
+            transition: transform 0.3s ease;
+        }
+
+        .product-card-item:hover img {
+            transform: scale(1.05); /* Zoom image on hover */
+        }
+
+        .product-info {
+            padding: 25px;
+            flex-grow: 1; /* Allows info to take available space */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-info h3 {
+            font-family: 'Cairo', sans-serif;
+            font-size: 1.8em;
+            color: var(--primary-color);
+            margin-top: 0;
+            margin-bottom: 15px;
+            text-align: center; /* Center product title */
+        }
+
+        .product-info p {
+            font-size: 1.05em;
+            color: #555;
+            margin-bottom: 25px;
+            text-align: justify; /* Justify description for better readability */
+        }
+
+        .product-button {
+            display: block;
+            background-color: var(--secondary-color);
+            color: var(--white-color);
+            padding: 12px 25px;
+            text-decoration: none;
+            font-size: 1.1em;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            text-align: center;
+            margin-top: auto; /* Push button to the bottom of the card */
+        }
+
+        .product-button:hover {
+            background-color: #c0392b;
+            transform: translateY(-3px);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary-color);
+            color: var(--white-color);
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 50px;
+            border-top-left-radius: 50px;
+            border-top-right-radius: 50px;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        /* Animations */
+        @keyframes slideInFromTop {
+            0% { transform: translateY(-50px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes scaleIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 900px) {
+            .hero-section h1 {
+                font-size: 3.5em;
+            }
+            .hero-section p {
+                font-size: 1.2em;
+            }
+            .about-section h2, .products-section h2 {
+                font-size: 2.2em;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .hero-section {
+                padding: 60px 15px;
+                border-bottom-left-radius: 30px;
+                border-bottom-right-radius: 30px;
+            }
+            .hero-section h1 {
+                font-size: 2.8em;
+            }
+            .hero-section p {
+                font-size: 1em;
+                margin-bottom: 30px;
+            }
+            .cta-button {
+                padding: 12px 30px;
+                font-size: 1.1em;
+            }
+            .about-section, .products-section {
+                padding: 40px 15px;
+            }
+            .about-section h2, .products-section h2 {
+                font-size: 2em;
+            }
+            .about-section p {
+                font-size: 1em;
+            }
+            .product-grid {
+                grid-template-columns: 1fr; /* Single column on small screens */
+                gap: 25px;
+            }
+            .product-card-item img {
+                height: 180px;
+            }
+            .product-info h3 {
+                font-size: 1.6em;
+            }
+            .product-info p {
+                font-size: 0.95em;
+            }
+            footer {
+                padding: 20px 15px;
+                border-top-left-radius: 30px;
+                border-top-right-radius: 30px;
+            }
+        }
+    </style>
 </head>
 <body>
 
-    <div class="top-notification-bar" id="topNotificationBar">
-        <i class="fas fa-truck-fast"></i> <span>شحن مجاني وسريع جداً لجميع المحافظات! &bull; الدفع عند الاستلام.</span>
-    </div>
-
-    <nav class="navbar">
+    <header class="hero-section">
         <div class="container">
-            <a href="#hero-section">
-                <img src="http://googleusercontent.com/file_content/0" alt="نور ستور - Nour E-COMMERCE Logo" class="logo">
-            </a>
-            <ul class="navbar-links">
-                <li><a href="#hero-section" class="nav-link active">الرئيسية</a></li>
-                <li><a href="#about-section" class="nav-link">من نحن؟</a></li>
-                <li><a href="#products-section" class="nav-link">منتجاتنا</a></li>
-                <li><a href="#testimonials-section" class="nav-link">آراء العملاء</a></li>
-                <li><a href="#faq-section" class="nav-link">الأسئلة الشائعة</a></li>
-                <li><a href="#footer-contact" class="nav-link">تواصل معنا</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <header class="hero-section" id="hero-section">
-        <div class="container hero-content">
-            <img src="http://googleusercontent.com/file_content/0" alt="نور ستور - Nour E-COMMERCE Logo" class="hero-logo-big">
-            <h1>أهلاً بك في نور ستور: <br> <strong>نُبسط حياتك، نجعلها أكثر إشراقاً!</strong></h1>
-            <p><strong>استكشف مجموعتنا المتجددة من المنتجات الذكية والعصرية المصممة لتوفير الراحة، الكفاءة، والأمان لمنزلك وحياتك اليومية. كل ما تحتاجه في مكان واحد، وبثقة تامة.</strong></p>
-            
-            <div class="hero-trust-counters">
-                <div class="counter-item">
-                    <i class="fas fa-box-open"></i>
-                    <span><span id="ordersCounter">0+</span> طلب تم شحنه</span>
-                </div>
-                <div class="counter-item">
-                    <i class="fas fa-users"></i>
-                    <span><span id="customersCounter">0+</span> عميل سعيد</span>
-                </div>
-                <div class="counter-item">
-                    <i class="fas fa-star-half-alt"></i>
-                    <span>تقييم <span id="ratingCounter">0.0</span> نجوم</span>
-                </div>
-            </div>
-
-            <a href="#products-section" class="cta-button">ابدأ التسوق الآن واكتشف المزيد <i class="fas fa-arrow-down"></i></a>
+            <h1>مرحباً بك في نور ستور!</h1>
+            <p>وجهتك الأولى للمنتجات الذكية والعصرية التي تجعل حياتك أسهل وأكثر إشراقًا.</p>
+            <a href="#products-section" class="cta-button">اكتشف منتجاتنا الآن</a>
         </div>
     </header>
 
-    <section id="about-section" class="about-us-section">
-        <div class="container text-center">
-            <h2 class="section-heading">قصتنا: من نحن في نور ستور؟</h2>
-            <p>في نور ستور، نؤمن بأن التكنولوجيا يجب أن تجعل حياتك أسهل وأكثر إشراقاً. بدأنا رحلتنا بشغف لتقديم منتجات مبتكرة وعالية الجودة توفر حلولاً عملية للتحديات اليومية. من الأجهزة الذكية إلى الأدوات المنزلية العصرية، نختار بعناية فائقة كل منتج لنتأكد من أنه يضيف قيمة حقيقية لحياتك. نحن هنا لنقدم لك تجربة تسوق فريدة، مبنية على الثقة، الجودة، وسرعة الخدمة.</p>
-            <a href="#" class="about-link">اعرف المزيد عن نور ستور <i class="fas fa-arrow-left"></i></a>
-        </div>
-    </section>
-
-    <section class="why-nour-store-section">
-        <div class="container text-center">
-            <h2 class="section-heading">لماذا نور ستور هو خيارك الأفضل؟</h2>
-            <div class="why-grid">
-                <div class="why-item">
-                    <i class="fas fa-lightbulb"></i>
-                    <h3>منتجات مبتكرة وحلول ذكية</h3>
-                    <p>نقدم لك أحدث المنتجات العصرية التي تحل مشكلاتك اليومية وتوفر لك الوقت والجهد.</p>
-                </div>
-                <div class="why-item">
-                    <i class="fas fa-award"></i>
-                    <h3>جودة فائقة وضمان حقيقي</h3>
-                    <p>نضمن جودة كل منتج. تسوق وأنت مطمئن مع ضمان رضا العملاء لمدة 30 يومًا.</p>
-                </div>
-                <div class="why-item">
-                    <i class="fas fa-shipping-fast"></i>
-                    <h3>توصيل سريع ومجاني</h3>
-                    <p>استلم طلبك في أسرع وقت ممكن حتى باب منزلك، بدون أي رسوم إضافية على الشحن.</p>
-                </div>
-                <div class="why-item">
-                    <i class="fas fa-shield-alt"></i>
-                    <h3>دفع آمن وراحة بال</h3>
-                    <p>نوفر خدمة الدفع عند الاستلام لتضمن راحتك وأمانك التام عند استلام المنتج.</p>
-                </div>
-            </div>
+    <section id="about-section" class="about-section">
+        <div class="container">
+            <h2>من نحن؟</h2>
+            <p>نور ستور هو متجرك المتكامل للمنتجات المبتكرة وعالية الجودة. نؤمن بأن التكنولوجيا يمكن أن تبسط حياتنا اليومية، ولهذا نسعى جاهدين لتقديم أفضل الحلول العصرية التي تلبي احتياجاتك وتتجاوز توقعاتك. مهمتنا هي توفير تجربة تسوق سهلة وممتعة مع ضمان جودة المنتج ورضا العميل.</p>
         </div>
     </section>
 
     <section id="products-section" class="products-section">
-        <div class="container text-center">
-            <h2 class="section-heading">منتجاتنا الأكثر طلباً: حلول ذكية لحياة أسهل</h2>
+        <div class="container">
+            <h2>منتجاتنا المميزة</h2>
             <div class="product-grid">
                 <a href="otg-cable-kit.html" class="product-card-item">
-                    <div class="product-stock-badge low">متبقي <span>7</span> قطع فقط!</div>
                     <img src="https://assets.wuiltstore.com/cmcfdyk2a02ln01jb25cv84tz_61Ayk50i-cL._AC_SL1200_.jpg" alt="طقم كابل ومحولات OTG">
                     <div class="product-info">
-                        <h3>طقم كابل ومحولات OTG: الرفيق المتكامل لشحن بياناتك</h3>
-                        <p>وداعاً لفوضى الكابلات المتشابكة! هذا الطقم الشامل يوفر لك شاحن وكابل بيانات متعدد الاستخدامات بـ 4 مخارج مختلفة تناسب جميع أجهزتك الذكية (آيفون، أندرويد، تايب-سي) في أي مكان.</p>
-                        <span class="product-price"><span>149</span> جنيه مصري</span>
-                        <span class="product-button">اكتشف الطقم واطلبه الآن <i class="fas fa-long-arrow-alt-left"></i></span>
+                        <h3>طقم كابل ومحولات OTG</h3>
+                        <p>الحل الأمثل لجميع احتياجات الشحن ونقل البيانات. تصميم مدمج ومحولات متعددة لتوصيل جميع أجهزتك.</p>
+                        <span class="product-button">عرض التفاصيل</span>
                     </div>
                 </a>
 
                 <a href="magic-connectors.html" class="product-card-item">
-                     <div class="product-stock-badge">متاح الآن!</div>
                     <img src="https://assets.wuiltstore.com/cmcfh08if02ma01jbh8dc4v82_61-bt7K5aTL._AC_SL1000_.jpg" alt="علبة الوصلات السحرية">
                     <div class="product-info">
-                        <h3>علبة الوصلات السحرية: كل ما تحتاجه في جيبك!</h3>
-                        <p>الرفيق المثالي لكل رحلاتك وعملك! علبة مدمجة وخفيفة الوزن تضم كل الوصلات ومخارج الشحن التي قد تحتاجها، بالإضافة إلى حامل للموبايل وفتحات لشرائح الاتصال لتنظيم مثالي. لا غنى عنها!</p>
-                        <span class="product-price"><span>99</span> جنيه مصري</span>
-                        <span class="product-button">احصل على علبتك السحرية <i class="fas fa-long-arrow-alt-left"></i></span>
+                        <h3>علبة الوصلات السحرية</h3>
+                        <p>وداعاً لفوضى الكابلات! علبة ذكية تحتوي على كل ما تحتاجه من وصلات ومحولات لتنظيم وشحن أجهزتك أينما كنت.</p>
+                        <span class="product-button">عرض التفاصيل</span>
                     </div>
                 </a>
                 
@@ -128,155 +365,12 @@
         </div>
     </section>
 
-    <section class="how-it-works-section">
-        <div class="container text-center">
-            <h2 class="section-heading">كيف يعمل نور ستور؟ خطوات بسيطة لمشترياتك!</h2>
-            <div class="steps-grid">
-                <div class="step-item">
-                    <div class="icon-circle"><i class="fas fa-shopping-cart"></i><span class="step-number">1</span></div>
-                    <h3>تصفح واضف للسلة</h3>
-                    <p>تصفح منتجاتنا المتنوعة واختر ما يناسبك، ثم أضفه إلى سلة مشترياتك.</p>
-                </div>
-                <div class="step-item">
-                    <div class="icon-circle"><i class="fas fa-credit-card"></i><span class="step-number">2</span></div>
-                    <h3>أكمل طلبك</h3>
-                    <p>املأ بياناتك بسهولة وسرعة، اختر طريقة الدفع عند الاستلام المريحة لك.</p>
-                </div>
-                <div class="step-item">
-                    <div class="icon-circle"><i class="fas fa-truck"></i><span class="step-number">3</span></div>
-                    <h3>استلم منتجك</h3>
-                    <p>سنقوم بتوصيل طلبك لباب منزلك في أسرع وقت ممكن، وادفع عند الاستلام.</p>
-                </div>
-                <div class="step-item">
-                    <div class="icon-circle"><i class="fas fa-heart"></i><span class="step-number">4</span></div>
-                    <h3>استمتع بحياتك</h3>
-                    <p>ابدأ في استخدام منتجك الذكي الجديد واستمتع بحياة أسهل وأكثر راحة!</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="testimonials-section">
-        <div class="container text-center">
-            <h2 class="section-heading">ماذا يقول عملاؤنا عن تجربة نور ستور؟</h2>
-            <div class="testimonial-grid">
-                <div class="testimonial-card">
-                    <p>"لم أتوقع هذه الجودة والسرعة في التوصيل! طقم الكابلات فعال جداً وخلصني من فوضى الشواحن. تجربة تسوق ممتازة تستحق الثناء."</p>
-                    <div class="customer-info">
-                        <img src="https://via.placeholder.com/50/f0f0f0/333333?text=A" alt="صورة العميل أحمد" class="customer-avatar">
-                        <div class="customer-details">
-                            <div class="customer-name">أحمد المصري <span style="color:#888; font-weight:400; font-size:0.9em;">(القاهرة)</span></div>
-                            <div class="customer-rating">
-                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card">
-                    <p>"العلبة السحرية دي كنز! بجد عملية جداً وموفرة للمساحة. وكمان خدمة العملاء كانت متعاونة جداً معايا. شكراً نور ستور على المصداقية."</p>
-                    <div class="customer-info">
-                        <img src="https://via.placeholder.com/50/f0f0f0/333333?text=F" alt="صورة العميل فاطمة" class="customer-avatar">
-                        <div class="customer-details">
-                            <div class="customer-name">فاطمة علي <span style="color:#888; font-weight:400; font-size:0.9em;">(الإسكندرية)</span></div>
-                            <div class="customer-rating">
-                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                 <div class="testimonial-card">
-                    <p>"جودة الخامات ممتازة والمنتج أصلي 100%. التوصيل كان سريع جداً والدفع عند الاستلام أضاف لي راحة وثقة كبيرة. نور ستور من أفضل المتاجر الإلكترونية في مصر."</p>
-                    <div class="customer-info">
-                        <img src="https://via.placeholder.com/50/f0f0f0/333333?text=M" alt="صورة العميل محمد" class="customer-avatar">
-                        <div class="customer-details">
-                            <div class="customer-name">محمد سعيد <span style="color:#888; font-weight:400; font-size:0.9em;">(المنيا)</span></div>
-                            <div class="customer-rating">
-                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="faq-section">
-        <div class="container text-center">
-            <h2 class="section-heading">أسئلة شائعة قد تهمك (إجابات سريعة لراحة بالك)</h2>
-            <div class="faq-list">
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>ما هي مدة التوصيل المتوقعة؟</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        <p>نحرص على توصيل طلباتكم في أسرع وقت ممكن. عادةً ما تستغرق عملية التوصيل من 2-4 أيام عمل كحد أقصى لجميع محافظات مصر بعد تأكيد الطلب. سيتم التواصل معكم قبل الشحن.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>هل منتجات نور ستور أصلية ولها ضمان؟</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        <p>نعم، جميع منتجاتنا أصلية 100% ويتم فحصها بعناية فائقة قبل الشحن. كما نقدم لك "ضمان رضا العملاء الذهبي" لمدة 30 يومًا من تاريخ استلام المنتج، يمكنك خلالها طلب استبدال أو استرجاع المنتج بكل سهولة إذا لم تكن راضياً تماماً.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>ما هي خيارات الدفع المتاحة لدي؟</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        <p>حالياً، نوفر خدمة الدفع عند الاستلام (Cash on Delivery) لضمان أعلى مستويات الأمان والراحة لك. يمكنك فحص المنتج قبل الدفع مباشرةً. نعمل على توفير خيارات دفع إلكتروني إضافية قريباً جداً.</p>
-                    </div>
-                </div>
-                 <div class="faq-item">
-                    <div class="faq-question">
-                        <span>كيف يمكنني تتبع طلبي؟</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        <p>بعد إتمام طلبك، ستتلقى رسالة تأكيد تحتوي على رقم الطلب. سيتم التواصل معك هاتفياً لتأكيد الطلب وشحن المنتج، ويمكنك الاستفسار عن حالة طلبك في أي وقت بالتواصل مع خدمة العملاء.</p>
-                    </div>
-                </div>
-            </div>
-            <p class="faq-contact-text">هل لا يزال لديك أسئلة؟ لا تتردد في <a href="#footer-contact">التواصل معنا مباشرةً</a>، فريق دعم نور ستور في خدمتك!</p>
-        </div>
-    </section>
-
-    <footer id="footer-contact">
+    <footer>
         <div class="container">
-            <div class="footer-nav-links">
-                <a href="#about-section">من نحن؟</a>
-                <a href="#products-section">منتجاتنا</a>
-                <a href="#testimonials-section">آراء العملاء</a>
-                <a href="#faq-section">الأسئلة الشائعة</a>
-                <a href="#">سياسة الخصوصية</a> 
-                <a href="#">سياسة الإرجاع</a>
-                <a href="#">شروط الاستخدام</a>
-            </div>
             <p>&copy; 2025 نور ستور. جميع الحقوق محفوظة.</p>
-            <div class="contact-info">
-                <p>للدعم والمساعدة الفورية: 
-                    <a href="mailto:support@nourstore.com"><i class="fas fa-envelope"></i> support@nourstore.com</a> | 
-                    <a href="tel:+201000000000"><i class="fas fa-phone"></i> 0100 000 0000</a> (متاح 9 صباحاً - 9 مساءً)
-                </p>
-            </div>
-            <div class="social-links">
-                <a href="#" target="_blank" title="تابعنا على فيسبوك"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" target="_blank" title="تابعنا على انستغرام"><i class="fab fa-instagram"></i></a>
-                <a href="#" target="_blank" title="تابعنا على تيك توك"><i class="fab fa-tiktok"></i></a>
-                <a href="#" target="_blank" title="تواصل معنا واتساب"><i class="fab fa-whatsapp"></i></a>
-            </div>
+            <p>للتواصل والاستفسار: info@nourstore.com</p>
         </div>
     </footer>
-
-    <a href="#products-section" class="sticky-cta-button" id="stickyCtaButton">
-        اطلب منتجك الآن! <i class="fas fa-bolt"></i>
-    </a>
-
-    <script src="script.js"></script>
 
 </body>
 </html>
