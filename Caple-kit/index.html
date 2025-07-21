@@ -212,9 +212,9 @@
                 </div>
             </div>
             <div class="price-container">
-                <span class="new-price">250 جنيه</span>
+                <span class="new-price">249 جنيه</span>
                 <span class="old-price">400 جنيه</span>
-                <span class="savings">وفر 150 جنيه!</span>
+                <span class="savings">وفر 151 جنيه!</span>
             </div>
             <p class="promo-text">اطلب خلال الوقت المتبقي واحصل على توصيل مجاني تمامًا!</p>
             <div id="countdown-timer">
@@ -223,7 +223,7 @@
                 <div class="timer-box"><span id="seconds">00</span><div class="timer-label">ثانية</div></div>
             </div>
             <div id="offer-expired">انتهى عرض التوصيل المجاني!</div>
-            <a href="#order-form" id="main-cta-button" class="cta-button">اطلب علبة الوصلات السحرية الآن بـ 250 جنيه!</a>
+            <a href="#order-form" id="main-cta-button" class="cta-button">اطلب علبة الوصلات السحرية الآن بـ 249 جنيه!</a>
         </div>
     </header>
 
@@ -279,7 +279,7 @@
             <div class="container">
                 <h2>شوف رأي عملائنا في علبة الوصلات السحرية</h2>
                 <div class="testimonials">
-                    <q>ده كنز بجد للسفر! بدل ما أشيل 100 كابل وشاحن، العلبة دي فيها كل حاجة، حجمها صغير وجودتها ممتازة. وفرت عليا كتير لما جبتها بـ 250 جنيه بدل 400!</q>
+                    <q>ده كنز بجد للسفر! بدل ما أشيل 100 كابل وشاحن، العلبة دي فيها كل حاجة، حجمها صغير وجودتها ممتازة. وفرت عليا كتير لما جبتها بـ 249 جنيه بدل 400!</q>
                     <footer>- مريم، القاهرة</footer>
                 </div>
                 <hr style="width:50%; margin: 30px auto; border-color: #ddd;">
@@ -303,7 +303,7 @@
                 <h2 id="form-title">اطلب علبة الوصلات السحرية الآن واستفد من التوصيل المجاني!</h2>
                 <div class="price-container">
                     <div class="price-box">
-                        <span class="new-price">250 جنيه</span>
+                        <span class="new-price">249 جنيه</span>
                         <span class="old-price">400 جنيه</span>
                     </div>
                 </div>
@@ -400,8 +400,8 @@
                 const phoneError = document.getElementById('phone-error');
                 const submitButton = document.getElementById('submit-button');
                 const formResponse = document.getElementById('form-response');
-                const quantityInput = document.getElementById('quantity'); // للحصول على الكمية المدخلة
-                
+                const quantityInput = document.getElementById('quantity'); // Get quantity input
+
                 // ====> الخطوة الأهم: الصق رابط الـ Web App الخاص بك هنا <====
                 const scriptURL = 'https://script.google.com/macros/s/AKfycbzKYGYyKm6_M0uG4pkEiqV9tUX7ZEVF6FUEQtXq3GSb7d9pe7kAHYAF1PrGrvk0T1B3MQ/exec';
                 // ==========================================================
@@ -431,11 +431,6 @@
 
                     // 1. تجهيز بيانات النموذج للإرسال لاحقاً
                     const formData = new FormData(orderForm);
-                    
-                    // حساب القيمة الإجمالية بناءً على الكمية
-                    const quantity = parseInt(quantityInput.value); 
-                    const itemPrice = 250; 
-                    const totalPrice = itemPrice * quantity; 
 
                     // 2. إظهار رسالة النجاح وإعادة تعيين النموذج على الفور
                     formResponse.textContent = '✅ تم استلام طلبك بنجاح! سنتصل بك للتأكيد.';
@@ -443,23 +438,32 @@
                     formResponse.style.display = 'block';
                     submitButton.disabled = true;
                     submitButton.textContent = 'تم الإرسال بنجاح!';
-                    orderForm.reset(); 
-                    phoneError.textContent = ''; 
-                    formResponse.scrollIntoView({ behavior: 'smooth', block: 'center' }); 
+                    
+                    // --- Google Analytics Purchase Event ---
+                    const rawQuantity = quantityInput.value;
+                    const englishQuantityString = rawQuantity.replace(/[\u0660-\u0669]/g, d => d.charCodeAt(0) - 0x0660) // Eastern Arabic numerals
+                                                              .replace(/[\u06F0-\u06F9]/g, d => d.charCodeAt(0) - 0x06F0); // Extended Arabic numerals (Persian/Urdu)
+                    const itemQuantity = parseInt(englishQuantityString);
 
-                    // *** هنا نضيف كود إرسال إيفنت الشراء إلى Google Analytics ***
+                    const itemPrice = 249; // Fixed price per unit - UPDATED TO 249
+                    const transactionId = 'T_' + Date.now() + '_' + Math.floor(Math.random() * 1000000); // Unique transaction ID
+
                     gtag('event', 'purchase', {
-                        transaction_id: 'ORDER_' + Date.now(), 
-                        value: totalPrice, 
-                        currency: 'EGP', 
+                        transaction_id: transactionId,
+                        value: (itemQuantity * itemPrice),
+                        currency: 'EGP',
                         items: [{
-                            item_id: 'magic_connectors_box',
+                            item_id: 'magic_cable_box', // Using a generic ID here as it's not defined in the original HTML
                             item_name: 'علبة الوصلات السحرية',
-                            price: itemPrice, 
-                            quantity: quantity 
+                            price: itemPrice,
+                            quantity: itemQuantity
                         }]
                     });
-                    // **********************************************************
+                    // --- End Google Analytics Purchase Event ---
+
+                    orderForm.reset(); // إفراغ حقول النموذج
+                    phoneError.textContent = ''; // إفراغ رسالة الخطأ إن وجدت
+                    formResponse.scrollIntoView({ behavior: 'smooth', block: 'center' }); // تمرير الشاشة لرسالة النجاح
 
                     // 3. إرسال البيانات في الخلفية. المستخدم ليس بحاجة لانتظار هذه الخطوة
                     fetch(scriptURL, { method: 'POST', body: formData})
@@ -472,7 +476,7 @@
                     setTimeout(() => {
                         submitButton.disabled = false;
                         submitButton.textContent = 'تأكيد الطلب الآن';
-                    }, 4000); 
+                    }, 4000); // إعادة تفعيل الزر بعد 4 ثواني
 
                     // ---------- END: نهاية الكود المعدل ----------
                 });
