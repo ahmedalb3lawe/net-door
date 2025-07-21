@@ -377,6 +377,27 @@
 
                 if(!floatingButton || !orderForm || !mainCtaButton) return;
 
+                // Function to send begin_checkout event only once per session
+                function sendBeginCheckoutEvent() {
+                    if (!sessionStorage.getItem('magic_cable_box_begin_checkout_sent')) {
+                        gtag('event', 'begin_checkout', {
+                            items: [{
+                                item_id: 'magic_cable_box',
+                                item_name: 'علبة الوصلات السحرية',
+                                price: 249, // Fixed price for this product
+                                quantity: 1 // Assuming 1 when initiating checkout
+                            }]
+                        });
+                        sessionStorage.setItem('magic_cable_box_begin_checkout_sent', 'true');
+                    }
+                }
+
+                // Add begin_checkout event listener to main CTA button
+                mainCtaButton.addEventListener('click', sendBeginCheckoutEvent);
+
+                // Add begin_checkout event listener to floating CTA button
+                floatingButton.addEventListener('click', sendBeginCheckoutEvent);
+
                 window.addEventListener('scroll', function() {
                     const mainButtonRect = mainCtaButton.getBoundingClientRect();
                     const orderFormRect = orderForm.getBoundingClientRect();
@@ -453,7 +474,7 @@
                         value: (itemQuantity * itemPrice),
                         currency: 'EGP',
                         items: [{
-                            item_id: 'magic_cable_box', // Using a generic ID here as it's not defined in the original HTML
+                            item_id: 'magic_cable_box', 
                             item_name: 'علبة الوصلات السحرية',
                             price: itemPrice,
                             quantity: itemQuantity
