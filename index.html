@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نور ستور - منتجات عصرية لحياة أسهل</title>
+    <title>نور ستور - منتجات عصرية لحياة أسهل - تسوق بثقة!</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=El+Messiri:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
     <style>
         /* Variables for easy color changes */
@@ -21,6 +22,7 @@
             --shadow-light: rgba(0,0,0,0.1);
             --shadow-medium: rgba(0,0,0,0.2);
             --shadow-dark: rgba(0,0,0,0.3);
+            --success-color: #2ecc71; /* Green for success/trust */
         }
 
         /* Base Styles */
@@ -28,7 +30,7 @@
             font-family: 'Cairo', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: var(--background-light);
+            background: linear-gradient(to bottom right, var(--background-light), #e0e6ea); /* Gradient background */
             color: var(--text-color);
             line-height: 1.6;
             direction: rtl; /* For Arabic text direction */
@@ -41,24 +43,38 @@
             padding: 20px;
         }
 
+        /* Utility classes */
+        .text-center { text-align: center; }
+        .mb-50 { margin-bottom: 50px; }
+        .mt-50 { margin-top: 50px; }
+
         /* Header / Hero Section */
         .hero-section {
-            background: linear-gradient(to bottom right, var(--primary-color), #34495e); /* Gradient background */
+            background: linear-gradient(to bottom right, var(--primary-color), #34495e);
             color: var(--white-color);
             padding: 80px 20px;
             text-align: center;
             position: relative;
             overflow: hidden;
-            border-bottom-left-radius: 50px; /* Rounded corners for style */
+            border-bottom-left-radius: 50px;
             border-bottom-right-radius: 50px;
             margin-bottom: 50px;
+            min-height: 60vh; /* Make hero section taller */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-content {
+            z-index: 1; /* Ensure content is above any background animations */
         }
 
         .hero-section h1 {
             font-family: 'El Messiri', sans-serif;
-            font-size: 4.5em; /* Larger font size */
+            font-size: 4.5em;
             margin-bottom: 15px;
-            animation: slideInFromTop 1s ease-out; /* Animation */
+            animation: slideInFromTop 1s ease-out;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.4);
         }
 
         .hero-section p {
@@ -66,7 +82,8 @@
             max-width: 700px;
             margin: 0 auto 40px;
             opacity: 0.9;
-            animation: fadeIn 1.5s ease-out; /* Animation */
+            animation: fadeIn 1.5s ease-out;
+            font-weight: 600;
         }
 
         .cta-button {
@@ -77,29 +94,28 @@
             text-decoration: none;
             font-size: 1.3em;
             font-weight: 700;
-            border-radius: 50px; /* Pill shape */
+            border-radius: 50px;
             transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
             box-shadow: 0 5px 15px var(--shadow-dark);
-            animation: scaleIn 1.8s ease-out; /* Animation */
+            animation: scaleIn 1.8s ease-out;
         }
 
         .cta-button:hover {
-            background-color: #c0392b; /* Darker red on hover */
+            background-color: #c0392b;
             transform: translateY(-5px) scale(1.02);
             box-shadow: 0 8px 20px var(--shadow-dark);
         }
 
-        /* About Section */
-        .about-section {
+        /* General Section Styling */
+        section {
             padding: 60px 20px;
-            text-align: center;
             background-color: var(--white-color);
             border-radius: 12px;
             box-shadow: 0 5px 15px var(--shadow-light);
             margin-bottom: 50px;
         }
 
-        .about-section h2 {
+        section h2 {
             font-family: 'El Messiri', sans-serif;
             color: var(--primary-color);
             font-size: 2.8em;
@@ -107,7 +123,7 @@
             position: relative;
             display: inline-block;
         }
-        .about-section h2::after { /* Underline effect */
+        section h2::after {
             content: '';
             display: block;
             width: 60%;
@@ -117,12 +133,72 @@
             border-radius: 1.5px;
         }
 
-        .about-section p {
-            font-size: 1.15em;
-            line-height: 1.8;
-            max-width: 800px;
-            margin: 0 auto;
-            color: var(--text-color);
+        /* Trust Badges / Social Proof */
+        .trust-badges {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+        .trust-badge-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 1.1em;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        .trust-badge-item i {
+            font-size: 3em;
+            color: var(--success-color);
+            margin-bottom: 10px;
+            animation: bounceIn 1s ease-out;
+        }
+        .trust-badge-item .fa-star {
+            color: var(--accent-color);
+        }
+
+        /* Testimonials Section */
+        .testimonials-section {
+            background-color: #f8f9fa; /* Lighter background */
+            padding: 60px 20px;
+            text-align: center;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px var(--shadow-light);
+            margin-bottom: 50px;
+        }
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        .testimonial-card {
+            background-color: var(--white-color);
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 15px var(--shadow-light);
+            text-align: right;
+            transition: transform 0.3s ease;
+        }
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+        }
+        .testimonial-card p {
+            font-style: italic;
+            margin-bottom: 15px;
+            color: #555;
+            line-height: 1.7;
+        }
+        .testimonial-card .customer-name {
+            font-weight: 700;
+            color: var(--primary-color);
+            font-size: 1.1em;
+        }
+        .testimonial-card .customer-rating {
+            color: var(--accent-color);
+            margin-top: 5px;
         }
 
         /* Products Section */
@@ -131,27 +207,9 @@
             text-align: center;
         }
 
-        .products-section h2 {
-            font-family: 'El Messiri', sans-serif;
-            color: var(--primary-color);
-            font-size: 2.8em;
-            margin-bottom: 40px;
-            position: relative;
-            display: inline-block;
-        }
-        .products-section h2::after { /* Underline effect */
-            content: '';
-            display: block;
-            width: 60%;
-            height: 3px;
-            background-color: var(--accent-color);
-            margin: 10px auto 0;
-            border-radius: 1.5px;
-        }
-
         .product-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid */
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 40px;
             justify-content: center;
         }
@@ -167,6 +225,8 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            text-decoration: none;
+            color: inherit;
         }
 
         .product-card-item:hover {
@@ -176,19 +236,19 @@
 
         .product-card-item img {
             width: 100%;
-            height: 220px; /* Fixed height for images */
-            object-fit: cover; /* Cover the area */
+            height: 220px;
+            object-fit: cover;
             border-bottom: 1px solid var(--light-gray-border);
             transition: transform 0.3s ease;
         }
 
         .product-card-item:hover img {
-            transform: scale(1.05); /* Zoom image on hover */
+            transform: scale(1.05);
         }
 
         .product-info {
             padding: 25px;
-            flex-grow: 1; /* Allows info to take available space */
+            flex-grow: 1;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -200,14 +260,14 @@
             color: var(--primary-color);
             margin-top: 0;
             margin-bottom: 15px;
-            text-align: center; /* Center product title */
+            text-align: center;
         }
 
         .product-info p {
             font-size: 1.05em;
             color: #555;
             margin-bottom: 25px;
-            text-align: justify; /* Justify description for better readability */
+            text-align: justify;
         }
 
         .product-button {
@@ -221,12 +281,57 @@
             border-radius: 8px;
             transition: background-color 0.3s ease, transform 0.3s ease;
             text-align: center;
-            margin-top: auto; /* Push button to the bottom of the card */
+            margin-top: auto;
         }
 
         .product-button:hover {
             background-color: #c0392b;
             transform: translateY(-3px);
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            background-color: var(--white-color);
+            padding: 60px 20px;
+            text-align: center;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px var(--shadow-light);
+            margin-bottom: 50px;
+        }
+        .faq-item {
+            border-bottom: 1px solid var(--light-gray-border);
+            padding: 15px 0;
+            text-align: right;
+        }
+        .faq-item:last-child { border-bottom: none; }
+        .faq-question {
+            font-weight: 700;
+            font-size: 1.15em;
+            color: var(--primary-color);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .faq-question i {
+            transition: transform 0.3s ease;
+        }
+        .faq-question.active i {
+            transform: rotate(180deg);
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+            padding-right: 20px; /* Indent answer */
+            text-align: justify;
+            color: #555;
+            font-size: 1em;
+            margin-top: 10px;
+        }
+        .faq-answer.open {
+            max-height: 200px; /* Adjust as needed for content */
+            padding-bottom: 10px;
         }
 
         /* Footer */
@@ -245,6 +350,31 @@
             font-size: 0.9em;
             opacity: 0.8;
         }
+        footer .contact-info {
+            margin-top: 10px;
+            font-size: 0.95em;
+        }
+        footer .contact-info a {
+            color: var(--white-color);
+            text-decoration: none;
+            margin: 0 5px;
+            transition: color 0.3s ease;
+        }
+        footer .contact-info a:hover {
+            color: var(--accent-color);
+        }
+        .social-links {
+            margin-top: 15px;
+        }
+        .social-links a {
+            color: var(--white-color);
+            font-size: 1.5em;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+        .social-links a:hover {
+            color: var(--accent-color);
+        }
 
         /* Animations */
         @keyframes slideInFromTop {
@@ -261,103 +391,105 @@
             0% { transform: scale(0.8); opacity: 0; }
             100% { transform: scale(1); opacity: 1; }
         }
+        @keyframes bounceIn {
+            0%, 20%, 40%, 60%, 80%, 100% {
+                -webkit-transition-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+                transition-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+            }
+            0% { opacity: 0; -webkit-transform: scale3d(.3, .3, .3); transform: scale3d(.3, .3, .3); }
+            20% { -webkit-transform: scale3d(1.1, 1.1, 1.1); transform: scale3d(1.1, 1.1, 1.1); }
+            40% { -webkit-transform: scale3d(.9, .9, .9); transform: scale3d(.9, .9, .9); }
+            60% { opacity: 1; -webkit-transform: scale3d(1.03, 1.03, 1.03); transform: scale3d(1.03, 1.03, 1.03); }
+            80% { -webkit-transform: scale3d(.97, .97, .97); transform: scale3d(.97, .97, .97); }
+            100% { opacity: 1; -webkit-transform: scale3d(1, 1, 1); transform: scale3d(1, 1, 1); }
+        }
 
         /* Responsive Adjustments */
         @media (max-width: 900px) {
-            .hero-section h1 {
-                font-size: 3.5em;
-            }
-            .hero-section p {
-                font-size: 1.2em;
-            }
-            .about-section h2, .products-section h2 {
-                font-size: 2.2em;
-            }
+            .hero-section h1 { font-size: 3.5em; }
+            .hero-section p { font-size: 1.2em; }
+            section h2 { font-size: 2.2em; }
         }
 
         @media (max-width: 600px) {
-            .hero-section {
-                padding: 60px 15px;
-                border-bottom-left-radius: 30px;
-                border-bottom-right-radius: 30px;
-            }
-            .hero-section h1 {
-                font-size: 2.8em;
-            }
-            .hero-section p {
-                font-size: 1em;
-                margin-bottom: 30px;
-            }
-            .cta-button {
-                padding: 12px 30px;
-                font-size: 1.1em;
-            }
-            .about-section, .products-section {
-                padding: 40px 15px;
-            }
-            .about-section h2, .products-section h2 {
-                font-size: 2em;
-            }
-            .about-section p {
-                font-size: 1em;
-            }
-            .product-grid {
-                grid-template-columns: 1fr; /* Single column on small screens */
-                gap: 25px;
-            }
-            .product-card-item img {
-                height: 180px;
-            }
-            .product-info h3 {
-                font-size: 1.6em;
-            }
-            .product-info p {
-                font-size: 0.95em;
-            }
-            footer {
-                padding: 20px 15px;
-                border-top-left-radius: 30px;
-                border-top-right-radius: 30px;
-            }
+            .hero-section { padding: 60px 15px; border-bottom-left-radius: 30px; border-bottom-right-radius: 30px; }
+            .hero-section h1 { font-size: 2.8em; }
+            .hero-section p { font-size: 1em; margin-bottom: 30px; }
+            .cta-button { padding: 12px 30px; font-size: 1.1em; }
+            section { padding: 40px 15px; }
+            section h2 { font-size: 2em; }
+            .about-section p { font-size: 1em; }
+            .trust-badges { flex-direction: column; gap: 25px; }
+            .trust-badge-item i { font-size: 2.5em; }
+            .product-grid { grid-template-columns: 1fr; gap: 25px; }
+            .product-card-item img { height: 180px; }
+            .product-info h3 { font-size: 1.6em; }
+            .product-info p { font-size: 0.95em; }
+            .testimonial-grid { grid-template-columns: 1fr; }
+            .faq-question { font-size: 1em; }
+            footer { padding: 20px 15px; border-top-left-radius: 30px; border-top-right-radius: 30px; }
         }
     </style>
 </head>
 <body>
 
     <header class="hero-section">
-        <div class="container">
-            <h1>مرحباً بك في نور ستور!</h1>
-            <p>وجهتك الأولى للمنتجات الذكية والعصرية التي تجعل حياتك أسهل وأكثر إشراقًا.</p>
-            <a href="#products-section" class="cta-button">اكتشف منتجاتنا الآن</a>
+        <div class="container hero-content">
+            <h1>مرحباً بك في نور ستور! <br> حيث الابتكار يلتقي بالراحة.</h1>
+            <p><strong>استكشف مجموعتنا الحصرية من المنتجات الذكية التي صُممت خصيصاً لتبسيط حياتك اليومية وتزويدك بتجربة لا مثيل لها من السهولة والرفاهية.</strong></p>
+            <a href="#products-section" class="cta-button">تصفح منتجاتنا المميزة الآن <i class="fas fa-arrow-down"></i></a>
         </div>
     </header>
 
     <section id="about-section" class="about-section">
         <div class="container">
-            <h2>من نحن؟</h2>
-            <p>نور ستور هو متجرك المتكامل للمنتجات المبتكرة وعالية الجودة. نؤمن بأن التكنولوجيا يمكن أن تبسط حياتنا اليومية، ولهذا نسعى جاهدين لتقديم أفضل الحلول العصرية التي تلبي احتياجاتك وتتجاوز توقعاتك. مهمتنا هي توفير تجربة تسوق سهلة وممتعة مع ضمان جودة المنتج ورضا العميل.</p>
+            <h2>نور ستور: شريكك الموثوق في الحياة العصرية</h2>
+            <p>في نور ستور، لا نبيع منتجات وحسب؛ بل نقدم حلولاً تكنولوجية مبتكرة مصممة بعناية فائقة لتلبية احتياجاتك المتغيرة. نؤمن بأن الجودة، السرعة، ورضا العميل هي ركائز عملنا الأساسية، ونسعى دائمًا لتقديم تجربة تسوق آمنة وممتعة.</p>
+            
+            <div class="trust-badges">
+                <div class="trust-badge-item">
+                    <i class="fas fa-truck-fast"></i>
+                    <span><strong>شحن مجاني وسريع جداً</strong></span>
+                    <p style="font-size:0.85em; margin-top:5px;">توصيل حتى باب منزلك في أسرع وقت ممكن.</p>
+                </div>
+                <div class="trust-badge-item">
+                    <i class="fas fa-star"></i>
+                    <span><strong>تقييم 4.9/5 نجوم</strong></span>
+                    <p style="font-size:0.85em; margin-top:5px;">من أكثر من 10,000 عميل سعيد وموثوق.</p>
+                </div>
+                <div class="trust-badge-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <span><strong>ضمان ذهبي 30 يوم</strong></span>
+                    <p style="font-size:0.85em; margin-top:5px;">استبدال أو استرجاع سهل بدون أسئلة.</p>
+                </div>
+                <div class="trust-badge-item">
+                    <i class="fas fa-headset"></i>
+                    <span><strong>دعم فني 24/7</strong></span>
+                    <p style="font-size:0.85em; margin-top:5px;">خدمة عملاء ممتازة جاهزة لمساعدتك.</p>
+                </div>
+            </div>
         </div>
     </section>
 
     <section id="products-section" class="products-section">
         <div class="container">
-            <h2>منتجاتنا المميزة</h2>
+            <h2>اكتشف حلول نور ستور الذكية</h2>
             <div class="product-grid">
                 <a href="otg-cable-kit.html" class="product-card-item">
                     <img src="https://assets.wuiltstore.com/cmcfdyk2a02ln01jb25cv84tz_61Ayk50i-cL._AC_SL1200_.jpg" alt="طقم كابل ومحولات OTG">
                     <div class="product-info">
-                        <h3>طقم كابل ومحولات OTG</h3>
-                        <p>الحل الأمثل لجميع احتياجات الشحن ونقل البيانات. تصميم مدمج ومحولات متعددة لتوصيل جميع أجهزتك.</p>
-                        <span class="product-button">عرض التفاصيل</span>
+                        <h3>طقم كابل ومحولات OTG متكامل</h3>
+                        <p>وداعاً لفوضى الكابلات المتشابكة! شاحن وكابل بيانات متعدد الاستخدامات بـ 4 مخارج مختلفة يناسب جميع أجهزتك الذكية في أي مكان.</p>
+                        <span class="product-button">اعرف المزيد واطلب الآن <i class="fas fa-long-arrow-alt-left"></i></span>
                     </div>
                 </a>
 
                 <a href="magic-connectors.html" class="product-card-item">
                     <img src="https://assets.wuiltstore.com/cmcfh08if02ma01jbh8dc4v82_61-bt7K5aTL._AC_SL1000_.jpg" alt="علبة الوصلات السحرية">
                     <div class="product-info">
-                        <h3>علبة الوصلات السحرية</h3>
-                        <p>وداعاً لفوضى الكابلات! علبة ذكية تحتوي على كل ما تحتاجه من وصلات ومحولات لتنظيم وشحن أجهزتك أينما كنت.</p>
-                        <span class="product-button">عرض التفاصيل</span>
+                        <h3>علبة الوصلات السحرية المتنقلة</h3>
+                        <p>الرفيق المثالي لكل رحلاتك وعملك! علبة مدمجة تضم كل الوصلات ومخارج الشحن وحامل للموبايل وفتحات لشرائح الاتصال بكل سهولة.</p>
+                        <span class="product-button">اطلب علبتك السحرية الآن <i class="fas fa-long-arrow-alt-left"></i></span>
                     </div>
                 </a>
                 
@@ -365,12 +497,126 @@
         </div>
     </section>
 
+    <section class="testimonials-section">
+        <div class="container">
+            <h2>ماذا يقول عملاؤنا السعداء؟</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <p>"بصراحة، منتجات نور ستور غيرت حياتي! جودة لا تُصدق وسهولة في الاستخدام. أنصح بها بشدة."</p>
+                    <div class="customer-name">أحمد المصري</div>
+                    <div class="customer-rating">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p>"خدمة عملاء رائعة وسرعة توصيل خيالية. طلبت علبة الوصلات وصلتني في أقل من 24 ساعة! شكراً نور ستور."</p>
+                    <div class="customer-name">فاطمة علي</div>
+                    <div class="customer-rating">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                    </div>
+                </div>
+                 <div class="testimonial-card">
+                    <p>"أفضل جودة طقم كابلات استخدمتها على الإطلاق. متين وعملي جداً، يستحق كل قرش دفعته فيه."</p>
+                    <div class="customer-name">محمد سعيد</div>
+                    <div class="customer-rating">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq-section">
+        <div class="container">
+            <h2>أسئلة شائعة قد تهمك</h2>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>ما هي مدة التوصيل للمنتجات؟</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>عادةً ما يتم توصيل الطلبات خلال 2-5 أيام عمل كحد أقصى داخل مصر. نسعى دائمًا لتوصيل طلباتكم في أسرع وقت ممكن.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>هل المنتجات لديها ضمان؟</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>نعم، جميع منتجات نور ستور تأتي مع ضمان رضا العملاء الذهبي لمدة 30 يومًا من تاريخ الاستلام. يمكنك طلب استبدال أو استرجاع المنتج إذا لم تكن راضياً تماماً.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>ما هي طرق الدفع المتاحة؟</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>نوفر خدمة الدفع عند الاستلام لراحتك. نعمل على توفير خيارات دفع إضافية (مثل الدفع الإلكتروني بالبطاقات) قريباً.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <footer>
         <div class="container">
             <p>&copy; 2025 نور ستور. جميع الحقوق محفوظة.</p>
-            <p>للتواصل والاستفسار: info@nourstore.com</p>
+            <div class="contact-info">
+                <p>للدعم والمساعدة: 
+                    <a href="mailto:support@nourstore.com"><i class="fas fa-envelope"></i> support@nourstore.com</a> | 
+                    <a href="tel:+201000000000"><i class="fas fa-phone"></i> 0100 000 0000</a>
+                </p>
+            </div>
+            <div class="social-links">
+                <a href="#" target="_blank" title="تابعنا على فيسبوك"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" target="_blank" title="تابعنا على انستغرام"><i class="fab fa-instagram"></i></a>
+                <a href="#" target="_blank" title="تابعنا على تويتر"><i class="fab fa-twitter"></i></a>
+            </div>
         </div>
     </footer>
+
+    <script>
+        // JavaScript for Smooth Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // JavaScript for FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                const icon = question.querySelector('i');
+
+                // Close all other open answers
+                document.querySelectorAll('.faq-answer.open').forEach(openAnswer => {
+                    if (openAnswer !== answer) {
+                        openAnswer.classList.remove('open');
+                        openAnswer.style.maxHeight = null;
+                        openAnswer.previousElementSibling.querySelector('i').classList.remove('active');
+                    }
+                });
+
+                // Toggle current answer
+                question.classList.toggle('active');
+                icon.classList.toggle('active');
+                if (answer.classList.contains('open')) {
+                    answer.classList.remove('open');
+                    answer.style.maxHeight = null;
+                } else {
+                    answer.classList.add('open');
+                    answer.style.maxHeight = answer.scrollHeight + "px"; // Set max-height to scrollHeight for smooth expand
+                }
+            });
+        });
+    </script>
 
 </body>
 </html>
