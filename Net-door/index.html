@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <script>
+    <!-- Event snippet for شراء (1) conversion page -->
+<script>
   gtag('event', 'conversion', {
       'send_to': 'AW-17064012339/7IZfCOjSm_UaELPU4Mg_',
       'transaction_id': ''
   });
 </script>
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGGXP5M8PZ"></script>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SGGXP5M8PZ"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -32,16 +34,10 @@
             --error-color: #e74c3c;
         }
 
-        html, body {
-            height: 100%; /* Ensure html and body take full viewport height */
-            width: 100%; /* Ensure html and body take full viewport width */
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden; /* Prevent horizontal scroll */
-        }
-
         body {
             font-family: 'Cairo', 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
             background-color: var(--background-color);
             color: var(--text-color);
             line-height: 1.6;
@@ -154,76 +150,6 @@
         #form-response { margin-top: 15px; font-size: 1.2em; font-weight: bold; display: none; padding: 15px; border-radius: 8px; margin-bottom: 15px; }
         #form-response.success { background-color: #d4edda; color: #155724; }
         #form-response.error { background-color: #f8d7da; color: #721c24; }
-        
-        /* Loading Overlay Styles */
-        .loading-overlay {
-            display: none; /* Hidden by default */
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
-            z-index: 9998; /* Below spinner, above content */
-            pointer-events: none; /* Allow clicks to pass through when not visible */
-        }
-
-        .loading-overlay.show {
-            display: block;
-            pointer-events: auto; /* Allow clicks to be blocked when visible */
-        }
-
-        /* Loading Spinner Styles */
-        .loading-spinner {
-            display: none; /* Hidden by default */
-            position: fixed;
-            z-index: 9999; /* On top of everything */
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%); /* Center horizontally and vertically */
-            width: 60px;
-            height: 60px;
-            border: 6px solid #f3f3f3; /* Light grey border */
-            border-top: 6px solid var(--secondary-color); /* Themed color for spinner */
-            border-radius: 50%;
-            -webkit-animation: spin 1s linear infinite; /* Safari */
-            animation: spin 1s linear infinite;
-        }
-
-        .loading-spinner.show {
-            display: block; /* Show when 'show' class is added */
-        }
-
-        /* Loading Message Styles */
-        .loading-message {
-            display: none; /* Hidden by default */
-            position: fixed;
-            top: calc(50% + 80px); /* Adjusted position: below the spinner */
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 9999;
-            color: var(--white-color);
-            font-size: 1.2em;
-            text-align: center;
-            width: 80%;
-            max-width: 300px; /* Limit width for better readability */
-            font-weight: bold;
-        }
-
-        .loading-message.show {
-            display: block;
-        }
-
-        /* Safari Keyframes */
-        @-webkit-keyframes spin {
-            0% { -webkit-transform: rotate(0deg); }
-            100% { -webkit-transform: rotate(360deg); }
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
 
 
         @media (max-width: 768px) {
@@ -357,10 +283,6 @@
             <span class="lightbox-zoom-btn" id="zoom-out">-</span>
         </div>
     </div>
-    
-    <div id="loading-overlay" class="loading-overlay"></div>
-    <div id="loading-spinner" class="loading-spinner"></div>
-    <div id="loading-message" class="loading-message">الرجاء الانتظار قليلاً...</div>
 
     <script>
         function initializeApp() {
@@ -405,20 +327,6 @@
 
                 if(!floatingButton || !orderForm || !mainCtaButton) return;
 
-                // Function to send begin_checkout event only once per session
-                function sendBeginCheckoutEvent() {
-                    if (!sessionStorage.getItem('begin_checkout_sent')) {
-                        gtag('event', 'begin_checkout');
-                        sessionStorage.setItem('begin_checkout_sent', 'true');
-                    }
-                }
-
-                // Add begin_checkout event listener to main CTA button
-                mainCtaButton.addEventListener('click', sendBeginCheckoutEvent);
-
-                // Add begin_checkout event listener to floating CTA button
-                floatingButton.addEventListener('click', sendBeginCheckoutEvent);
-
                 window.addEventListener('scroll', function() {
                     const mainButtonRect = mainCtaButton.getBoundingClientRect();
                     const orderFormRect = orderForm.getBoundingClientRect();
@@ -442,20 +350,6 @@
                 const phoneError = document.getElementById('phone-error');
                 const submitButton = document.getElementById('submit-button');
                 const formResponse = document.getElementById('form-response');
-                const quantityInput = document.getElementById('quantity'); 
-                const loadingSpinner = document.getElementById('loading-spinner');
-                const loadingOverlay = document.getElementById('loading-overlay');
-                const loadingMessage = document.getElementById('loading-message'); // Get the message element
-
-                const reassuringMessages = [
-                    "الرجاء الانتظار قليلاً...",
-                    "جاري تأكيد طلبك...",
-                    "العملية قد تستغرق بضع ثوانٍ...",
-                    "شكراً لصبرك...",
-                    "نحن نعمل على إتمام طلبك بأسرع وقت!"
-                ];
-                let currentMessageIndex = 0;
-                let messageIntervalId;
 
                 // ====> الخطوة الأهم: الصق رابط الـ Web App الخاص بك هنا <====
                 const scriptURL = 'https://script.google.com/macros/s/AKfycbzKYGYyKm6_M0uG4pkEiqV9tUX7ZEVF6FUEQtXq3GSb7d9pe7kAHYAF1PrGrvk0T1B3MQ/exec';
@@ -482,67 +376,35 @@
                         return; 
                     }
 
-                    // Show loading spinner, overlay, and start message cycle
-                    loadingSpinner.classList.add('show');
-                    loadingOverlay.classList.add('show');
-                    loadingMessage.classList.add('show');
-                    loadingMessage.textContent = reassuringMessages[currentMessageIndex]; // Set initial message
-                    messageIntervalId = setInterval(() => {
-                        currentMessageIndex = (currentMessageIndex + 1) % reassuringMessages.length;
-                        loadingMessage.textContent = reassuringMessages[currentMessageIndex];
-                    }, 3000); // Change message every 3 seconds
+                    // ---------- START: الكود المعدل لتحسين تجربة المستخدم ----------
 
-                    submitButton.disabled = true;
-                    submitButton.textContent = 'جاري الإرسال...';
-                    
-                    // 1. تجهيز بيانات النموذج للإرسال
+                    // 1. تجهيز بيانات النموذج للإرسال لاحقاً
                     const formData = new FormData(orderForm);
-                    
-                    // --- Google Analytics Purchase Event ---
-                    const rawQuantity = quantityInput.value;
-                    const englishQuantityString = rawQuantity.replace(/[\u0660-\u0669]/g, d => d.charCodeAt(0) - 0x0660) // Eastern Arabic numerals
-                                                              .replace(/[\u06F0-\u06F9]/g, d => d.charCodeAt(0) - 0x06F0); // Extended Arabic numerals (Persian/Urdu)
-                    const itemQuantity = parseInt(englishQuantityString);
 
-                    const itemPrice = 299; // Fixed price per unit
-                    const transactionId = 'T_' + Date.now() + '_' + Math.floor(Math.random() * 1000000); // Unique transaction ID
+                    // 2. إظهار رسالة النجاح وإعادة تعيين النموذج على الفور
+                    formResponse.textContent = '✅ تم استلام طلبك بنجاح! سنتصل بك للتأكيد.';
+                    formResponse.className = 'success';
+                    formResponse.style.display = 'block';
+                    submitButton.disabled = true;
+                    submitButton.textContent = 'تم الإرسال بنجاح!';
+                    orderForm.reset(); // إفراغ حقول النموذج
+                    phoneError.textContent = ''; // إفراغ رسالة الخطأ إن وجدت
+                    formResponse.scrollIntoView({ behavior: 'smooth', block: 'center' }); // تمرير الشاشة لرسالة النجاح
 
-                    gtag('event', 'purchase', {
-                        transaction_id: transactionId,
-                        value: (itemQuantity * itemPrice),
-                        currency: 'EGP',
-                        items: [{
-                            item_id: 'magnetic_screen_door',
-                            item_name: 'الباب الشبكي المغناطيسي',
-                            price: itemPrice,
-                            quantity: itemQuantity
-                        }]
-                    });
-                    // --- End Google Analytics Purchase Event ---
-
-                    // Send data and then redirect
+                    // 3. إرسال البيانات في الخلفية. المستخدم ليس بحاجة لانتظار هذه الخطوة
                     fetch(scriptURL, { method: 'POST', body: formData})
-                        .then(() => {
-                            // Hide loading elements and clear message interval
-                            clearInterval(messageIntervalId);
-                            loadingSpinner.classList.remove('show');
-                            loadingOverlay.classList.remove('show');
-                            loadingMessage.classList.remove('show');
-                            window.location.href = 'https://www.alb3lawe.com/Thanks';
-                        })
                         .catch(error => {
+                            // هذه الرسالة ستظهر في الكونسول فقط للمطورين في حال حدوث خطأ
                             console.error('!فشل إرسال النموذج إلى جوجل شيت', error.message);
-                            // Hide loading elements and clear message interval on error
-                            clearInterval(messageIntervalId);
-                            loadingSpinner.classList.remove('show');
-                            loadingOverlay.classList.remove('show');
-                            loadingMessage.classList.remove('show');
-                            submitButton.disabled = false;
-                            submitButton.textContent = 'تأكيد الطلب الآن';
-                            formResponse.textContent = 'حدث خطأ أثناء إرسال طلبك. يرجى المحاولة مرة أخرى.';
-                            formResponse.className = 'error';
-                            formResponse.style.display = 'block';
                         });
+
+                    // 4. إعادة تفعيل الزر بعد فترة قصيرة للسماح بالإرسال مرة أخرى إذا لزم الأمر
+                    setTimeout(() => {
+                        submitButton.disabled = false;
+                        submitButton.textContent = 'تأكيد الطلب الآن';
+                    }, 4000); // إعادة تفعيل الزر بعد 4 ثواني
+
+                    // ---------- END: نهاية الكود المعدل ----------
                 });
             }
 
