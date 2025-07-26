@@ -420,8 +420,8 @@
                 const phoneInput = document.getElementById('phone');
                 const phoneError = document.getElementById('phone-error');
                 const submitButton = document.getElementById('submit-button');
-                const formResponse = document.getElementById('form-response');
-                const quantityInput = document.getElementById('quantity'); // Get quantity input
+                const formResponse = document.getElementById('form-response'); // تأكد من وجود هذا العنصر في HTML
+                const quantityInput = document.getElementById('quantity'); 
 
                 // ====> الخطوة الأهم: الصق رابط الـ Web App الخاص بك هنا <====
                 const scriptURL = 'https://script.google.com/macros/s/AKfycbyjycnSi5kr9pot5H9lrKrd11Hx_i6o9GIkq9mF71aqyIIolweQz0lVDBfxL1AwJLwAmQ/exec';
@@ -432,10 +432,11 @@
                     if (e.target.value !== sanitizedValue) { e.target.value = sanitizedValue; }  
                 });
 
-                orderForm.addEventListener('submit', function(event) {
+                orderForm.addEventListener('submit', async function(event) { // تم إضافة 'async' هنا
                     event.preventDefault();  
                     phoneError.textContent = '';
-                    
+                    formResponse.style.display = 'none'; // إخفاء أي رسالة سابقة
+
                     let phoneNumber = phoneInput.value.replace(/[\u0660-\u0669\u06F0-\u06F9]/g, d => d.charCodeAt(0) & 0x0F).replace(/\s/g, '');
                     if (phoneNumber.startsWith('+2')) phoneNumber = phoneNumber.substring(2);
                     if (phoneNumber.length !== 11) {  
@@ -448,58 +449,57 @@
                         return;  
                     }
 
-                    // ---------- START: الكود المعدل لتحسين تجربة المستخدم ----------
-
-                    // 1. تجهيز بيانات النموذج للإرسال لاحقاً
-                    const formData = new FormData(orderForm);
-
-                    // 2. إظهار رسالة النجاح وإعادة تعيين النموذج على الفور
-                    formResponse.textContent = '✅ تم استلام طلبك بنجاح! سنتصل بك للتأكيد.';
-                    formResponse.className = 'success';
-                    formResponse.style.display = 'block';
+                    // تعطيل الزر ومنع الإرسال المتعدد
                     submitButton.disabled = true;
-                    submitButton.textContent = 'تم الإرسال بنجاح!';
-                    
-                    // --- Google Analytics Purchase Event ---
-                    const rawQuantity = quantityInput.value;
-                    const englishQuantityString = rawQuantity.replace(/[\u0660-\u0669]/g, d => d.charCodeAt(0) - 0x0660) // Eastern Arabic numerals
-                                                              .replace(/[\u06F0-\u06F9]/g, d => d.charCodeAt(0) - 0x06F0); // Extended Arabic numerals (Persian/Urdu)
-                    const itemQuantity = parseInt(englishQuantityString);
+                    submitButton.textContent = 'جاري الإرسال...'; 
 
-                    const itemPrice = 249; // Fixed price per unit - UPDATED TO 249
-                    const transactionId = 'T_' + Date.now() + '_' + Math.floor(Math.random() * 1000000); // Unique transaction ID
+                    try {
+                        const formData = new FormData(orderForm);
 
-                    gtag('event', 'purchase', {
-                        transaction_id: transactionId,
-                        value: (itemQuantity * itemPrice),
-                        currency: 'EGP',
-                        items: [{
-                            item_id: 'magic_cable_box', 
-                            item_name: 'علبة الوصلات السحرية',
-                            price: itemPrice,
-                            quantity: itemQuantity
-                        }]
-                    });
-                    // --- End Google Analytics Purchase Event ---
+                        // إرسال البيانات والانتظار حتى تكتمل الاستجابة
+                        const response = await fetch(scriptURL, { method: 'POST', body: formData });
 
-                    orderForm.reset(); // إفراغ حقول النموذج
-                    phoneError.textContent = ''; // إفراغ رسالة الخطأ إن وجدت
-                    formResponse.scrollIntoView({ behavior: 'smooth', block: 'center' }); // تمرير الشاشة لرسالة النجاح
+                        if (!response.ok) {
+                            // إذا كانت الاستجابة ليست OK (مثال: 404, 500)، ألقِ خطأ
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
 
-                    // 3. إرسال البيانات في الخلفية. المستخدم ليس بحاجة لانتظار هذه الخطوة
-                    fetch(scriptURL, { method: 'POST', body: formData})
-                        .catch(error => {
-                            // هذه الرسالة ستظهر في الكونسول فقط للمطورين في حال حدوث خطأ
-                            console.error('!فشل إرسال النموذج إلى جوجل شيت', error.message);
+                        // --- حدث شراء Google Analytics ---
+                        const rawQuantity = quantityInput.value;
+                        const englishQuantityString = rawQuantity.replace(/[\u0660-\u0669]/g, d => d.charCodeAt(0) - 0x0660) 
+                                                                  .replace(/[\u06F0-\u06F9]/g, d => d.charCodeAt(0) - 0x06F0); 
+                        const itemQuantity = parseInt(englishQuantityString);
+
+                        const itemPrice = 249; 
+                        const transactionId = 'T_' + Date.now() + '_' + Math.floor(Math.random() * 1000000); 
+
+                        gtag('event', 'purchase', {
+                            transaction_id: transactionId,
+                            value: (itemQuantity * itemPrice),
+                            currency: 'EGP',
+                            items: [{
+                                item_id: 'magic_cable_box', 
+                                item_name: 'علبة الوصلات السحرية',
+                                price: itemPrice,
+                                quantity: itemQuantity
+                            }]
                         });
+                        // --- نهاية حدث شراء Google Analytics ---
 
-                    // 4. إعادة تفعيل الزر بعد فترة قصيرة للسماح بالإرسال مرة أخرى إذا لزم الأمر
-                    setTimeout(() => {
+                        // التحويل فقط بعد اكتمال الإرسال بنجاح
+                        window.location.href = 'https://alb3lawe.com/Thanks';
+
+                    } catch (error) {
+                        console.error('!حدث خطأ أثناء إرسال النموذج:', error);
+                        // عرض رسالة خطأ للمستخدم
+                        formResponse.textContent = 'حدث خطأ أثناء إرسال بياناتك. يرجى المحاولة مرة أخرى.';
+                        formResponse.className = 'form-response error';
+                        formResponse.style.display = 'block';
+                    } finally {
+                        // إعادة تفعيل الزر بغض النظر عن النجاح أو الفشل
                         submitButton.disabled = false;
                         submitButton.textContent = 'تأكيد الطلب الآن';
-                    }, 4000); // إعادة تفعيل الزر بعد 4 ثواني
-
-                    // ---------- END: نهاية الكود المعدل ----------
+                    }
                 });
             }
 
