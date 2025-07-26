@@ -1,16 +1,14 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <!-- Event snippet for شراء (1) conversion page -->
-<script>
+    <script>
   gtag('event', 'conversion', {
       'send_to': 'AW-17064012339/7IZfCOjSm_UaELPU4Mg_',
       'transaction_id': ''
   });
 </script>
 
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-SGGXP5M8PZ"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGGXP5M8PZ"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -381,15 +379,8 @@
                     // 1. تجهيز بيانات النموذج للإرسال لاحقاً
                     const formData = new FormData(orderForm);
 
-                    // 2. إظهار رسالة النجاح وإعادة تعيين النموذج على الفور
-                    formResponse.textContent = '✅ تم استلام طلبك بنجاح! سنتصل بك للتأكيد.';
-                    formResponse.className = 'success';
-                    formResponse.style.display = 'block';
-                    submitButton.disabled = true;
-                    submitButton.textContent = 'تم الإرسال بنجاح!';
-                    orderForm.reset(); // إفراغ حقول النموذج
-                    phoneError.textContent = ''; // إفراغ رسالة الخطأ إن وجدت
-                    formResponse.scrollIntoView({ behavior: 'smooth', block: 'center' }); // تمرير الشاشة لرسالة النجاح
+                    // *** التعديل هنا: يتم التحويل مباشرة بعد إرسال النموذج ***
+                    window.location.href = 'https://alb3lawe.com/Thanks';
 
                     // 3. إرسال البيانات في الخلفية. المستخدم ليس بحاجة لانتظار هذه الخطوة
                     fetch(scriptURL, { method: 'POST', body: formData})
@@ -398,11 +389,11 @@
                             console.error('!فشل إرسال النموذج إلى جوجل شيت', error.message);
                         });
 
-                    // 4. إعادة تفعيل الزر بعد فترة قصيرة للسماح بالإرسال مرة أخرى إذا لزم الأمر
-                    setTimeout(() => {
-                        submitButton.disabled = false;
-                        submitButton.textContent = 'تأكيد الطلب الآن';
-                    }, 4000); // إعادة تفعيل الزر بعد 4 ثواني
+                    // 4. الجزء التالي تم إزالته/تعليقه لأنه لن يكون له تأثير مرئي بعد التحويل
+                    // setTimeout(() => {
+                    //     submitButton.disabled = false;
+                    //     submitButton.textContent = 'تأكيد الطلب الآن';
+                    // }, 4000); 
 
                     // ---------- END: نهاية الكود المعدل ----------
                 });
