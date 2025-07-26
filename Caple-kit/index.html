@@ -157,6 +157,53 @@
         #form-response.success { background-color: #d4edda; color: #155724; }
         #form-response.error { background-color: #f8d7da; color: #721c24; }
 
+        /* أنيميشن التحميل الجديد */
+        #loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        #loading-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        .loading-content {
+            text-align: center;
+            color: white;
+            max-width: 300px;
+            padding: 20px;
+        }
+        
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .loading-content p {
+            font-size: 1.2em;
+            margin-top: 15px;
+        }
 
         @media (max-width: 768px) {
             .container { padding: 15px; }
@@ -323,6 +370,14 @@
     
     <a href="#order-form" id="floating-cta-button" class="cta-button">اطلب علبة الوصلات السحرية الآن بتوصيل مجاني</a>
 
+    <!-- أنيميشن التحميل الجديد -->
+    <div id="loading-overlay">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p>جاري معالجة طلبك...</p>
+        </div>
+    </div>
+
     <div class="lightbox" id="lightbox">
         <span class="lightbox-close">×</span>
         <span class="lightbox-nav lightbox-prev">❮</span>
@@ -420,8 +475,9 @@
                 const phoneInput = document.getElementById('phone');
                 const phoneError = document.getElementById('phone-error');
                 const submitButton = document.getElementById('submit-button');
-                const formResponse = document.getElementById('form-response'); // تأكد من وجود هذا العنصر في HTML
-                const quantityInput = document.getElementById('quantity'); 
+                const formResponse = document.getElementById('form-response');
+                const quantityInput = document.getElementById('quantity');
+                const loadingOverlay = document.getElementById('loading-overlay');
 
                 // ====> الخطوة الأهم: الصق رابط الـ Web App الخاص بك هنا <====
                 const scriptURL = 'https://script.google.com/macros/s/AKfycbyjycnSi5kr9pot5H9lrKrd11Hx_i6o9GIkq9mF71aqyIIolweQz0lVDBfxL1AwJLwAmQ/exec';
@@ -432,11 +488,11 @@
                     if (e.target.value !== sanitizedValue) { e.target.value = sanitizedValue; }  
                 });
 
-                orderForm.addEventListener('submit', async function(event) { // تم إضافة 'async' هنا
+                orderForm.addEventListener('submit', async function(event) {
                     event.preventDefault();  
                     phoneError.textContent = '';
-                    formResponse.style.display = 'none'; // إخفاء أي رسالة سابقة
-
+                    formResponse.style.display = 'none';
+                    
                     let phoneNumber = phoneInput.value.replace(/[\u0660-\u0669\u06F0-\u06F9]/g, d => d.charCodeAt(0) & 0x0F).replace(/\s/g, '');
                     if (phoneNumber.startsWith('+2')) phoneNumber = phoneNumber.substring(2);
                     if (phoneNumber.length !== 11) {  
@@ -449,28 +505,26 @@
                         return;  
                     }
 
-                    // تعطيل الزر ومنع الإرسال المتعدد
+                    // عرض أنيميشن التحميل
+                    loadingOverlay.classList.add('active');
+                    
                     submitButton.disabled = true;
-                    submitButton.textContent = 'جاري الإرسال...'; 
+                    submitButton.textContent = 'جاري الإرسال...';
 
                     try {
                         const formData = new FormData(orderForm);
-
-                        // إرسال البيانات والانتظار حتى تكتمل الاستجابة
                         const response = await fetch(scriptURL, { method: 'POST', body: formData });
 
                         if (!response.ok) {
-                            // إذا كانت الاستجابة ليست OK (مثال: 404, 500)، ألقِ خطأ
                             throw new Error(`HTTP error! status: ${response.status}`);
                         }
 
-                        // --- حدث شراء Google Analytics ---
                         const rawQuantity = quantityInput.value;
                         const englishQuantityString = rawQuantity.replace(/[\u0660-\u0669]/g, d => d.charCodeAt(0) - 0x0660) 
-                                                                  .replace(/[\u06F0-\u06F9]/g, d => d.charCodeAt(0) - 0x06F0); 
+                                                              .replace(/[\u06F0-\u06F9]/g, d => d.charCodeAt(0) - 0x06F0); 
                         const itemQuantity = parseInt(englishQuantityString);
 
-                        const itemPrice = 249; 
+                        const itemPrice = 249;
                         const transactionId = 'T_' + Date.now() + '_' + Math.floor(Math.random() * 1000000); 
 
                         gtag('event', 'purchase', {
@@ -478,25 +532,25 @@
                             value: (itemQuantity * itemPrice),
                             currency: 'EGP',
                             items: [{
-                                item_id: 'magic_cable_box', 
+                                item_id: 'magic_cable_box',
                                 item_name: 'علبة الوصلات السحرية',
                                 price: itemPrice,
                                 quantity: itemQuantity
                             }]
                         });
-                        // --- نهاية حدث شراء Google Analytics ---
 
-                        // التحويل فقط بعد اكتمال الإرسال بنجاح
+                        // الانتقال إلى صفحة الشكر بعد تأكيد الإرسال
                         window.location.href = 'https://alb3lawe.com/Thanks';
 
                     } catch (error) {
                         console.error('!حدث خطأ أثناء إرسال النموذج:', error);
-                        // عرض رسالة خطأ للمستخدم
+                        // إخفاء أنيميشن التحميل في حالة الخطأ
+                        loadingOverlay.classList.remove('active');
+                        
                         formResponse.textContent = 'حدث خطأ أثناء إرسال بياناتك. يرجى المحاولة مرة أخرى.';
                         formResponse.className = 'form-response error';
                         formResponse.style.display = 'block';
                     } finally {
-                        // إعادة تفعيل الزر بغض النظر عن النجاح أو الفشل
                         submitButton.disabled = false;
                         submitButton.textContent = 'تأكيد الطلب الآن';
                     }
