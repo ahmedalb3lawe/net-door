@@ -106,6 +106,24 @@
         .cta-button:hover { background-color: #27ae60; transform: scale(1.05); }
         .cta-button:disabled { background-color: #aaa; cursor: not-allowed; }
 
+        /* Styles for loading spinner */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        #loading-spinner {
+            display: flex; /* لترتيب النص والايقونة اذا وجدت */
+            align-items: center;
+            justify-content: center;
+            gap: 5px; /* مسافة بين النص والايقونة */
+        }
+
+        #loading-spinner .fas.fa-spinner { /* اذا كنت تستخدم Font Awesome */
+            animation: spin 1s linear infinite;
+        }
+        /* End styles for loading spinner */
+
         #floating-cta-button { position: fixed; bottom: 20px; right: 20px; z-index: 1000; margin-top: 0; box-shadow: 0 5px 15px rgba(0,0,0,0.3); opacity: 0; transform: translateY(100px); transition: opacity 0.4s ease, transform 0.4s ease; pointer-events: none; }
         #floating-cta-button.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
 
@@ -188,6 +206,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
 
@@ -263,7 +282,13 @@
                     <div class="form-group"><label for="address">العنوان بالتفصيل</label><input type="text" id="address" name="address" placeholder="المحافظة - المدينة - الحي - اسم الشارع ورقم المبنى" required></div>
                     <div class="form-group"><label for="quantity">الكمية</label><input type="number" id="quantity" name="quantity" value="1" min="1" required style="direction: ltr; text-align: right;"></div>
                     <div class="form-group"><label for="notes">ملاحظات (اختياري)</label><textarea id="notes" name="notes" placeholder="هل لديك أي تعليمات خاصة بالتوصيل؟ اكتبها هنا."></textarea></div>
-                    <button type="submit" class="cta-button" id="submit-button">تأكيد الطلب الآن</button>
+                    <button type="submit" class="cta-button" id="submit-button">
+                        <span id="submit-button-text">تأكيد الطلب الآن</span>
+                        <span id="loading-spinner" style="display:none;">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            جاري الإرسال...
+                        </span>
+                    </button>
                 </form>
              </div>
         </section>
@@ -368,8 +393,10 @@
                 const phoneInput = document.getElementById('phone');
                 const phoneError = document.getElementById('phone-error');
                 const submitButton = document.getElementById('submit-button');
+                const submitButtonText = document.getElementById('submit-button-text'); // العنصر الجديد
+                const loadingSpinner = document.getElementById('loading-spinner'); // العنصر الجديد
                 const formResponse = document.getElementById('form-response');
-                const quantityInput = document.getElementById('quantity'); // Added for purchase event
+                const quantityInput = document.getElementById('quantity');
 
                 // ====> الخطوة الأهم: الصق رابط الـ Web App الخاص بك هنا <====
                 const scriptURL = 'https://script.google.com/macros/s/AKfycbzKYGYyKm6_M0uG4pkEiqV9tUX7ZEVF6FUEQtXq3GSb7d9pe7kAHYAF1PrGrvk0T1B3MQ/exec';
@@ -380,10 +407,10 @@
                     if (e.target.value !== sanitizedValue) { e.target.value = sanitizedValue; } 
                 });
 
-                orderForm.addEventListener('submit', async function(event) { // Added 'async'
+                orderForm.addEventListener('submit', async function(event) {
                     event.preventDefault(); 
                     phoneError.textContent = '';
-                    formResponse.style.display = 'none'; // Hide any previous messages
+                    formResponse.style.display = 'none';
                     
                     let phoneNumber = phoneInput.value.replace(/[\u0660-\u0669\u06F0-\u06F9]/g, d => d.charCodeAt(0) & 0x0F).replace(/\s/g, '');
                     if (phoneNumber.startsWith('+2')) phoneNumber = phoneNumber.substring(2);
@@ -397,9 +424,11 @@
                         return; 
                     }
 
-                    // Disable the button to prevent multiple submissions
+                    // --- Show Loading State ---
                     submitButton.disabled = true;
-                    submitButton.textContent = 'جاري الإرسال...'; 
+                    if (submitButtonText) submitButtonText.style.display = 'none'; // إخفاء النص الأصلي
+                    if (loadingSpinner) loadingSpinner.style.display = 'flex'; // إظهار spinner
+                    // --- End Show Loading State ---
 
                     try {
                         const formData = new FormData(orderForm);
@@ -444,9 +473,11 @@
                         formResponse.className = 'form-response error';
                         formResponse.style.display = 'block';
                     } finally {
-                        // Re-enable the button regardless of success or failure
+                        // --- Hide Loading State ---
                         submitButton.disabled = false;
-                        submitButton.textContent = 'تأكيد الطلب الآن';
+                        if (submitButtonText) submitButtonText.style.display = 'inline'; // إعادة إظهار النص الأصلي
+                        if (loadingSpinner) loadingSpinner.style.display = 'none'; // إخفاء spinner
+                        // --- End Hide Loading State ---
                     }
                 });
             }
