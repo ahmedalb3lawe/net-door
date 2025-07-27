@@ -32,10 +32,16 @@
             --error-color: #e74c3c;
         }
 
-        body {
-            font-family: 'Cairo', 'Arial', sans-serif;
+        html, body {
+            height: 100%; /* Ensure html and body take full viewport height */
+            width: 100%; /* Ensure html and body take full viewport width */
             margin: 0;
             padding: 0;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        body {
+            font-family: 'Cairo', 'Arial', sans-serif;
             background-color: var(--background-color);
             color: var(--text-color);
             line-height: 1.6;
@@ -148,54 +154,77 @@
         #form-response { margin-top: 15px; font-size: 1.2em; font-weight: bold; display: none; padding: 15px; border-radius: 8px; margin-bottom: 15px; }
         #form-response.success { background-color: #d4edda; color: #155724; }
         #form-response.error { background-color: #f8d7da; color: #721c24; }
-
-        /* أنيميشن التحميل الجديد */
-        #loading-overlay {
+        
+        /* Loading Overlay Styles */
+        .loading-overlay {
+            display: none; /* Hidden by default */
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+            z-index: 9998; /* Below spinner, above content */
+            pointer-events: none; /* Allow clicks to pass through when not visible */
         }
-        
-        #loading-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
+
+        .loading-overlay.show {
+            display: block;
+            pointer-events: auto; /* Allow clicks to be blocked when visible */
         }
-        
-        .loading-content {
-            text-align: center;
-            color: white;
-            max-width: 300px;
-            padding: 20px;
-        }
-        
+
+        /* Loading Spinner Styles */
         .loading-spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid rgba(255, 255, 255, 0.3);
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 9999; /* On top of everything */
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%); /* Center horizontally and vertically */
+            width: 60px;
+            height: 60px;
+            border: 6px solid #f3f3f3; /* Light grey border */
+            border-top: 6px solid var(--secondary-color); /* Themed color for spinner */
             border-radius: 50%;
-            border-top-color: #fff;
-            animation: spin 1s ease-in-out infinite;
-            margin: 0 auto 20px;
+            -webkit-animation: spin 1s linear infinite; /* Safari */
+            animation: spin 1s linear infinite;
         }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+
+        .loading-spinner.show {
+            display: block; /* Show when 'show' class is added */
         }
-        
-        .loading-content p {
+
+        /* Loading Message Styles */
+        .loading-message {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: calc(50% + 80px); /* Adjusted position: below the spinner */
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            color: var(--white-color);
             font-size: 1.2em;
-            margin-top: 15px;
+            text-align: center;
+            width: 80%;
+            max-width: 300px; /* Limit width for better readability */
+            font-weight: bold;
         }
+
+        .loading-message.show {
+            display: block;
+        }
+
+        /* Safari Keyframes */
+        @-webkit-keyframes spin {
+            0% { -webkit-transform: rotate(0deg); }
+            100% { -webkit-transform: rotate(360deg); }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
 
         @media (max-width: 768px) {
             .container { padding: 15px; }
@@ -318,14 +347,6 @@
     
     <a href="#order-form" id="floating-cta-button" class="cta-button">اطلب الآن بتوصيل مجاني</a>
 
-    <!-- أنيميشن التحميل الجديد -->
-    <div id="loading-overlay">
-        <div class="loading-content">
-            <div class="loading-spinner"></div>
-            <p>جاري معالجة طلبك...</p>
-        </div>
-    </div>
-
     <div class="lightbox" id="lightbox">
         <span class="lightbox-close">×</span>
         <span class="lightbox-nav lightbox-prev">❮</span>
@@ -336,6 +357,10 @@
             <span class="lightbox-zoom-btn" id="zoom-out">-</span>
         </div>
     </div>
+    
+    <div id="loading-overlay" class="loading-overlay"></div>
+    <div id="loading-spinner" class="loading-spinner"></div>
+    <div id="loading-message" class="loading-message">الرجاء الانتظار قليلاً...</div>
 
     <script>
         function initializeApp() {
@@ -382,16 +407,9 @@
 
                 // Function to send begin_checkout event only once per session
                 function sendBeginCheckoutEvent() {
-                    if (!sessionStorage.getItem('magnetic_mesh_door_begin_checkout_sent')) {
-                        gtag('event', 'begin_checkout', {
-                            items: [{
-                                item_id: 'magnetic_mesh_door', // Unique ID for this product
-                                item_name: 'الباب الشبكي المغناطيسي',
-                                price: 299, // Fixed price for this product
-                                quantity: 1 // Assuming 1 when initiating checkout
-                            }]
-                        });
-                        sessionStorage.setItem('magnetic_mesh_door_begin_checkout_sent', 'true');
+                    if (!sessionStorage.getItem('begin_checkout_sent')) {
+                        gtag('event', 'begin_checkout');
+                        sessionStorage.setItem('begin_checkout_sent', 'true');
                     }
                 }
 
@@ -424,8 +442,20 @@
                 const phoneError = document.getElementById('phone-error');
                 const submitButton = document.getElementById('submit-button');
                 const formResponse = document.getElementById('form-response');
-                const quantityInput = document.getElementById('quantity');
+                const quantityInput = document.getElementById('quantity'); 
+                const loadingSpinner = document.getElementById('loading-spinner');
                 const loadingOverlay = document.getElementById('loading-overlay');
+                const loadingMessage = document.getElementById('loading-message'); // Get the message element
+
+                const reassuringMessages = [
+                    "الرجاء الانتظار قليلاً...",
+                    "جاري تأكيد طلبك...",
+                    "العملية قد تستغرق بضع ثوانٍ...",
+                    "شكراً لصبرك...",
+                    "نحن نعمل على إتمام طلبك بأسرع وقت!"
+                ];
+                let currentMessageIndex = 0;
+                let messageIntervalId;
 
                 // ====> الخطوة الأهم: الصق رابط الـ Web App الخاص بك هنا <====
                 const scriptURL = 'https://script.google.com/macros/s/AKfycbzKYGYyKm6_M0uG4pkEiqV9tUX7ZEVF6FUEQtXq3GSb7d9pe7kAHYAF1PrGrvk0T1B3MQ/exec';
@@ -436,10 +466,9 @@
                     if (e.target.value !== sanitizedValue) { e.target.value = sanitizedValue; } 
                 });
 
-                orderForm.addEventListener('submit', async function(event) {
+                orderForm.addEventListener('submit', function(event) {
                     event.preventDefault(); 
                     phoneError.textContent = '';
-                    formResponse.style.display = 'none';
                     
                     let phoneNumber = phoneInput.value.replace(/[\u0660-\u0669\u06F0-\u06F9]/g, d => d.charCodeAt(0) & 0x0F).replace(/\s/g, '');
                     if (phoneNumber.startsWith('+2')) phoneNumber = phoneNumber.substring(2);
@@ -453,55 +482,67 @@
                         return; 
                     }
 
-                    // عرض أنيميشن التحميل
-                    loadingOverlay.classList.add('active');
-                    
+                    // Show loading spinner, overlay, and start message cycle
+                    loadingSpinner.classList.add('show');
+                    loadingOverlay.classList.add('show');
+                    loadingMessage.classList.add('show');
+                    loadingMessage.textContent = reassuringMessages[currentMessageIndex]; // Set initial message
+                    messageIntervalId = setInterval(() => {
+                        currentMessageIndex = (currentMessageIndex + 1) % reassuringMessages.length;
+                        loadingMessage.textContent = reassuringMessages[currentMessageIndex];
+                    }, 3000); // Change message every 3 seconds
+
                     submitButton.disabled = true;
                     submitButton.textContent = 'جاري الإرسال...';
+                    
+                    // 1. تجهيز بيانات النموذج للإرسال
+                    const formData = new FormData(orderForm);
+                    
+                    // --- Google Analytics Purchase Event ---
+                    const rawQuantity = quantityInput.value;
+                    const englishQuantityString = rawQuantity.replace(/[\u0660-\u0669]/g, d => d.charCodeAt(0) - 0x0660) // Eastern Arabic numerals
+                                                              .replace(/[\u06F0-\u06F9]/g, d => d.charCodeAt(0) - 0x06F0); // Extended Arabic numerals (Persian/Urdu)
+                    const itemQuantity = parseInt(englishQuantityString);
 
-                    try {
-                        const formData = new FormData(orderForm);
-                        const response = await fetch(scriptURL, { method: 'POST', body: formData });
+                    const itemPrice = 299; // Fixed price per unit
+                    const transactionId = 'T_' + Date.now() + '_' + Math.floor(Math.random() * 1000000); // Unique transaction ID
 
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! status: ${response.status}`);
-                        }
+                    gtag('event', 'purchase', {
+                        transaction_id: transactionId,
+                        value: (itemQuantity * itemPrice),
+                        currency: 'EGP',
+                        items: [{
+                            item_id: 'magnetic_screen_door',
+                            item_name: 'الباب الشبكي المغناطيسي',
+                            price: itemPrice,
+                            quantity: itemQuantity
+                        }]
+                    });
+                    // --- End Google Analytics Purchase Event ---
 
-                        const rawQuantity = quantityInput.value;
-                        const englishQuantityString = rawQuantity.replace(/[\u0660-\u0669]/g, d => d.charCodeAt(0) - 0x0660) 
-                                                              .replace(/[\u06F0-\u06F9]/g, d => d.charCodeAt(0) - 0x06F0); 
-                        const itemQuantity = parseInt(englishQuantityString);
-
-                        const itemPrice = 299;
-                        const transactionId = 'T_' + Date.now() + '_' + Math.floor(Math.random() * 1000000); 
-
-                        gtag('event', 'purchase', {
-                            transaction_id: transactionId,
-                            value: (itemQuantity * itemPrice),
-                            currency: 'EGP',
-                            items: [{
-                                item_id: 'magnetic_mesh_door',
-                                item_name: 'الباب الشبكي المغناطيسي',
-                                price: itemPrice,
-                                quantity: itemQuantity
-                            }]
+                    // Send data and then redirect
+                    fetch(scriptURL, { method: 'POST', body: formData})
+                        .then(() => {
+                            // Hide loading elements and clear message interval
+                            clearInterval(messageIntervalId);
+                            loadingSpinner.classList.remove('show');
+                            loadingOverlay.classList.remove('show');
+                            loadingMessage.classList.remove('show');
+                            window.location.href = 'https://www.alb3lawe.com/Thanks';
+                        })
+                        .catch(error => {
+                            console.error('!فشل إرسال النموذج إلى جوجل شيت', error.message);
+                            // Hide loading elements and clear message interval on error
+                            clearInterval(messageIntervalId);
+                            loadingSpinner.classList.remove('show');
+                            loadingOverlay.classList.remove('show');
+                            loadingMessage.classList.remove('show');
+                            submitButton.disabled = false;
+                            submitButton.textContent = 'تأكيد الطلب الآن';
+                            formResponse.textContent = 'حدث خطأ أثناء إرسال طلبك. يرجى المحاولة مرة أخرى.';
+                            formResponse.className = 'error';
+                            formResponse.style.display = 'block';
                         });
-
-                        // الانتقال إلى صفحة الشكر بعد تأكيد الإرسال
-                        window.location.href = 'https://alb3lawe.com/Thanks';
-
-                    } catch (error) {
-                        console.error('!حدث خطأ أثناء إرسال النموذج:', error);
-                        // إخفاء أنيميشن التحميل في حالة الخطأ
-                        loadingOverlay.classList.remove('active');
-                        
-                        formResponse.textContent = 'حدث خطأ أثناء إرسال بياناتك. يرجى المحاولة مرة أخرى.';
-                        formResponse.className = 'form-response error';
-                        formResponse.style.display = 'block';
-                    } finally {
-                        submitButton.disabled = false;
-                        submitButton.textContent = 'تأكيد الطلب الآن';
-                    }
                 });
             }
 

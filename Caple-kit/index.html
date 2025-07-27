@@ -157,53 +157,6 @@
         #form-response.success { background-color: #d4edda; color: #155724; }
         #form-response.error { background-color: #f8d7da; color: #721c24; }
 
-        /* أنيميشن التحميل الجديد */
-        #loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-        
-        #loading-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-        
-        .loading-content {
-            text-align: center;
-            color: white;
-            max-width: 300px;
-            padding: 20px;
-        }
-        
-        .loading-spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: #fff;
-            animation: spin 1s ease-in-out infinite;
-            margin: 0 auto 20px;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        .loading-content p {
-            font-size: 1.2em;
-            margin-top: 15px;
-        }
 
         @media (max-width: 768px) {
             .container { padding: 15px; }
@@ -370,14 +323,6 @@
     
     <a href="#order-form" id="floating-cta-button" class="cta-button">اطلب علبة الوصلات السحرية الآن بتوصيل مجاني</a>
 
-    <!-- أنيميشن التحميل الجديد -->
-    <div id="loading-overlay">
-        <div class="loading-content">
-            <div class="loading-spinner"></div>
-            <p>جاري معالجة طلبك...</p>
-        </div>
-    </div>
-
     <div class="lightbox" id="lightbox">
         <span class="lightbox-close">×</span>
         <span class="lightbox-nav lightbox-prev">❮</span>
@@ -476,8 +421,7 @@
                 const phoneError = document.getElementById('phone-error');
                 const submitButton = document.getElementById('submit-button');
                 const formResponse = document.getElementById('form-response');
-                const quantityInput = document.getElementById('quantity');
-                const loadingOverlay = document.getElementById('loading-overlay');
+                const quantityInput = document.getElementById('quantity'); // Get quantity input
 
                 // ====> الخطوة الأهم: الصق رابط الـ Web App الخاص بك هنا <====
                 const scriptURL = 'https://script.google.com/macros/s/AKfycbyjycnSi5kr9pot5H9lrKrd11Hx_i6o9GIkq9mF71aqyIIolweQz0lVDBfxL1AwJLwAmQ/exec';
@@ -488,10 +432,9 @@
                     if (e.target.value !== sanitizedValue) { e.target.value = sanitizedValue; }  
                 });
 
-                orderForm.addEventListener('submit', async function(event) {
+                orderForm.addEventListener('submit', function(event) {
                     event.preventDefault();  
                     phoneError.textContent = '';
-                    formResponse.style.display = 'none';
                     
                     let phoneNumber = phoneInput.value.replace(/[\u0660-\u0669\u06F0-\u06F9]/g, d => d.charCodeAt(0) & 0x0F).replace(/\s/g, '');
                     if (phoneNumber.startsWith('+2')) phoneNumber = phoneNumber.substring(2);
@@ -505,55 +448,58 @@
                         return;  
                     }
 
-                    // عرض أنيميشن التحميل
-                    loadingOverlay.classList.add('active');
-                    
+                    // ---------- START: الكود المعدل لتحسين تجربة المستخدم ----------
+
+                    // 1. تجهيز بيانات النموذج للإرسال لاحقاً
+                    const formData = new FormData(orderForm);
+
+                    // 2. إظهار رسالة النجاح وإعادة تعيين النموذج على الفور
+                    formResponse.textContent = '✅ تم استلام طلبك بنجاح! سنتصل بك للتأكيد.';
+                    formResponse.className = 'success';
+                    formResponse.style.display = 'block';
                     submitButton.disabled = true;
-                    submitButton.textContent = 'جاري الإرسال...';
+                    submitButton.textContent = 'تم الإرسال بنجاح!';
+                    
+                    // --- Google Analytics Purchase Event ---
+                    const rawQuantity = quantityInput.value;
+                    const englishQuantityString = rawQuantity.replace(/[\u0660-\u0669]/g, d => d.charCodeAt(0) - 0x0660) // Eastern Arabic numerals
+                                                              .replace(/[\u06F0-\u06F9]/g, d => d.charCodeAt(0) - 0x06F0); // Extended Arabic numerals (Persian/Urdu)
+                    const itemQuantity = parseInt(englishQuantityString);
 
-                    try {
-                        const formData = new FormData(orderForm);
-                        const response = await fetch(scriptURL, { method: 'POST', body: formData });
+                    const itemPrice = 249; // Fixed price per unit - UPDATED TO 249
+                    const transactionId = 'T_' + Date.now() + '_' + Math.floor(Math.random() * 1000000); // Unique transaction ID
 
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! status: ${response.status}`);
-                        }
+                    gtag('event', 'purchase', {
+                        transaction_id: transactionId,
+                        value: (itemQuantity * itemPrice),
+                        currency: 'EGP',
+                        items: [{
+                            item_id: 'magic_cable_box', 
+                            item_name: 'علبة الوصلات السحرية',
+                            price: itemPrice,
+                            quantity: itemQuantity
+                        }]
+                    });
+                    // --- End Google Analytics Purchase Event ---
 
-                        const rawQuantity = quantityInput.value;
-                        const englishQuantityString = rawQuantity.replace(/[\u0660-\u0669]/g, d => d.charCodeAt(0) - 0x0660) 
-                                                              .replace(/[\u06F0-\u06F9]/g, d => d.charCodeAt(0) - 0x06F0); 
-                        const itemQuantity = parseInt(englishQuantityString);
+                    orderForm.reset(); // إفراغ حقول النموذج
+                    phoneError.textContent = ''; // إفراغ رسالة الخطأ إن وجدت
+                    formResponse.scrollIntoView({ behavior: 'smooth', block: 'center' }); // تمرير الشاشة لرسالة النجاح
 
-                        const itemPrice = 249;
-                        const transactionId = 'T_' + Date.now() + '_' + Math.floor(Math.random() * 1000000); 
-
-                        gtag('event', 'purchase', {
-                            transaction_id: transactionId,
-                            value: (itemQuantity * itemPrice),
-                            currency: 'EGP',
-                            items: [{
-                                item_id: 'magic_cable_box',
-                                item_name: 'علبة الوصلات السحرية',
-                                price: itemPrice,
-                                quantity: itemQuantity
-                            }]
+                    // 3. إرسال البيانات في الخلفية. المستخدم ليس بحاجة لانتظار هذه الخطوة
+                    fetch(scriptURL, { method: 'POST', body: formData})
+                        .catch(error => {
+                            // هذه الرسالة ستظهر في الكونسول فقط للمطورين في حال حدوث خطأ
+                            console.error('!فشل إرسال النموذج إلى جوجل شيت', error.message);
                         });
 
-                        // الانتقال إلى صفحة الشكر بعد تأكيد الإرسال
-                        window.location.href = 'https://alb3lawe.com/Thanks';
-
-                    } catch (error) {
-                        console.error('!حدث خطأ أثناء إرسال النموذج:', error);
-                        // إخفاء أنيميشن التحميل في حالة الخطأ
-                        loadingOverlay.classList.remove('active');
-                        
-                        formResponse.textContent = 'حدث خطأ أثناء إرسال بياناتك. يرجى المحاولة مرة أخرى.';
-                        formResponse.className = 'form-response error';
-                        formResponse.style.display = 'block';
-                    } finally {
+                    // 4. إعادة تفعيل الزر بعد فترة قصيرة للسماح بالإرسال مرة أخرى إذا لزم الأمر
+                    setTimeout(() => {
                         submitButton.disabled = false;
                         submitButton.textContent = 'تأكيد الطلب الآن';
-                    }
+                    }, 4000); // إعادة تفعيل الزر بعد 4 ثواني
+
+                    // ---------- END: نهاية الكود المعدل ----------
                 });
             }
 
