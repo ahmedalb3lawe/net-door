@@ -894,7 +894,7 @@
       const formResponse = document.getElementById('form-response');
       
       // ====> رابط الـ Web App الخاص بك <====
-      const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwtcgTRe5WWsEATKXh0RROwGmgQzHajJmJ0hZiilx-eLTzHcW0OXyiYmNNr8g0Y-8TWxA/exec';
+      const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwsCVRPMbrSW7uH5xSh_MprQdSZSXhB0eX9PTGP2OivFKvsVwFnb-4hZPft4DxNTeRHqw/exec';
       // ==========================================================
 
       // إعداد نظام اختيار الباقات
@@ -1042,7 +1042,7 @@
         if (e.target.value !== sanitizedValue) { e.target.value = sanitizedValue; }  
       });
 
-      // ===== الحل الجديد (بدون مشاكل CORS) =====
+      // ===== الحل الجديد باستخدام fetch API =====
       orderForm.addEventListener('submit', function(event) {
         event.preventDefault();  
         
@@ -1059,43 +1059,45 @@
           total_amount: totalAmountInput.value
         };
         
-        // 1. إنشاء فورم خفي
-        const hiddenForm = document.createElement('form');
-        hiddenForm.method = 'POST';
-        hiddenForm.action = SCRIPT_URL;
-        hiddenForm.style.display = 'none';
-        
-        // 2. إضافة البيانات كحقل مخفي
-        const dataInput = document.createElement('input');
-        dataInput.type = 'hidden';
-        dataInput.name = 'data';
-        dataInput.value = JSON.stringify(formData);
-        hiddenForm.appendChild(dataInput);
-        
-        // 3. إضافة الفورم للصفحة وإرساله
-        document.body.appendChild(hiddenForm);
-        hiddenForm.submit();
-        
-        // 4. عرض رسالة النجاح
-        formResponse.textContent = '✅ تم استلام طلبك بنجاح! سنتصل بك للتأكيد.';
-        formResponse.className = 'success';
-        formResponse.style.display = 'block';
-        
-        // 5. تعطيل الزر مؤقتاً
-        submitButton.disabled = true;
-        submitButton.textContent = 'تم الإرسال بنجاح!';
-        
-        // 6. إعادة تعيين النموذج بعد التأخير
-        setTimeout(() => {
-          orderForm.reset();
-          phoneError.textContent = '';
-          submitButton.disabled = false;
-          submitButton.textContent = 'تأكيد الطلب الآن';
-          formResponse.style.display = 'none';
-          
-          // التمرير لأعلى الصفحة
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }, 4000);
+        // إرسال البيانات باستخدام fetch
+        fetch(SCRIPT_URL, {
+          method: 'POST',
+          body: JSON.stringify(formData),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.result === 'success') {
+            // عرض رسالة النجاح
+            formResponse.textContent = '✅ تم استلام طلبك بنجاح! سنتصل بك للتأكيد.';
+            formResponse.className = 'success';
+            formResponse.style.display = 'block';
+            
+            // تعطيل الزر مؤقتاً
+            submitButton.disabled = true;
+            submitButton.textContent = 'تم الإرسال بنجاح!';
+            
+            // إعادة تعيين النموذج بعد التأخير
+            setTimeout(() => {
+              orderForm.reset();
+              submitButton.disabled = false;
+              submitButton.textContent = 'تأكيد الطلب الآن';
+              formResponse.style.display = 'none';
+              
+              // التمرير لأعلى الصفحة
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 4000);
+          } else {
+            throw new Error(data.message || 'حدث خطأ أثناء التسجيل');
+          }
+        })
+        .catch(error => {
+          formResponse.textContent = '❌ ' + error.message;
+          formResponse.className = 'error';
+          formResponse.style.display = 'block';
+        });
       });
     }
 
