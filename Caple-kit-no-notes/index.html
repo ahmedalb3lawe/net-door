@@ -751,7 +751,7 @@
                         <h2>أكمل بياناتك لتأكيد الطلب</h2>
                     </div>
                     
-                    <form id="order-form" class="order-form">
+                    <form id="order-form" action="https://script.google.com/macros/s/AKfycbwrsMJhAx1Um4OhQo6IRw_oMzUdIjAvEplP7Rn-J1Z1rCv0IzQnb96rK2UFpb3pRS8tpg/exec" class="order-form">
                         <div class="form-group">
                             <label for="name">الاسم بالكامل</label>
                             <div class="input-with-icon">
@@ -892,9 +892,8 @@
                 const formResponse = document.getElementById('form-response');
                 
                 // ====> تحديث رابط الـ Web App هنا <====
-                const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyjycnSi5kr9pot5H9lrKrd11Hx_i6o9GIkq9mF71aqyIIolweQz0lVDBfxL1AwJLwAmQ/exec';
+                const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwrsMJhAx1Um4OhQo6IRw_oMzUdIjAvEplP7Rn-J1Z1rCv0IzQnb96rK2UFpb3pRS8tpg/exec';
                 // ==========================================================
-
                 // إعداد نظام اختيار الباقات
                 const packageOptions = document.querySelectorAll('.package-option');
                 const largeOrderSection = document.getElementById('large-order-section');
@@ -1018,128 +1017,4 @@
                 // دالة التحقق من صحة رقم الهاتف
                 function validatePhone() {
                     phoneError.textContent = '';
-                    let phoneNumber = phoneInput.value.replace(/[\u0660-\u0669\u06F0-\u06F9]/g, d => d.charCodeAt(0) & 0x0F).replace(/\s/g, '');
-                    
-                    if (phoneNumber.startsWith('+2')) phoneNumber = phoneNumber.substring(2);
-                    if (phoneNumber.length !== 11) {  
-                        phoneError.textContent = 'الرقم يجب أن يتكون من 11 رقمًا بالضبط.';  
-                        return false;  
-                    }
-                    
-                    const validPrefixes = ['010', '011', '012', '015'];
-                    if (!validPrefixes.some(prefix => phoneNumber.startsWith(prefix))) {  
-                        phoneError.textContent = 'يجب أن يبدأ الرقم بـ 010, 011, 012, أو 015.';  
-                        return false;  
-                    }
-                    
-                    return true;
-                }
-
-                phoneInput.addEventListener('input', function(e) {  
-                    const sanitizedValue = e.target.value.replace(/[^0-9\u0660-\u0669+]/g, '');  
-                    if (e.target.value !== sanitizedValue) { e.target.value = sanitizedValue; }  
-                });
-
-                orderForm.addEventListener('submit', async function(event) {
-                    event.preventDefault();  
-                    
-                    // التحقق من صحة رقم الهاتف
-                    if (!validatePhone()) return;
-                    
-                    // تجهيز بيانات الطلب للإرسال
-                    const formData = {
-                        name: document.getElementById('name').value,
-                        phone: document.getElementById('phone').value,
-                        address: document.getElementById('address').value,
-                        package: selectedPackageInput.value,
-                        quantity: selectedQuantityInput.value,
-                        total_amount: totalAmountInput.value
-                    };
-                    
-                    try {
-                        // تغيير حالة زر الإرسال
-                        submitButton.disabled = true;
-                        submitButton.textContent = 'جاري الإرسال...';
-                        
-                        // إرسال البيانات إلى Google Sheets
-                        const response = await fetch(SCRIPT_URL, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(formData)
-                        });
-                        
-                        const result = await response.json();
-                        
-                        if (result.result === 'success') {
-                            // عرض رسالة النجاح
-                            formResponse.textContent = '✅ تم استلام طلبك بنجاح! سنتصل بك للتأكيد.';
-                            formResponse.className = 'success';
-                            formResponse.style.display = 'block';
-                            
-                            // تعطيل الزر مؤقتًا
-                            submitButton.textContent = 'تم الإرسال بنجاح!';
-                            
-                            // إرسال حدث الشراء إلى Google Analytics
-                            if (typeof gtag === 'function') {
-                                const quantity = parseInt(selectedQuantityInput.value);
-                                const total = parseFloat(totalAmountInput.value);
-                                
-                                gtag('event', 'purchase', {
-                                    transaction_id: 'T' + Date.now(),
-                                    value: total,
-                                    currency: 'EGP',
-                                    items: [{
-                                        item_id: 'magic_cable_box',
-                                        item_name: 'علبة الوصلات السحرية',
-                                        price: total / quantity,
-                                        quantity: quantity
-                                    }]
-                                });
-                            }
-                            
-                            // إعادة تعيين النموذج بعد التأخير
-                            setTimeout(() => {
-                                orderForm.reset();
-                                phoneError.textContent = '';
-                                submitButton.disabled = false;
-                                submitButton.textContent = 'تأكيد الطلب الآن';
-                                formResponse.style.display = 'none';
-                                
-                                // التمرير لأعلى الصفحة
-                                window.scrollTo({ top: 0, behavior: 'smooth' });
-                            }, 4000);
-                        } else {
-                            throw new Error(result.error || 'حدث خطأ غير معروف');
-                        }
-                    } catch (error) {
-                        // عرض رسالة الخطأ
-                        formResponse.textContent = '⚠️ فشل في الإرسال: ' + error.message;
-                        formResponse.className = 'error';
-                        formResponse.style.display = 'block';
-                        
-                        // إعادة تفعيل الزر
-                        submitButton.disabled = false;
-                        submitButton.textContent = 'تأكيد الطلب الآن';
-                        
-                        // إخفاء رسالة الخطأ بعد 5 ثواني
-                        setTimeout(() => {
-                            formResponse.style.display = 'none';
-                        }, 5000);
-                    }
-                });
-            }
-
-            // Now, run all the functions.
-            setupTimer();
-            setupFloatingButton();
-            setupFormValidation();
-        }
-
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initializeApp);
-        } else {
-            initializeApp();
-        }
-    </script>
-</body>
-</html>
+                    let phoneNumber = phoneInput.value.replace(/[\u0660-\u0669\u06F0-\u06F9]/g, d => d.charCodeAt(0) ... (8 KB left)
