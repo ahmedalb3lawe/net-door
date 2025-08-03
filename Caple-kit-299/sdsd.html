@@ -780,321 +780,336 @@
                         </div>
                         
                         <input type="hidden" id="selected-package" name="package">
-                        <input type="hidden" id="selected-quantity" name="quantity">
-                        <input type="hidden" id="total-amount" name="total_amount">
-                        
-                        <div id="form-response"></div>
-                        
-                        <div class="form-footer">
-                            <button id="submit-button" class="cta-button" type="submit">
-                                <i class="fas fa-lock"></i> تأكيد الطلب الآمن
-                            </button>
-                            
-                            <div class="security-badge">
-                                <i class="fas fa-shield-alt"></i>
-                                <span>بياناتك محمية تماماً ولا يتم مشاركتها مع أي جهة خارجية</span>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </section>
-    </main>
-    
-    <a class="cta-button" id="floating-cta-button" href="#bundle-form">اختر باندل علبة الوصلات السحرية الآن!</a>
-    
-    <script>
-        function initializeApp() {
-            function setupTimer() {
-                const duration = 60 * 60;  
-                let timer = duration;  
-                let intervalId;
-                const elements = {  
-                    timerDisplay: document.getElementById('countdown-timer'),  
-                    hours: document.getElementById('hours'),  
-                    minutes: document.getElementById('minutes'),  
-                    seconds: document.getElementById('seconds'),  
-                    mainCtaButton: document.getElementById('main-cta-button'),  
-                    offerExpiredMessage: document.getElementById('offer-expired'),  
-                    floatingBtn: document.getElementById('floating-cta-button')  
-                };
-                function updateTimer() {
-                    if (timer < 0) {
-                        clearInterval(intervalId);
-                        if(elements.timerDisplay) elements.timerDisplay.style.display = 'none';
-                        if(elements.offerExpiredMessage) elements.offerExpiredMessage.style.display = 'block';
-                        if(elements.mainCtaButton) elements.mainCtaButton.textContent = 'اختر باندل علبة الوصلات السحرية الآن!';
-                        if(elements.floatingBtn) elements.floatingBtn.textContent = 'اختر باندل علبة الوصلات السحرية الآن!';
-                        return;
-                    }
-                    let h = Math.floor(timer / 3600), m = Math.floor((timer % 3600) / 60), s = timer % 60;
-                    if(elements.hours) elements.hours.textContent = h < 10 ? '0' + h : h;
-                    if(elements.minutes) elements.minutes.textContent = m < 10 ? '0' + m : m;
-                    if(elements.seconds) elements.seconds.textContent = s < 10 ? '0' + s : s;
-                    timer--;
-                }
-                updateTimer();  
-                intervalId = setInterval(updateTimer, 1000);
-            }
-            
-            function setupFloatingButton() {
-                const floatingButton = document.getElementById('floating-cta-button');
-                const bundleForm = document.getElementById('bundle-form');
-                const mainCtaButton = document.getElementById('main-cta-button');
+        <input type="hidden" id="selected-quantity" name="quantity">
+        <input type="hidden" id="total-amount" name="total_amount">
+        
+        <div id="form-response"></div>
+        
+        <div class="form-footer">
+          <button id="submit-button" class="cta-button" type="submit">
+            <i class="fas fa-lock"></i> تأكيد الطلب الآمن
+          </button>
+          
+          <div class="security-badge">
+            <i class="fas fa-shield-alt"></i>
+            <span>بياناتك محمية تماماً ولا يتم مشاركتها مع أي جهة خارجية</span>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+</main>
 
-                if(!floatingButton || !bundleForm || !mainCtaButton) return;
+<a class="cta-button" id="floating-cta-button" href="#bundle-form">اختر باندل علبة الوصلات السحرية الآن!</a>
 
-                // Function to send begin_checkout event only once per session
-                function sendBeginCheckoutEvent() {
-                    if (!sessionStorage.getItem('magic_cable_box_begin_checkout_sent')) {
-                        gtag('event', 'begin_checkout', {
-                            items: [{
-                                item_id: 'magic_cable_box',
-                                item_name: 'علبة الوصلات السحرية',
-                                price: 299,
-                                quantity: 1
-                            }]
-                        });
-                        sessionStorage.setItem('magic_cable_box_begin_checkout_sent', 'true');
-                    }
-                }
-
-                // Add begin_checkout event listener to main CTA button
-                mainCtaButton.addEventListener('click', sendBeginCheckoutEvent);
-
-                // Add begin_checkout event listener to floating CTA button
-                floatingButton.addEventListener('click', sendBeginCheckoutEvent);
-
-                window.addEventListener('scroll', function() {
-                    const mainButtonRect = mainCtaButton.getBoundingClientRect();
-                    const bundleFormRect = bundleForm.getBoundingClientRect();
-                    
-                    const shouldShow = mainButtonRect.bottom < 0;
-                    const shouldHide = bundleFormRect.top < window.innerHeight;
-
-                    if (shouldShow && !shouldHide) {  
-                        floatingButton.classList.add('visible');  
-                    } else {  
-                        floatingButton.classList.remove('visible');  
-                    }
-                });
-            }
-
-            function setupFormValidation() {
-                const bundleForm = document.getElementById('bundle-form');
-                const orderForm = document.getElementById('order-form');
-                if (!bundleForm || !orderForm) return;
-
-                const phoneInput = document.getElementById('phone');
-                const phoneError = document.getElementById('phone-error');
-                const submitButton = document.getElementById('submit-button');
-                const proceedButton = document.getElementById('proceed-button');
-                const formResponse = document.getElementById('form-response');
-                
-                // ====> الخطوة الأهم: الصق رابط الـ Web App الخاص بك هنا <====
-                const scriptURL = 'https://script.google.com/macros/s/AKfycbxgOVDqhINFvi3gZ0nbTcNb845j3NC3VTBsSAFgdvajaVnwmJgtAXkB8QUzhQvI5ecV/exec';
-                // ==========================================================
-
-                // إعداد نظام اختيار الباقات
-                const packageOptions = document.querySelectorAll('.package-option');
-                const largeOrderSection = document.getElementById('large-order-section');
-                const largeQuantityInput = document.getElementById('large-quantity');
-                const largeTotalSpan = document.getElementById('large-total');
-                const quantityMinusBtn = document.getElementById('quantity-minus');
-                const quantityPlusBtn = document.getElementById('quantity-plus');
-                const selectedPackageInput = document.getElementById('selected-package');
-                const selectedQuantityInput = document.getElementById('selected-quantity');
-                const totalAmountInput = document.getElementById('total-amount');
-                
-                // تحديث سعر الباقة الكبيرة
-                function updateLargeOrderTotal() {
-                    let quantity = parseInt(largeQuantityInput.value);
-                    
-                    // إذا كانت الكمية أقل من 5، نعرض رسالة ونرجع القيمة إلى 5
-                    if (quantity < 5) {
-                        quantity = 5;
-                        largeQuantityInput.value = quantity;
-                        formResponse.textContent = 'عذرًا، باقة الطلبات الكبيرة تبدأ من 5 علب. إذا كنت ترغب في شراء كمية أقل، يرجى اختيار باقة أخرى.';
-                        formResponse.className = 'error';
-                        formResponse.style.display = 'block';
-                        
-                        // إخفاء الرسالة بعد 5 ثواني
-                        setTimeout(() => {
-                            formResponse.style.display = 'none';
-                        }, 5000);
-                    }
-                    
-                    const totalAmount = (quantity * 200) - 1;
-                    largeTotalSpan.textContent = totalAmount;
-                    
-                    // تحديث الحقول المخفية
-                    selectedQuantityInput.value = quantity;
-                    totalAmountInput.value = totalAmount;
-                }
-                
-                // معالجة اختيار الباقة
-                function selectPackage(option) {
-                    // إزالة التحديد من جميع الخيارات
-                    packageOptions.forEach(opt => opt.classList.remove('selected'));
-                    
-                    // تحديد الخيار المختار
-                    option.classList.add('selected');
-                    
-                    // الحصول على بيانات الباقة
-                    const packageType = option.dataset.package;
-                    const quantity = parseInt(option.dataset.quantity);
-                    const totalAmount = parseFloat(option.dataset.price);
-                    
-                    // تحديث الحقول المخفية
-                    selectedPackageInput.value = packageType;
-                    selectedQuantityInput.value = quantity;
-                    totalAmountInput.value = totalAmount;
-
-                    // إذا كانت الباقة كبيرة، قم بعرض قسم الطلبات الكبيرة
-                    if (packageType === 'large') {
-                        largeOrderSection.style.display = 'block';
-                        updateLargeOrderTotal(); // تحديث السعر
-                        
-                        // التمرير التلقائي إلى قسم الطلبات الكبيرة في منتصف الشاشة
-                        setTimeout(() => {
-                            largeOrderSection.scrollIntoView({ 
-                                behavior: 'smooth',
-                                block: 'center'
-                            });
-                        }, 100);
-                    } else {
-                        largeOrderSection.style.display = 'none';
-                    }
-                    
-                    // تفعيل زر المتابعة
-                    proceedButton.disabled = false;
-                    proceedButton.textContent = "تأكيد الباقة والمتابعة";
-                }
-                
-                // إضافة مستمعات الأحداث لخيارات الباقات
-                packageOptions.forEach(option => {
-                    option.addEventListener('click', () => {
-                        selectPackage(option);
-                    });
-                });
-                
-                // تحديث سعر الباقة الكبيرة عند تغيير الكمية يدويًا
-                largeQuantityInput.addEventListener('input', updateLargeOrderTotal);
-                
-                // أزرار الزيادة والنقصان
-                quantityMinusBtn.addEventListener('click', function() {
-                    let currentVal = parseInt(largeQuantityInput.value);
-                    if (currentVal > 5) {
-                        largeQuantityInput.value = currentVal - 1;
-                        updateLargeOrderTotal();
-                    }
-                });
-                
-                quantityPlusBtn.addEventListener('click', function() {
-                    let currentVal = parseInt(largeQuantityInput.value);
-                    largeQuantityInput.value = currentVal + 1;
-                    updateLargeOrderTotal();
-                });
-                
-                // تحديد الباقة الأولى افتراضيًا
-                if (packageOptions.length > 0) {
-                    selectPackage(packageOptions[0]);
-                }
-                
-                // زر المتابعة من فورم الباقة إلى فورم العميل
-                proceedButton.addEventListener('click', function() {
-                    // التمرير إلى فورم معلومات العميل بدلاً من الانتقال المباشر
-                    document.getElementById('customer-form').scrollIntoView({ 
-                        behavior: 'smooth',
-                        block: 'center'
-                    });
-                    
-                    // إعطاء التركيز على أول حقل في فورم العميل بعد تأخير بسيط
-                    setTimeout(() => {
-                        document.getElementById('name').focus();
-                    }, 800);
-                });
-
-                phoneInput.addEventListener('input', function(e) {  
-                    const sanitizedValue = e.target.value.replace(/[^0-9\u0660-\u0669+]/g, '');  
-                    if (e.target.value !== sanitizedValue) { e.target.value = sanitizedValue; }  
-                });
-
-                orderForm.addEventListener('submit', function(event) {
-                    event.preventDefault();  
-                    phoneError.textContent = '';
-                    
-                    let phoneNumber = phoneInput.value.replace(/[\u0660-\u0669\u06F0-\u06F9]/g, d => d.charCodeAt(0) & 0x0F).replace(/\s/g, '');
-                    if (phoneNumber.startsWith('+2')) phoneNumber = phoneNumber.substring(2);
-                    if (phoneNumber.length !== 11) {  
-                        phoneError.textContent = 'الرقم يجب أن يتكون من 11 رقمًا بالضبط.';  
-                        return;  
-                    }
-                    const validPrefixes = ['010', '011', '012', '015'];
-                    if (!validPrefixes.some(prefix => phoneNumber.startsWith(prefix))) {  
-                        phoneError.textContent = 'يجب أن يبدأ الرقم بـ 010, 011, 012, أو 015.';  
-                        return;  
-                    }
-
-                    // تجهيز بيانات النموذج للإرسال
-                    const formData = new FormData(orderForm);
-
-                    // إظهار رسالة النجاح وإعادة تعيين النموذج على الفور
-                    formResponse.textContent = '✅ تم استلام طلبك بنجاح! سنتصل بك للتأكيد.';
-                    formResponse.className = 'success';
-                    formResponse.style.display = 'block';
-                    submitButton.disabled = true;
-                    submitButton.textContent = 'تم الإرسال بنجاح!';
-                    
-                    // Google Analytics Purchase Event
-                    const itemQuantity = parseInt(selectedQuantityInput.value);
-                    const totalAmount = parseFloat(totalAmountInput.value);
-                    const unitPrice = totalAmount / itemQuantity;
-                    const transactionId = 'T_' + Date.now() + '_' + Math.floor(Math.random() * 1000000);
-                    
-                    if (typeof gtag !== 'undefined') {
-                        gtag('event', 'purchase', {
-                            transaction_id: transactionId,
-                            value: totalAmount,
-                            currency: 'EGP',
-                            items: [{
-                                item_id: 'magic_cable_box', 
-                                item_name: 'علبة الوصلات السحرية',
-                                price: unitPrice,
-                                quantity: itemQuantity
-                            }]
-                        });
-                    }
-
-                    orderForm.reset(); // إفراغ حقول النموذج
-                    phoneError.textContent = ''; // إفراغ رسالة الخطأ إن وجدت
-                    formResponse.scrollIntoView({ behavior: 'smooth', block: 'center' }); // تمرير الشاشة لرسالة النجاح
-
-                    // إرسال البيانات في الخلفية
-                    fetch(scriptURL, { method: 'POST', body: formData})
-                        .catch(error => {
-                            console.error('!فشل إرسال النموذج إلى جوجل شيت', error.message);
-                        });
-
-                    // إعادة تفعيل الزر بعد فترة قصيرة
-                    setTimeout(() => {
-                        submitButton.disabled = false;
-                        submitButton.textContent = 'تأكيد الطلب الآن';
-                    }, 4000);
-                });
-            }
-
-            // Now, run all the functions.
-            setupTimer();
-            setupFloatingButton();
-            setupFormValidation();
+<script>
+  function initializeApp() {
+    function setupTimer() {
+      const duration = 60 * 60;  
+      let timer = duration;  
+      let intervalId;
+      const elements = {  
+        timerDisplay: document.getElementById('countdown-timer'),  
+        hours: document.getElementById('hours'),  
+        minutes: document.getElementById('minutes'),  
+        seconds: document.getElementById('seconds'),  
+        mainCtaButton: document.getElementById('main-cta-button'),  
+        offerExpiredMessage: document.getElementById('offer-expired'),  
+        floatingBtn: document.getElementById('floating-cta-button')  
+      };
+      function updateTimer() {
+        if (timer < 0) {
+          clearInterval(intervalId);
+          if(elements.timerDisplay) elements.timerDisplay.style.display = 'none';
+          if(elements.offerExpiredMessage) elements.offerExpiredMessage.style.display = 'block';
+          if(elements.mainCtaButton) elements.mainCtaButton.textContent = 'اختر باندل علبة الوصلات السحرية الآن!';
+          if(elements.floatingBtn) elements.floatingBtn.textContent = 'اختر باندل علبة الوصلات السحرية الآن!';
+          return;
         }
+        let h = Math.floor(timer / 3600), m = Math.floor((timer % 3600) / 60), s = timer % 60;
+        if(elements.hours) elements.hours.textContent = h < 10 ? '0' + h : h;
+        if(elements.minutes) elements.minutes.textContent = m < 10 ? '0' + m : m;
+        if(elements.seconds) elements.seconds.textContent = s < 10 ? '0' + s : s;
+        timer--;
+      }
+      updateTimer();  
+      intervalId = setInterval(updateTimer, 1000);
+    }
+    
+    function setupFloatingButton() {
+      const floatingButton = document.getElementById('floating-cta-button');
+      const bundleForm = document.getElementById('bundle-form');
+      const mainCtaButton = document.getElementById('main-cta-button');
 
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initializeApp);
+      if(!floatingButton || !bundleForm || !mainCtaButton) return;
+
+      // Function to send begin_checkout event only once per session
+      function sendBeginCheckoutEvent() {
+        if (!sessionStorage.getItem('magic_cable_box_begin_checkout_sent')) {
+          if (typeof gtag === 'function') {
+            gtag('event', 'begin_checkout', {
+              items: [{
+                item_id: 'magic_cable_box',
+                item_name: 'علبة الوصلات السحرية',
+                price: 299,
+                quantity: 1
+              }]
+            });
+          }
+          sessionStorage.setItem('magic_cable_box_begin_checkout_sent', 'true');
+        }
+      }
+
+      // Add begin_checkout event listener to main CTA button
+      mainCtaButton.addEventListener('click', sendBeginCheckoutEvent);
+
+      // Add begin_checkout event listener to floating CTA button
+      floatingButton.addEventListener('click', sendBeginCheckoutEvent);
+
+      window.addEventListener('scroll', function() {
+        const mainButtonRect = mainCtaButton.getBoundingClientRect();
+        const bundleFormRect = bundleForm.getBoundingClientRect();
+        
+        const shouldShow = mainButtonRect.bottom < 0;
+        const shouldHide = bundleFormRect.top < window.innerHeight;
+
+        if (shouldShow && !shouldHide) {  
+          floatingButton.classList.add('visible');  
+        } else {  
+          floatingButton.classList.remove('visible');  
+        }
+      });
+    }
+
+    function setupFormValidation() {
+      const bundleForm = document.getElementById('bundle-form');
+      const orderForm = document.getElementById('order-form');
+      if (!bundleForm || !orderForm) return;
+
+      const phoneInput = document.getElementById('phone');
+      const phoneError = document.getElementById('phone-error');
+      const submitButton = document.getElementById('submit-button');
+      const proceedButton = document.getElementById('proceed-button');
+      const formResponse = document.getElementById('form-response');
+      
+      // ====> رابط الـ Web App الخاص بك <====
+      const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwsCVRPMbrSW7uH5xSh_MprQdSZSXhB0eX9PTGP2OivFKvsVwFnb-4hZPft4DxNTeRHqw/exec';
+      // ==========================================================
+
+      // إعداد نظام اختيار الباقات
+      const packageOptions = document.querySelectorAll('.package-option');
+      const largeOrderSection = document.getElementById('large-order-section');
+      const largeQuantityInput = document.getElementById('large-quantity');
+      const largeTotalSpan = document.getElementById('large-total');
+      const quantityMinusBtn = document.getElementById('quantity-minus');
+      const quantityPlusBtn = document.getElementById('quantity-plus');
+      const selectedPackageInput = document.getElementById('selected-package');
+      const selectedQuantityInput = document.getElementById('selected-quantity');
+      const totalAmountInput = document.getElementById('total-amount');
+      
+      // تحديث سعر الباقة الكبيرة
+      function updateLargeOrderTotal() {
+        let quantity = parseInt(largeQuantityInput.value);
+        
+        // إذا كانت الكمية أقل من 5، نعرض رسالة ونرجع القيمة إلى 5
+        if (quantity < 5) {
+          quantity = 5;
+          largeQuantityInput.value = quantity;
+          formResponse.textContent = 'عذرًا، باقة الطلبات الكبيرة تبدأ من 5 علب. إذا كنت ترغب في شراء كمية أقل، يرجى اختيار باقة أخرى.';
+          formResponse.className = 'error';
+          formResponse.style.display = 'block';
+          
+          // إخفاء الرسالة بعد 5 ثواني
+          setTimeout(() => {
+            formResponse.style.display = 'none';
+          }, 5000);
+        }
+        
+        const totalAmount = (quantity * 200) - 1;
+        largeTotalSpan.textContent = totalAmount;
+        
+        // تحديث الحقول المخفية
+        selectedQuantityInput.value = quantity;
+        totalAmountInput.value = totalAmount;
+      }
+      
+      // معالجة اختيار الباقة
+      function selectPackage(option) {
+        // إزالة التحديد من جميع الخيارات
+        packageOptions.forEach(opt => opt.classList.remove('selected'));
+        
+        // تحديد الخيار المختار
+        option.classList.add('selected');
+        
+        // الحصول على بيانات الباقة
+        const packageType = option.dataset.package;
+        const quantity = parseInt(option.dataset.quantity);
+        const totalAmount = parseFloat(option.dataset.price);
+        
+        // تحديث الحقول المخفية
+        selectedPackageInput.value = packageType;
+        selectedQuantityInput.value = quantity;
+        totalAmountInput.value = totalAmount;
+
+        // إذا كانت الباقة كبيرة، قم بعرض قسم الطلبات الكبيرة
+        if (packageType === 'large') {
+          largeOrderSection.style.display = 'block';
+          updateLargeOrderTotal(); // تحديث السعر
+          
+          // التمرير التلقائي إلى قسم الطلبات الكبيرة في منتصف الشاشة
+          setTimeout(() => {
+            largeOrderSection.scrollIntoView({ 
+              behavior: 'smooth',
+              block: 'center'
+            });
+          }, 100);
         } else {
-            initializeApp();
+          largeOrderSection.style.display = 'none';
         }
-    </script>
+        
+        // تفعيل زر المتابعة
+        proceedButton.disabled = false;
+        proceedButton.textContent = "تأكيد الباقة والمتابعة";
+      }
+      
+      // إضافة مستمعات الأحداث لخيارات الباقات
+      packageOptions.forEach(option => {
+        option.addEventListener('click', () => {
+          selectPackage(option);
+        });
+      });
+      
+      // تحديث سعر الباقة الكبيرة عند تغيير الكمية يدويًا
+      largeQuantityInput.addEventListener('input', updateLargeOrderTotal);
+      
+      // أزرار الزيادة والنقصان
+      quantityMinusBtn.addEventListener('click', function() {
+        let currentVal = parseInt(largeQuantityInput.value);
+        if (currentVal > 5) {
+          largeQuantityInput.value = currentVal - 1;
+          updateLargeOrderTotal();
+        }
+      });
+      
+      quantityPlusBtn.addEventListener('click', function() {
+        let currentVal = parseInt(largeQuantityInput.value);
+        largeQuantityInput.value = currentVal + 1;
+        updateLargeOrderTotal();
+      });
+      
+      // تحديد الباقة الأولى افتراضيًا
+      if (packageOptions.length > 0) {
+        selectPackage(packageOptions[0]);
+      }
+      
+      // زر المتابعة من فورم الباقة إلى فورم العميل
+      proceedButton.addEventListener('click', function() {
+        // التمرير إلى فورم معلومات العميل بدلاً من الانتقال المباشر
+        document.getElementById('customer-form').scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'center'
+        });
+        
+        // إعطاء التركيز على أول حقل في فورم العميل بعد تأخير بسيط
+        setTimeout(() => {
+          document.getElementById('name').focus();
+        }, 800);
+      });
+
+      // دالة التحقق من صحة رقم الهاتف
+      function validatePhone() {
+        phoneError.textContent = '';
+        let phoneNumber = phoneInput.value.replace(/[\u0660-\u0669\u06F0-\u06F9]/g, d => d.charCodeAt(0) & 0x0F).replace(/\s/g, '');
+        
+        if (phoneNumber.startsWith('+2')) phoneNumber = phoneNumber.substring(2);
+        if (phoneNumber.length !== 11) {  
+          phoneError.textContent = 'الرقم يجب أن يتكون من 11 رقمًا بالضبط.';  
+          return false;  
+        }
+        
+        const validPrefixes = ['010', '011', '012', '015'];
+        if (!validPrefixes.some(prefix => phoneNumber.startsWith(prefix))) {  
+          phoneError.textContent = 'يجب أن يبدأ الرقم بـ 010, 011, 012, أو 015.';  
+          return false;  
+        }
+        
+        return true;
+      }
+
+      phoneInput.addEventListener('input', function(e) {  
+        const sanitizedValue = e.target.value.replace(/[^0-9\u0660-\u0669+]/g, '');  
+        if (e.target.value !== sanitizedValue) { e.target.value = sanitizedValue; }  
+      });
+
+      // ===== الحل الجديد (بدون مشاكل CORS) =====
+      orderForm.addEventListener('submit', function(event) {
+        event.preventDefault();  
+        
+        // التحقق من صحة رقم الهاتف
+        if (!validatePhone()) return;
+        
+        // تجهيز بيانات الطلب للإرسال
+        const formData = {
+          name: document.getElementById('name').value,
+          phone: document.getElementById('phone').value,
+          address: document.getElementById('address').value,
+          package: selectedPackageInput.value,
+          quantity: selectedQuantityInput.value,
+          total_amount: totalAmountInput.value
+        };
+        
+        // 1. إنشاء فورم خفي
+        const hiddenForm = document.createElement('form');
+        hiddenForm.method = 'POST';
+        hiddenForm.action = SCRIPT_URL;
+        hiddenForm.style.display = 'none';
+        
+        // 2. إضافة البيانات كحقل مخفي
+        const dataInput = document.createElement('input');
+        dataInput.type = 'hidden';
+        dataInput.name = 'data';
+        dataInput.value = JSON.stringify(formData);
+        hiddenForm.appendChild(dataInput);
+        
+        // 3. إضافة الفورم للصفحة وإرساله
+        document.body.appendChild(hiddenForm);
+        hiddenForm.submit();
+        
+        // 4. عرض رسالة النجاح
+        formResponse.textContent = '✅ تم استلام طلبك بنجاح! سنتصل بك للتأكيد.';
+        formResponse.className = 'success';
+        formResponse.style.display = 'block';
+        
+        // 5. تعطيل الزر مؤقتاً
+        submitButton.disabled = true;
+        submitButton.textContent = 'تم الإرسال بنجاح!';
+        
+        // 6. إعادة تعيين النموذج بعد التأخير
+        setTimeout(() => {
+          orderForm.reset();
+          phoneError.textContent = '';
+          submitButton.disabled = false;
+          submitButton.textContent = 'تأكيد الطلب الآن';
+          formResponse.style.display = 'none';
+          
+          // التمرير لأعلى الصفحة
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }, 4000);
+      });
+    }
+
+    // Now, run all the functions.
+    setupTimer();
+    setupFloatingButton();
+    setupFormValidation();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeApp);
+  } else {
+    initializeApp();
+  }
+</script>
 </body>
 </html>
