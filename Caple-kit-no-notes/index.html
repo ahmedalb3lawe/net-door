@@ -1059,14 +1059,19 @@
                         // تغيير حالة زر الإرسال
                         submitButton.disabled = true;
                         submitButton.textContent = 'جاري الإرسال...';
-						const scriptURL = 'https://script.google.com/macros/s/AKfycbyjycnSi5kr9pot5H9lrKrd11Hx_i6o9GIkq9mF71aqyIIolweQz0lVDBfxL1AwJLwAmQ/exec';
+						const scriptURL = 'https://script.google.com/macros/s/AKfycbwrsMJhAx1Um4OhQo6IRw_oMzUdIjAvEplP7Rn-J1Z1rCv0IzQnb96rK2UFpb3pRS8tpg/exec';
                 
                         // إرسال البيانات إلى Google Sheets
 						const formData = new FormData(orderForm);
 						fetch(scriptURL, { method: 'POST', body: formData})
                         .catch(error => {
-                            // هذه الرسالة ستظهر في الكونسول فقط للمطورين في حال حدوث خطأ
-                            console.error('!فشل إرسال النموذج إلى جوجل شيت', error.message);
+                            // عرض رسالة النجاح
+                            formResponse.textContent = '✅ تم استلام طلبك بنجاح! سنتصل بك للتأكيد.';
+                            formResponse.className = 'success';
+                            formResponse.style.display = 'block';
+                            
+                            // تعطيل الزر مؤقتًا
+                            submitButton.textContent = 'تم الإرسال بنجاح!';
                         });
                         
                         //const result = await response.json();
