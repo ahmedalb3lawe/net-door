@@ -1062,7 +1062,7 @@
                         submitButton.textContent = 'جاري الإرسال...';
                         
                         // إرسال البيانات إلى Google Sheets
-                        const response = await fetch(`https://cors-anywhere.herokuapp.com/${SCRIPT_URL}`, {
+                        const response = await fetch(SCRIPT_URL, {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify(formData)
