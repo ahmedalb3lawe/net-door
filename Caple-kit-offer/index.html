@@ -30,6 +30,20 @@
       });
       return false;
     }
+    
+    // New conversion function for buttons
+    function gtag_report_button_conversion(url) {
+      var callback = function () {
+        if (typeof(url) != 'undefined') {
+          window.location = url;
+        }
+      };
+      gtag('event', 'conversion', {
+          'send_to': 'AW-17064012339/G-jDCPX13v8aELPU4Mg_',
+          'event_callback': callback
+      });
+      return false;
+    }
     </script>
     <!-- End Conversion Tracking Script -->
 
@@ -661,7 +675,7 @@
                 </div>
             </div>
             <div id="offer-expired">انتهى عرض التوصيل المجاني!</div>
-            <a class="cta-button" id="main-cta-button" href="#bundle-form">اطلب علبة الوصلات السحرية الآن بـ 249 جنيه!</a>
+            <a class="cta-button" id="main-cta-button" href="#bundle-form" onclick="return gtag_report_button_conversion();">اطلب علبة الوصلات السحرية الآن بـ 249 جنيه!</a>
         </div>
     </header>
     
@@ -833,7 +847,7 @@
         </section>
     </main>
     
-    <a class="cta-button" id="floating-cta-button" href="#bundle-form">اطلب علبة الوصلات السحرية الآن بتوصيل مجاني</a>
+    <a class="cta-button" id="floating-cta-button" href="#bundle-form" onclick="return gtag_report_button_conversion();">اطلب علبة الوصلات السحرية الآن بتوصيل مجاني</a>
     
     <script>
         function initializeApp() {
