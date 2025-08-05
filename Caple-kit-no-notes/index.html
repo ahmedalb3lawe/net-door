@@ -2,19 +2,18 @@
 <html lang="ar" dir="rtl">
 <head>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGGXP5M8PZ"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-SGGXP5M8PZ');
-</script>
     <script>
-    gtag('event', 'conversion', {
-        'send_to': 'AW-17064012339/7IZfCOjSm_UaELPU4Mg_',
-        'transaction_id': ''
-    });
-</script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-SGGXP5M8PZ');
+    </script>
+    <script>
+      gtag('event', 'conversion', {
+          'send_to': 'AW-17064012339/7IZfCOjSm_UaELPU4Mg_',
+          'transaction_id': ''
+      });
+    </script>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -1054,11 +1053,36 @@
                     if (e.target.value !== sanitizedValue) { e.target.value = sanitizedValue; }  
                 });
 
+                // دالة إرسال حدث الشراء إلى Google Analytics
+                function sendPurchaseEvent() {
+                    const quantity = parseInt(selectedQuantityInput.value);
+                    const total = parseFloat(totalAmountInput.value);
+                    const pricePerUnit = total / quantity;
+
+                    gtag('event', 'purchase', {
+                        transaction_id: 'T' + Date.now(),
+                        value: total,
+                        currency: 'EGP',
+                        items: [{
+                            item_id: 'magic_cable_box',
+                            item_name: 'علبة الوصلات السحرية',
+                            price: pricePerUnit,
+                            quantity: quantity
+                        }]
+                    });
+                }
+
                 orderForm.addEventListener('submit', async function(event) {
                     event.preventDefault();  
                     
                     // التحقق من صحة رقم الهاتف
                     if (!validatePhone()) return;
+                    
+                    // إرسال حدث الشراء إلى Google Analytics (مرة واحدة فقط لكل جلسة)
+                    if (!sessionStorage.getItem('purchase_event_sent')) {
+                        sendPurchaseEvent();
+                        sessionStorage.setItem('purchase_event_sent', 'true');
+                    }
                     
                     // تجهيز بيانات الطلب للإرسال
                     const formData = {
@@ -1095,24 +1119,6 @@
                             // تعطيل الزر مؤقتًا
                             submitButton.textContent = 'تم الإرسال بنجاح!';
                             
-                            // إرسال حدث الشراء إلى Google Analytics
-                            if (typeof gtag === 'function') {
-                                const quantity = parseInt(selectedQuantityInput.value);
-                                const total = parseFloat(totalAmountInput.value);
-                                
-                                gtag('event', 'purchase', {
-                                    transaction_id: 'T' + Date.now(),
-                                    value: total,
-                                    currency: 'EGP',
-                                    items: [{
-                                        item_id: 'magic_cable_box',
-                                        item_name: 'علبة الوصلات السحرية',
-                                        price: total / quantity,
-                                        quantity: quantity
-                                    }]
-                                });
-                            }
-                            
                             // إعادة تعيين النموذج بعد التأخير
                             setTimeout(() => {
                                 orderForm.reset();
@@ -1128,27 +1134,13 @@
                             throw new Error(result.error || 'حدث خطأ غير معروف');
                         }
                     } catch (error) {
-                        // عرض رسالة الخطأ
-						// عرض رسالة النجاح
-                            formResponse.textContent = '✅ تم استلام طلبك بنجاح! سنتصل بك للتأكيد.';
-                            formResponse.className = 'success';
-                            formResponse.style.display = 'block';
-                            
-                            // تعطيل الزر مؤقتًا
-                            submitButton.textContent = 'تم الإرسال بنجاح!';
-                            /*
-                        formResponse.textContent = '⚠️ فشل في الإرسال: ' + error.message;
-                        formResponse.className = 'error';
+                        // عرض رسالة النجاح
+                        formResponse.textContent = '✅ تم استلام طلبك بنجاح! سنتصل بك للتأكيد.';
+                        formResponse.className = 'success';
                         formResponse.style.display = 'block';
                         
-                        // إعادة تفعيل الزر
-                        submitButton.disabled = false;
-                        submitButton.textContent = 'تأكيد الطلب الآن';
-                        */
-                        // إخفاء رسالة الخطأ بعد 5 ثواني
-                        setTimeout(() => {
-                            formResponse.style.display = 'none';
-                        }, 5000);
+                        // تعطيل الزر مؤقتًا
+                        submitButton.textContent = 'تم الإرسال بنجاح!';
                     }
                 });
             }
@@ -1164,55 +1156,6 @@
         } else {
             initializeApp();
         }
-		
-		
-		
-		
-		
-		/**
- * Adds data to Google Sheets row
- * @param {string} timestamp - Format: YYYY/MM/DD 24H HH:MM:SS
- * @param {string} fullName - Customer's full name
- * @param {string} phone - Phone number
- * @param {string} address - Full address
- * @param {string} packageBundle - Package/bundle name
- * @param {number} totalAmount - Total amount
- * @param {string} scriptUrl - Google Apps Script URL
- * @returns {Promise} - Resolves on success, rejects on error
- */
-function addToSheet(timestamp, fullName, phone, address, packageBundle, totalAmount, scriptUrl) {
-  return new Promise((resolve, reject) => {
-    // Create payload
-    const payload = {
-      timestamp,
-      fullName,
-      phone,
-      address,
-      package: packageBundle,
-      amount: totalAmount
-    };
-
-    // Send request
-    fetch(scriptUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(payload)
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.status === 'success') {
-        resolve(data);
-      } else {
-        reject(data.message || 'Unknown error');
-      }
-    })
-    .catch(error => {
-      reject(error.message || 'Network error');
-    });
-  });
-}
     </script>
 </body>
 </html>
