@@ -41,6 +41,16 @@
     </script>
     <!-- End Conversion Tracking Script -->
 
+    <!-- Event snippet for راح لفورم البيانات عشان ياكد الطلب conversion page -->
+    <script>
+    function gtag_report_bundle_conversion() {
+      gtag('event', 'conversion', {
+          'send_to': 'AW-17064012339/_1-WCP_e4_8aELPU4Mg_'
+      });
+      return true;
+    }
+    </script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>علبة الوصلات السحرية من نور ستور</title>
@@ -782,7 +792,7 @@
                         <div class="large-extra-savings">خصم إضافي 100 جنيه لكل علبة</div>
                     </div>
                 </div>
-                <button id="proceed-button" class="cta-button" type="button">تأكيد الباقة والمتابعة</button></form></div>
+                <button id="proceed-button" class="cta-button" type="button" onclick="gtag_report_bundle_conversion()">تأكيد الباقة والمتابعة</button></form></div>
         </section>
         <section class="section-light" id="customer-form">
             <div class="container">
