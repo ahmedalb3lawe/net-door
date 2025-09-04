@@ -1155,17 +1155,6 @@
                             // تعطيل الزر مؤقتًا
                             submitButton.textContent = 'تم الإرسال بنجاح!';
                             
-                            // إعادة تعيين النموذج بعد التأخير
-                            setTimeout(() => {
-                                orderForm.reset();
-                                phoneError.textContent = '';
-                                submitButton.disabled = false;
-                                submitButton.textContent = 'تأكيد الطلب الآن';
-                                formResponse.style.display = 'none';
-                                
-                                // التمرير لأعلى الصفحة
-                                window.scrollTo({ top: 0, behavior: 'smooth' });
-                            }, 4000);
                         } else {
                             throw new Error('حدث خطأ غير معروف');
                         }
