@@ -48,15 +48,23 @@
     </script>
     <!-- End Conversion Tracking Script -->
 
-    <!-- Event snippet for راح لفورم البيانات عشان ياكد الطلب conversion page -->
-    <script>
-    function gtag_report_bundle_conversion() {
-      gtag('event', 'conversion', {
-          'send_to': 'AW-17064012339/_1-WCP_e4_8aELPU4Mg_'
-      });
-      return true;
+   <!-- Event snippet for راح لفورم الباب يسجل طلب conversion page
+In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
+<script>
+function gtag_report_conversion(url) {
+  var callback = function () {
+    if (typeof(url) != 'undefined') {
+      window.location = url;
     }
-    </script>
+  };
+  gtag('event', 'conversion', {
+      'send_to': 'AW-17064012339/w2_-CIa48aYbELPU4Mg_',
+      'event_callback': callback
+  });
+  return false;
+}
+</script>
+
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
