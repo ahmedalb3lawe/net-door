@@ -754,36 +754,36 @@
         </section>
         <section class="section-light" id="bundle-section">
             <div class="container"><form id="bundle-form" class="order-form"><div class="form-group"><label>اختر الباقة المطلوبة</label>
-                    <div class="package-options"><div data-quantity="1" data-price="249" data-package="single" class="package-option">
-                            <div class="package-title">علبة واحدة</div>
-                            <div class="package-price">249 جنيه</div>
-                            <div class="package-desc">علبة سحرية واحدة</div>
-                        </div>
-                        <div data-quantity="2" data-price="399" data-package="double" class="package-option">
-                            <div class="package-title">علبتين</div>
+                    <div class="package-options"><div data-quantity="1" data-price="399" data-package="single" class="package-option">
+                            <div class="package-title">باب شبكي واحد</div>
                             <div class="package-price">399 جنيه</div>
+                            <div class="package-desc">باب شبكي واحد</div>
+                        </div>
+                        <div data-quantity="2" data-price="699" data-package="double" class="package-option">
+                            <div class="package-title">اتنين من الباب الشبكي</div>
+                            <div class="package-price">699 جنيه</div>
                             <div class="package-extra-savings">خصم إضافي 100 جنيه</div>
-                            <div class="package-desc">علبتين سحريتين</div>
+                            <div class="package-desc">اتنين من الباب الشبكي</div>
                         </div>
-                        <div data-quantity="4" data-price="799" data-package="triple" class="package-option">
-                            <div class="package-title">3 علب + علبة مجانية</div>
-                            <div class="package-price">649 جنيه</div>
+                        <div data-quantity="4" data-price="1249" data-package="triple" class="package-option">
+                            <div class="package-title">3 ابواب + باب مجاني</div>
+                            <div class="package-price">1249 جنيه</div>
                             <div class="package-extra-savings">خصم إضافي 350 جنيه</div>
-                            <div class="package-desc">4 علب سحرية (3 مدفوعة + 1 مجانية)</div>
+                            <div class="package-desc">3 ابواب + باب مجاني</div>
                         </div>
-                        <div data-quantity="5" data-price="999" data-package="large" class="package-option">
-                            <div class="package-title">5 علب او اكتر</div>
-                            <div class="package-price">يبدأ من 749 جنيه</div>
-                            <div class="package-extra-savings">خصم إضافي 100 جنيه لكل علبة</div>
+                        <div data-quantity="5" data-price="1499" data-package="large" class="package-option">
+                            <div class="package-title">5 ابواب او اكتر</div>
+                            <div class="package-price">يبدأ من 1499 جنيه</div>
+                            <div class="package-extra-savings">خصم إضافي 100 جنيه لكل باب</div>
                             <div class="package-desc">سعر خاص للكميات الكبيرة</div>
                         </div>
                     </div>
                 </div>
                 <div id="large-order-section">
-                    <div style="text-align: center; margin-bottom: 15px;"><label style="display: block; margin-bottom: 10px;" for="large-quantity">عدد العلب:</label>
+                    <div style="text-align: center; margin-bottom: 15px;"><label style="display: block; margin-bottom: 10px;" for="large-quantity">عدد الابواب:</label>
                         <div class="quantity-controls"><button id="quantity-minus" class="quantity-btn" type="button">-</button> <input style="direction: ltr; text-align: center;" value="5" min="5" id="large-quantity" type="number"> <button id="quantity-plus" class="quantity-btn" type="button">+</button></div>
-                        <p style="margin-top: 15px;">المجموع: <span id="large-total">749</span> جنيه <br><small>(سعر العلبة: 150 جنيه)</small></p>
-                        <div class="large-extra-savings">خصم إضافي 100 جنيه لكل علبة</div>
+                        <p style="margin-top: 15px;">المجموع: <span id="large-total">1499</span> جنيه <br><small>(سعر الباب: 300 جنيه)</small></p>
+                        <div class="large-extra-savings">خصم إضافي 100 جنيه لكل باب</div>
                     </div>
                 </div>
                 <button id="proceed-button" class="cta-button" type="button" onclick="gtag_report_bundle_conversion()">تأكيد الباقة والمتابعة</button></form></div>
@@ -815,7 +815,7 @@
                         </div>
                         
                         <div class="form-group">
-                            <label for="address">العنوان بالتفصيل</label>
+                            <label for="address">(محافظة + مدينة + شارع او حي) العنوان بالتفصيل</label>
                             <div class="input-with-icon">
                                 <i class="fas fa-map-marker-alt input-icon"></i>
                                 <input type="text" id="address" name="address"
@@ -867,7 +867,7 @@
                         clearInterval(intervalId);
                         if(elements.timerDisplay) elements.timerDisplay.style.display = 'none';
                         if(elements.offerExpiredMessage) elements.offerExpiredMessage.style.display = 'block';
-                        if(elements.mainCtaButton) elements.mainCtaButton.textContent = 'اطلب الباب الشبكي الآن بـ 249 جنيه!';
+                        if(elements.mainCtaButton) elements.mainCtaButton.textContent = 'اطلب الباب الشبكي الآن بـ 399 جنيه!';
                         if(elements.floatingBtn) elements.floatingBtn.textContent = 'اطلب الباب الشبكي الآن بتوصيل مجاني';
                         return;
                     }
@@ -894,8 +894,8 @@
                         gtag('event', 'begin_checkout', {
                             items: [{
                                 item_id: 'magic_cable_box',
-                                item_name: 'علبة الوصلات السحرية',
-                                price: 249,
+                                item_name: 'الباب الشبكي',
+                                price: 399,
                                 quantity: 1
                             }]
                         });
@@ -967,7 +967,7 @@
                         }, 5000);
                     }
                     
-                    const totalAmount = (quantity * 150) - 1;
+                    const totalAmount = (quantity * 300) - 1;
                     largeTotalSpan.textContent = totalAmount;
                     
                     // تحديث الحقول المخفية
