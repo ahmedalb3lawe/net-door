@@ -1,20 +1,13 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-SGGXP5M8PZ"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-SGGXP5M8PZ');
-</script>
-<!-- Event snippet for فتح صفحة باب شبكي conversion page -->
-<script>
-  gtag('event', 'conversion', {'send_to': 'AW-17064012339/826vCMm_9aYbELPU4Mg_'});
-</script>
-
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGGXP5M8PZ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-SGGXP5M8PZ');
+    </script>
     <script>
       gtag('event', 'conversion', {
           'send_to': 'AW-17064012339/7IZfCOjSm_UaELPU4Mg_',
@@ -48,23 +41,15 @@
     </script>
     <!-- End Conversion Tracking Script -->
 
-   <!-- Event snippet for راح لفورم الباب يسجل طلب conversion page
-In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
-<script>
-function gtag_report_conversion(url) {
-  var callback = function () {
-    if (typeof(url) != 'undefined') {
-      window.location = url;
+    <!-- Event snippet for راح لفورم البيانات عشان ياكد الطلب conversion page -->
+    <script>
+    function gtag_report_bundle_conversion() {
+      gtag('event', 'conversion', {
+          'send_to': 'AW-17064012339/_1-WCP_e4_8aELPU4Mg_'
+      });
+      return true;
     }
-  };
-  gtag('event', 'conversion', {
-      'send_to': 'AW-17064012339/w2_-CIa48aYbELPU4Mg_',
-      'event_callback': callback
-  });
-  return false;
-}
-</script>
-
+    </script>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
